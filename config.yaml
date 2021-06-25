@@ -1,0 +1,24 @@
+# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2, 
+# strandedness). Units are technical replicates (e.g. lanes, or resequencing of the 
+# same biological sample).If the column "strandedness" is present (which is optional), 
+# can be empty or has one of these values: none, yes or reverse. none is for unstranded 
+# protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse` 
+# which is referenced in STAR manual section 7, "Counting number of reads per gene".
+
+units: units.tsv
+
+ref:
+  # the star index location or genomefa to index
+  index: "bTaeGut1.4.pri"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/bTaeGut1.4.pri/GCF_003957565.2_bTaeGut1.4.pri_genomic.fna"
+  # gtf file with transcripts
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/bTaeGut1.4.pri/GCF_003957565.2_bTaeGut1.4.pri_genomic.fixed.gtf"
+  adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
+
+params:
+  ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
+  aligners: "star,hisat2"
+  star: ""
+  hisat2: ""
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes gene_biotype,gene,transcript_id,transcript_biotype,standard_name,product"
+  featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"
