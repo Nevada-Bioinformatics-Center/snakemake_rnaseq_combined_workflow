@@ -21,14 +21,14 @@ rule trimmomatic_pe:
         "logs/trimmomatic/{sample}.{unit}.log"
     params:
         # list of trimmers (see manual)
-        #trimmer = ["ILLUMINACLIP:/data/gpfs/assoc/inbre/hansvg/common_references/CustomBlacklist.fa:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
 	#f"{config['directory']}/{{sample}}_L{{lanenum}}_R1_001.fastq.gz"
-        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 LEADING:30 MINLEN:36"],
         # optional parameters
         extra="",
         compression_level="-9"
     threads: 4
-    resources: time_min=820, mem_mb=20000, cpus=4
+    resources: time_min=480, mem_mb=20000, cpus=4
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:

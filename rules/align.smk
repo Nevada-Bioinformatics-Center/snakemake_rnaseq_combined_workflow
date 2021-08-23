@@ -34,7 +34,7 @@ rule star_index:
         #extra = "--limitGenomeGenerateRAM 60550893493 --genomeSAsparseD 3 --genomeSAindexNbases 12 -- genomeChrBinNbits 14"
         extra = ""
     threads: 16
-    resources: time_min=820, mem_mb=40000, cpus=16
+    resources: time_min=480, mem_mb=40000, cpus=16
     log:
         "logs/star_index_genome.log"
     wrapper:
@@ -59,7 +59,7 @@ rule align_star:
         extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
     threads: 16
-    resources: time_min=820, mem_mb=200000, cpus=16
+    resources: time_min=480, mem_mb=200000, cpus=16
     wrapper:
         "0.71.1/bio/star/align"
 
@@ -129,7 +129,7 @@ rule hisat2_index:
     log:
         "logs/hisat2_index_genome.log"
     threads: 16
-    resources: time_min=820, mem_mb=200000, cpus=16
+    resources: time_min=480, mem_mb=200000, cpus=16
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -155,7 +155,7 @@ rule hisat2_align:
     threads: 16
     wildcard_constraints:
         unit="rep\d+"
-    resources: time_min=820, mem_mb=40000, cpus=16
+    resources: time_min=480, mem_mb=40000, cpus=16
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -172,7 +172,7 @@ rule sambamba_sort:
     threads: 16 
     wildcard_constraints:
         unit="rep\d+"
-    resources: time_min=1320, mem_mb=20000, cpus=16
+    resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
         "0.74.0/bio/sambamba/sort"
 
@@ -183,7 +183,7 @@ rule samtools_index_hisat2:
         "hisat2/{sample}.{unit}.sorted.bam.bai"
     params:
         "" # optional params string
-    resources: time_min=320, mem_mb=2000, cpus=1
+    resources: time_min=480, mem_mb=2000, cpus=1
     wrapper:
         "0.73.0/bio/samtools/index"
 

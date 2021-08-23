@@ -13,15 +13,17 @@ units.index = units.index.set_levels([i.astype(str) for i in units.index.levels]
 aligners=config["params"]["aligners"].split(",")
 print("Aligners:", aligners)
 
+def strip_suffix(pattern, suffix):
+    return pattern[: -len(suffix)]
+
 
 ##### target rules #####
-
 rule all:
     input:
         "qc/multiqc_report_pretrim.html",
         "qc/multiqc_report_posttrim.html",
         expand("qc/multiqc_report_{aligner}.html", aligner=aligners),
-        expand("results/{aligner}/featureCounts/all.fixed.featureCounts", aligner=aligners)
+        #expand("results/{aligner}/featureCounts/all.fixed.featureCounts", aligner=aligners)
 
 
 include: "rules/qc.smk"
