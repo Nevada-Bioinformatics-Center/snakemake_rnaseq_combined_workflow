@@ -223,11 +223,11 @@ rule fastqc_pretrim_r1:
     input:
        get_fastq1
     output:
-        html="qc/fastqc_pretrim/{sample}.{unit}_r1.html",
-        zip="qc/fastqc_pretrim/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1.html",
+        zip="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: ""
     log:
-        "logs/fastqc_pretrim/{sample}.{unit}_r1.log"
+        "logs/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     threads: 1
     wrapper:
@@ -237,11 +237,11 @@ rule fastqc_pretrim_r2:
     input:
        get_fastq2
     output:
-        html="qc/fastqc_pretrim/{sample}.{unit}_r2.html",
-        zip="qc/fastqc_pretrim/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2.html",
+        zip="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: ""
     log:
-        "logs/fastqc_pretrim/{sample}.{unit}_r2.log"
+        "logs/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     threads: 1
     wrapper:

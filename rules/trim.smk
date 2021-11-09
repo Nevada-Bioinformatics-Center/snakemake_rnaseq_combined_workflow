@@ -21,7 +21,9 @@ rule trimmomatic_pe:
         "logs/trimmomatic/{sample}.{unit}.log"
     params:
         # list of trimmers (see manual)
-        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 CROP:50"],
+        #trimmer = ["CROP:50"],
         #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 LEADING:30 MINLEN:36"],
         # optional parameters
         extra="",

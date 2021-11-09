@@ -7,6 +7,8 @@ min_version("5.1.2")
 ##### load config and sample sheets #####
 
 configfile: "config.yaml"
+wildcard_constraints:
+    sample="\w+"
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index

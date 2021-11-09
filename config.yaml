@@ -9,21 +9,17 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "grch38_gencode"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grch38_gencode/GRCh38.primary_assembly.genome.fa"
+  index: "grch38_ens"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grch38_ens/Homo_sapiens.GRCh38.dna.primary_assembly.fa"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grch38_gencode/gencode.v38.primary_assembly.annotation.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grch38_ens/Homo_sapiens.GRCh38.104.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
-  aligners: "star,hisat2"
-  ##Comma seperated list of aligners: Currnet options are trimmomatic, fastp, and trimgalore. Only listing one will only run 1 aligner
-  #trimmers: "trimmomatic,fastp,trimgalore"
-  #trimmers: "trimmomatic"
-  trimmers: "fastp"
-  #trimmers: "trimgalore"
+  aligners: "hisat2"
+  trimmers: "trimmomatic"
   star: ""
   hisat2: ""
-  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,gene_type,gene_name,transcript_type,transcript_name,hgnc_id,havana_gene,havana_transcript,ont"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,transcript_version,gene_name,gene_source,gene_biotype,transcript_name,transcript_source,transcript_biotype"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"
