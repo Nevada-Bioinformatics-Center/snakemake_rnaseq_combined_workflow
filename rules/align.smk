@@ -1,25 +1,10 @@
-def get_fq(wildcards):
-    if config["trimming"]["skip"]:
-        # no trimming, use raw reads
-        return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
-    else:
-        # yes trimming, use trimmed data
-        if not is_single_end(**wildcards):
-            # paired-end sample
-            #print(expand("trimmed/{sample}-{unit}.{group}.fastq.gz", group=[1, 2], **wildcards))
-            return expand("trimmed/{sample}-{unit}.{group}.fastq.gz", group=[1, 2], **wildcards)
-        # single end sample
-        #print("trimmed/{sample}-{unit}.fastq.gz".format(**wildcards))
-        return "trimmed/{sample}-{unit}.fastq.gz".format(**wildcards)
 
 def get_trim_fastq1(wildcards):
-    fq1 = expand("trimmed/{sample}.{unit}.1.fastq.gz", **wildcards)
-    #print(fq1)
+    fq1 = expand("trimmed/{trimmer}/{sample}.{unit}.1.fastq.gz", **wildcards)
     return fq1
 
 def get_trim_fastq2(wildcards):
-    fq2 = expand("trimmed/{sample}.{unit}.2.fastq.gz", **wildcards)
-    #print(fq2)
+    fq2 = expand("trimmed/{trimmer}/{sample}.{unit}.2.fastq.gz", **wildcards)
     return fq2
 
 ##Star align
@@ -41,17 +26,17 @@ rule star_index:
         "0.71.1/bio/star/index"
             
 
-rule align_star:
+rule star_align:
     input:
         fq1=get_trim_fastq1,
         fq2=get_trim_fastq2,
         genomedir=directory(config["ref"]["index"] + "_star")
     output:
         # see STAR manual for additional output files
-        "star/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
-        "star/{sample}.{unit}/ReadsPerGene.out.tab"
+        "star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
+        "star/{trimmer}/{sample}.{unit}/ReadsPerGene.out.tab"
     log:
-        "logs/star/{sample}.{unit}.log"
+        "logs/star/{trimmer}/{sample}.{unit}.log"
     params:
         # path to STAR reference genome index
         index=config["ref"]["index"] + "_star",
@@ -61,13 +46,13 @@ rule align_star:
     threads: 16
     resources: time_min=480, mem_mb=200000, cpus=16
     wrapper:
-        "0.71.1/bio/star/align"
+        "0.73.0/bio/star/align"
 
 rule symlink_bam:
     input:
-        "star/{sample}.{unit}/Aligned.sortedByCoord.out.bam" 
+        "star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam" 
     output:
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
     threads: 1
     shell:
         """
@@ -76,9 +61,9 @@ rule symlink_bam:
 
 rule samtools_index_star:
     input:
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
     output:
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
     params:
         "" # optional params string
     resources: time_min=320, mem_mb=2000, cpus=1
@@ -97,7 +82,7 @@ rule hisat2_extractexons:
     log:
         "logs/hisat2_extract_exons.log"
     threads: 1
-    resources: time_min=120, mem_mb=2000, cpus=1
+    resources: time_min=480, mem_mb=2000, cpus=1
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -111,7 +96,7 @@ rule hisat2_extractsplicesites:
     log:
         "logs/hisat2_extract_ss.log"
     threads: 1
-    resources: time_min=120, mem_mb=2000, cpus=1
+    resources: time_min=480, mem_mb=2000, cpus=1
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -138,14 +123,13 @@ rule hisat2_index:
 
 rule hisat2_align:
     input:
-        #reads=get_fq
         r1=get_trim_fastq1,
         r2=get_trim_fastq2,
         idx=config["ref"]["index"] + "_hisat2/"
     output:
-        "hisat2/{sample}.{unit}.bam"
+        "hisat2/{trimmer}/{sample}.{unit}.bam"
     log:
-        "logs/hisat2/{sample}.{unit}.log"
+        "logs/hisat2/{trimmer}/{sample}.{unit}.log"
     params:
       ## --new summary to allow multiqc parsing and 
       ## --dta to use XS BAM alignment information for stringtie downstream
@@ -163,11 +147,11 @@ rule hisat2_align:
 
 rule sambamba_sort:
     input:
-        "hisat2/{sample}.{unit}.bam"
+        "hisat2/{trimmer}/{sample}.{unit}.bam"
     output:
-        "hisat2/{sample}.{unit}.sorted.bam"
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam"
     log:
-        "logs/hisat2/sambamba-sort/{sample}.{unit}.log"
+        "logs/hisat2/{trimmer}/sambamba-sort/{sample}.{unit}.log"
     params: ""
     threads: 16 
     wildcard_constraints:
@@ -178,9 +162,9 @@ rule sambamba_sort:
 
 rule samtools_index_hisat2:
     input:
-        "hisat2/{sample}.{unit}.sorted.bam"
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam"
     output:
-        "hisat2/{sample}.{unit}.sorted.bam.bai"
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam.bai"
     params:
         "" # optional params string
     resources: time_min=480, mem_mb=2000, cpus=1

@@ -1,15 +1,15 @@
 rule featurecounts_onefile_star:
     input:
-        sam=expand("star/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+        sam=expand("star/{trimmer}/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=trimmers),
         annotation=config["ref"]["annotation"],
         fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
     output:
-        multiext("results/star/featureCounts/all",
+        multiext("results/star/all.star.{trimmer}",
                  ".featureCounts",
                  ".featureCounts.summary",
                  ".featureCounts.jcounts")
     log:
-        "logs/star/featurecount/all.log"
+        "logs/star/{trimmer}/featurecount_all.log"
     params:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
@@ -17,20 +17,20 @@ rule featurecounts_onefile_star:
     threads: 16
     resources: time_min=220, mem_mb=20000, cpus=16
     wrapper:
-        "0.69.0/bio/subread/featurecounts"
+        "0.73.0/bio/subread/featurecounts"
 
 rule featurecounts_onefile_hisat2:
     input:
-        sam=expand("hisat2/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        sam=expand("hisat2/{trimmer}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
         annotation=config["ref"]["annotation"],
         fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
     output:
-        multiext("results/hisat2/featureCounts/all",
+        multiext("results/hisat2/all.hisat2.{trimmer}",
                  ".featureCounts",
                  ".featureCounts.summary",
                  ".featureCounts.jcounts")
     log:
-        "logs/hisat2/featurecount/all.log"
+        "logs/hisat2/{trimmer}/featurecount_all.log"
     params:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
@@ -39,7 +39,7 @@ rule featurecounts_onefile_hisat2:
     threads: 8
     resources: time_min=220, mem_mb=20000, cpus=8
     wrapper:
-        "0.69.0/bio/subread/featurecounts"
+        "0.73.0/bio/subread/featurecounts"
 
 rule fix_featurecounts:
     input:

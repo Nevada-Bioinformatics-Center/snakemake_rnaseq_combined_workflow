@@ -11,7 +11,11 @@ configfile: "config.yaml"
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 aligners=config["params"]["aligners"].split(",")
+trimmers=config["params"]["trimmers"].split(",")
+#samples=units["sample"]
 print("Aligners:", aligners)
+print("Trimmers:", trimmers)
+#print("Samples:", samples)
 
 def strip_suffix(pattern, suffix):
     return pattern[: -len(suffix)]
@@ -21,8 +25,8 @@ def strip_suffix(pattern, suffix):
 rule all:
     input:
         "qc/multiqc_report_pretrim.html",
-        "qc/multiqc_report_posttrim.html",
-        expand("qc/multiqc_report_{aligner}.html", aligner=aligners),
+        expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
+        expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
         #expand("results/{aligner}/featureCounts/all.fixed.featureCounts", aligner=aligners)
 
 

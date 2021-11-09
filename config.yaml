@@ -9,16 +9,21 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "grcm39_gencode"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grcm39/GRCm39.primary_assembly.genome.fa"
+  index: "grch38_gencode"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grch38_gencode/GRCh38.primary_assembly.genome.fa"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grcm39/gencode.vM27.primary_assembly.annotation.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grch38_gencode/gencode.v38.primary_assembly.annotation.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
   aligners: "star,hisat2"
+  ##Comma seperated list of aligners: Currnet options are trimmomatic, fastp, and trimgalore. Only listing one will only run 1 aligner
+  #trimmers: "trimmomatic,fastp,trimgalore"
+  #trimmers: "trimmomatic"
+  trimmers: "fastp"
+  #trimmers: "trimgalore"
   star: ""
   hisat2: ""
-  featurecounts: "-p -C -t exon -g gene_id --extraAttributes gene_type,gene_name,mgi_id,havana_gene,transcript_id,transcript_type,transcript_name,havana_transcript"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,gene_type,gene_name,transcript_type,transcript_name,hgnc_id,havana_gene,havana_transcript,ont"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"

@@ -74,12 +74,12 @@ def get_fastq2(wildcards):
 
 rule rseqc_stat_star:
     input:
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai",
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai",
     output:
-        "qc/star/rseqc/{sample}.{unit}.stats.txt",
+        "qc/star/{trimmer}/rseqc/{sample}.{unit}.stats.txt",
     log:
-        "logs/star/rseqc/rseqc_stat/{sample}.{unit}.log",
+        "logs/star/{trimmer}/rseqc/rseqc_stat/{sample}.{unit}.log",
     conda:
         "../envs/rseqc.yaml"
     resources: time_min=320, mem_mb=8000, cpus=1
@@ -88,12 +88,12 @@ rule rseqc_stat_star:
 
 rule rseqc_stat_hisat2:
     input:
-        "hisat2/{sample}.{unit}.sorted.bam",
-        "hisat2/{sample}.{unit}.sorted.bam.bai",
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam",
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam.bai",
     output:
-        "qc/hisat2/rseqc/{sample}.{unit}.stats.txt",
+        "qc/hisat2/{trimmer}/rseqc/{sample}.{unit}.stats.txt",
     log:
-        "logs/hisat2/rseqc/rseqc_stat/{sample}.{unit}.log",
+        "logs/hisat2/{trimmer}/rseqc/rseqc_stat/{sample}.{unit}.log",
     conda:
         "../envs/rseqc.yaml"
     resources: time_min=320, mem_mb=8000, cpus=1
@@ -156,15 +156,15 @@ rule rseqc_stat_hisat2:
 
 rule rseqc_readdup_star:
     input:
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai",
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai",
     output:
-        "qc/star/rseqc/{sample}.{unit}.readdup.DupRate_plot.pdf",
+        "qc/star/{trimmer}/rseqc/{sample}.{unit}.readdup.DupRate_plot.pdf",
     log:
-        "logs/star/rseqc/rseqc_readdup/{sample}.{unit}.log",
+        "logs/star/{trimmer}/rseqc/rseqc_readdup/{sample}.{unit}.log",
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=16000, cpus=2
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -172,15 +172,15 @@ rule rseqc_readdup_star:
 
 rule rseqc_readdup_hisat2:
     input:
-        "hisat2/{sample}.{unit}.sorted.bam",
-        "hisat2/{sample}.{unit}.sorted.bam.bai",
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam",
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam.bai",
     output:
-        "qc/hisat2/rseqc/{sample}.{unit}.readdup.DupRate_plot.pdf",
+        "qc/hisat2/{trimmer}/rseqc/{sample}.{unit}.readdup.DupRate_plot.pdf",
     log:
-        "logs/hisat2/rseqc/rseqc_readdup/{sample}.{unit}.log",
+        "logs/hisat2/{trimmer}/rseqc/rseqc_readdup/{sample}.{unit}.log",
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=16000, cpus=2
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -189,12 +189,12 @@ rule rseqc_readdup_hisat2:
 
 rule rseqc_readgc_star:
     input:
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
-        "star/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai",
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
+        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai",
     output:
-        "qc/star/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
+        "qc/star/{trimmer}/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
     log:
-        "logs/star/rseqc/rseqc_readgc/{sample}.{unit}.log",
+        "logs/star/{trimmer}/rseqc/rseqc_readgc/{sample}.{unit}.log",
     resources: time_min=320, mem_mb=8000, cpus=1
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
@@ -205,12 +205,12 @@ rule rseqc_readgc_star:
 
 rule rseqc_readgc_hisat2:
     input:
-        "hisat2/{sample}.{unit}.sorted.bam",
-        "hisat2/{sample}.{unit}.sorted.bam.bai",
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam",
+        "hisat2/{trimmer}/{sample}.{unit}.sorted.bam.bai",
     output:
-        "qc/hisat2/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
+        "qc/hisat2/{trimmer}/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
     log:
-        "logs/hisat2/rseqc/rseqc_readgc/{sample}.{unit}.log",
+        "logs/hisat2/{trimmer}/rseqc/rseqc_readgc/{sample}.{unit}.log",
     resources: time_min=320, mem_mb=8000, cpus=1
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
@@ -249,13 +249,13 @@ rule fastqc_pretrim_r2:
 
 rule fastqc_posttrim_r1:
     input:
-        "trimmed/{sample}.{unit}.1.fastq.gz"
+        "trimmed/{trimmer}/{sample}.{unit}.1.fastq.gz"
     output:
-        html="qc/fastqc_posttrim/{sample}.{unit}_r1.html",
-        zip="qc/fastqc_posttrim/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r1.html",
+        zip="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: ""
     log:
-        "logs/fastqc_posttrim/{sample}.{unit}_r1.log"
+        "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r1.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     threads: 1
     wrapper:
@@ -263,13 +263,13 @@ rule fastqc_posttrim_r1:
 
 rule fastqc_posttrim_r2:
     input:
-        "trimmed/{sample}.{unit}.2.fastq.gz"
+        "trimmed/{trimmer}/{sample}.{unit}.2.fastq.gz"
     output:
-        html="qc/fastqc_posttrim/{sample}.{unit}_r2.html",
-        zip="qc/fastqc_posttrim/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.html",
+        zip="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: ""
     log:
-        "logs/fastqc_posttrim/{sample}.{unit}_r2.log"
+        "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     threads: 1
     wrapper:
@@ -277,8 +277,8 @@ rule fastqc_posttrim_r2:
 
 rule multiqc_pre:
     input:
-        expand("qc/fastqc_pretrim/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_pretrim/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("qc/fastqc_pretrim/{trimmer}/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples(), trimmer=trimmers),
+        expand("qc/fastqc_pretrim/{trimmer}/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples(), trimmer=trimmers)
     output:
         "qc/multiqc_report_pretrim.html"
     log:
@@ -287,69 +287,197 @@ rule multiqc_pre:
     wrapper:
         "v0.75.0/bio/multiqc"
 
-rule multiqc_post:
+rule multiqc_post_trimmomatic:
     input:
         expand("logs/trimmomatic/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("qc/fastqc_posttrim/trimmomatic/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimmomatic/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
-        "qc/multiqc_report_posttrim.html"
+        "qc/multiqc_report_posttrim_trimmomatic.html"
     log:
-        "logs/multiqc_post.log"
+        "logs/multiqc_posttrim_trimmomatic.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     wrapper:
         "v0.75.0/bio/multiqc"
 
-rule multiqc_star:
+rule multiqc_post_fastp:
     input:
-        expand("star/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
-        "results/star/featureCounts/all.featureCounts.summary",
-        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
-        expand("qc/star/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
-        expand("qc/star/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
-        expand("qc/star/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
-        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
-        expand("logs/trimmomatic/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
-        #expand("report/pe/{unit.sample}-{unit.unit}.json", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("report/fastp/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
-        "qc/multiqc_report_star.html"
+        "qc/multiqc_report_posttrim_fastp.html"
     log:
-        "logs/multiqc.log"
+        "logs/multiqc_posttrim_fastp.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     wrapper:
         "v0.75.0/bio/multiqc"
 
-rule multiqc_hisat2:
+rule multiqc_post_trimgalore:
     input:
-        expand("hisat2/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        expand("logs/trimgalore/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_posttrim_trimgalore.html"
+    log:
+        "logs/multiqc_posttrim_trimgalore.log"
+    resources: time_min=320, mem_mb=8000, cpus=1
+    wrapper:
+        "v0.75.0/bio/multiqc"
+
+rule multiqc_star_trimmomatic:
+    input:
+        expand("star/trimmomatic/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
         #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
-        "results/hisat2/featureCounts/all.featureCounts.summary",
+        "results/star/all.star.trimmomatic.featureCounts.summary",
         #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
         #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
         #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
         #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
-        expand("qc/hisat2/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
+        expand("qc/star/trimmomatic/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
         #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
         #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
-        expand("qc/hisat2/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
-        expand("qc/hisat2/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        expand("qc/star/trimmomatic/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("qc/star/trimmomatic/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
         #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
         expand("logs/trimmomatic/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
-        #expand("report/pe/{unit.sample}-{unit.unit}.json", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("qc/fastqc_posttrim/trimmomatic/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimmomatic/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
-        "qc/multiqc_report_hisat2.html"
+        "qc/multiqc_report_star_trimmomatic.html"
     log:
-        "logs/multiqc.log"
+        "logs/multiqc_star_trimmomatic.log"
+    resources: time_min=320, mem_mb=8000, cpus=1
+    wrapper:
+        "v0.75.0/bio/multiqc"
+
+rule multiqc_star_fastp:
+    input:
+        expand("star/fastp/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
+        "results/star/all.star.fastp.featureCounts.summary",
+        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
+        expand("qc/star/fastp/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
+        expand("qc/star/fastp/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("qc/star/fastp/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
+        expand("report/fastp/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_star_fastp.html"
+    log:
+        "logs/multiqc_star_fastp.log"
+    resources: time_min=320, mem_mb=8000, cpus=1
+    wrapper:
+        "v0.75.0/bio/multiqc"
+
+rule multiqc_star_trimgalore:
+    input:
+        expand("star/trimgalore/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
+        "results/star/all.star.trimgalore.featureCounts.summary",
+        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
+        expand("qc/star/trimgalore/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
+        expand("qc/star/trimgalore/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("qc/star/trimgalore/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
+        expand("logs/trimgalore/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_star_trimgalore.html"
+    log:
+        "logs/multiqc_star_trimgalore.log"
+    resources: time_min=320, mem_mb=8000, cpus=1
+    wrapper:
+        "v0.75.0/bio/multiqc"
+
+rule multiqc_hisat2_trimmomatic:
+    input:
+        expand("hisat2/trimmomatic/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
+        "results/hisat2/all.hisat2.trimmomatic.featureCounts.summary",
+        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
+        expand("qc/hisat2/trimmomatic/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
+        expand("qc/hisat2/trimmomatic/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("qc/hisat2/trimmomatic/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
+        expand("logs/trimmomatic/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimmomatic/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimmomatic/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_hisat2_trimmomatic.html"
+    log:
+        "logs/multiqc_hisat2_trimmomatic.log"
+    resources: time_min=320, mem_mb=8000, cpus=1
+    wrapper:
+        "v0.75.0/bio/multiqc"
+
+rule multiqc_hisat2_fastp:
+    input:
+        expand("hisat2/fastp/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
+        "results/hisat2/all.hisat2.fastp.featureCounts.summary",
+        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
+        expand("qc/hisat2/fastp/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
+        expand("qc/hisat2/fastp/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("qc/hisat2/fastp/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
+        expand("report/fastp/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_hisat2_fastp.html"
+    log:
+        "logs/multiqc_hisat2_fastp.log"
+    resources: time_min=320, mem_mb=8000, cpus=1
+    wrapper:
+        "v0.75.0/bio/multiqc"
+
+rule multiqc_hisat2_trimgalore:
+    input:
+        expand("hisat2/trimgalore/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
+        "results/hisat2/all.hisat2.trimgalore.featureCounts.summary",
+        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
+        expand("qc/hisat2/trimgalore/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
+        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
+        expand("qc/hisat2/trimgalore/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
+        expand("qc/hisat2/trimgalore/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
+        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
+        expand("logs/trimgalore/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_hisat2_trimgalore.html"
+    log:
+        "logs/multiqc_hisat2_trimgalore.log"
     resources: time_min=320, mem_mb=8000, cpus=1
     wrapper:
         "v0.75.0/bio/multiqc"

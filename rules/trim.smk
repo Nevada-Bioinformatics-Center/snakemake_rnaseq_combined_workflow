@@ -12,23 +12,22 @@ rule trimmomatic_pe:
         r1=get_fastq1,
         r2=get_fastq2
     output:
-        r1="trimmed/{sample}.{unit}.1.fastq.gz",
-        r2="trimmed/{sample}.{unit}.2.fastq.gz",
+        r1="trimmed/trimmomatic/{sample}.{unit}.1.fastq.gz",
+        r2="trimmed/trimmomatic/{sample}.{unit}.2.fastq.gz",
         # reads where trimming entirely removed the mate
-        r1_unpaired="trimmed/{sample}.{unit}.1.unpaired.fastq.gz",
-        r2_unpaired="trimmed/{sample}.{unit}.2.unpaired.fastq.gz"
+        r1_unpaired="trimmed/trimmomatic/{sample}.{unit}.1.unpaired.fastq.gz",
+        r2_unpaired="trimmed/trimmomatic/{sample}.{unit}.2.unpaired.fastq.gz"
     log:
         "logs/trimmomatic/{sample}.{unit}.log"
     params:
         # list of trimmers (see manual)
-	#f"{config['directory']}/{{sample}}_L{{lanenum}}_R1_001.fastq.gz"
-        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
-        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 LEADING:30 MINLEN:36"],
+        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 LEADING:30 MINLEN:36"],
         # optional parameters
         extra="",
         compression_level="-9"
-    threads: 4
-    resources: time_min=480, mem_mb=20000, cpus=4
+    threads: 16
+    resources: time_min=480, mem_mb=20000, cpus=16
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
@@ -36,18 +35,37 @@ rule trimmomatic_pe:
     wrapper:
         "v0.69.0/bio/trimmomatic/pe"
 
-#rule fastp_pe:
-#    input:
-#        sample=get_fastq
-#    output:
-#        trimmed=["trimmed/{sample}-{unit}.1.fastq.gz", "trimmed/{sample}-{unit}.2.fastq.gz"],
-#        html="report/pe/{sample}-{unit}.html",
-#        json="report/pe/{sample}-{unit}.json"
-#    log:
-#        "logs/fastp/pe/{sample}-{unit}.log"
-#    params:
-#        adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
-#        extra=""
-#    threads: 4
-#    wrapper:
-#        "0.72.0/bio/fastp"
+rule fastp_pe:
+    input:
+        sample=get_fastq
+    output:
+        trimmed=["trimmed/fastp/{sample}.{unit}.1.fastq.gz", "trimmed/fastp/{sample}.{unit}.2.fastq.gz"],
+        html="report/fastp/{sample}.{unit}.html",
+        json="report/fastp/{sample}.{unit}.fastp.json"
+    log:
+        "logs/fastp/{sample}.{unit}.log"
+    params:
+        #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+        adapters="--detect_adapter_for_pe",
+        extra=""
+    threads: 16
+    resources: time_min=480, mem_mb=20000, cpus=16
+    wrapper:
+        "0.73.0/bio/fastp"
+
+rule trim_galore_pe:
+    input:
+        get_fastq
+    output:
+        "trimmed/trimgalore/{sample}.{unit}.1.fastq.gz",
+        "trimmed/trimgalore/{sample}.{unit}.1.fastq.gz_trimming_report.txt",
+        "trimmed/trimgalore/{sample}.{unit}.2.fastq.gz",
+        "trimmed/trimgalore/{sample}.{unit}.2.fastq.gz_trimming_report.txt",
+    params:
+        extra="--illumina -q 20",
+    log:
+        "logs/trimgalore/{sample}.{unit}.log",
+    threads: 16
+    resources: time_min=480, mem_mb=20000, cpus=16
+    wrapper:
+        "0.79.0/bio/trim_galore/pe"
