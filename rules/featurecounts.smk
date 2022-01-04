@@ -41,45 +41,66 @@ rule featurecounts_onefile_hisat2:
     wrapper:
         "0.73.0/bio/subread/featurecounts"
 
-rule fix_featurecounts:
+#rule fix_featurecounts:
+#    input:
+#	"results/{aligner}/featureCounts/all.featureCounts"
+#    output:
+#	"results/{aligner}/featureCounts/all.fixed.featureCounts"
+#    log:
+#        "logs/{aligner}/featurecount/fix.log"
+#    threads: 1
+#    resources: time_min=220, mem_mb=2000, cpus=1
+#    shell: 
+#        """
+#        python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}
+#        """
+
+#
+#rule fix_featurecounts_hisat2:
+#    input:
+#        "results/hisat2/all.hisat2.{trimmer}.featureCounts"
+#    output:
+#	"results/hisat2/all.hisat2.{trimmer}.fixcol2.featureCounts"
+#    log:
+#        "logs/hisat2/fct_fix_{trimmer}.log"
+#    threads: 1
+#    resources: time_min=220, mem_mb=2000, cpus=1
+#    shell: 
+#        "python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
+#        
+#
+#rule fix_featurecounts_star:
+#    input:
+#        "results/star/all.star.{trimmer}.featureCounts"
+#    output:
+#	"results/star/all.star.{trimmer}.fixcol2.featureCounts"
+#    log:
+#        "logs/star/fct_fix_{trimmer}.log"
+#    threads: 1
+#    resources: time_min=220, mem_mb=2000, cpus=1
+#    shell: 
+#        "python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
+
+rule fix_featurecounts_star_fastp:
     input:
-	"results/{aligner}/featureCounts/all.featureCounts"
+        "results/star/all.star.fastp.featureCounts"
     output:
-	"results/{aligner}/featureCounts/all.fixed.featureCounts"
+	"results/star/all.star.fastp.fixcol2.featureCounts"
     log:
-        "logs/{aligner}/featurecount/fix.log"
+        "logs/star/fct_fix_fastp.log"
     threads: 1
     resources: time_min=220, mem_mb=2000, cpus=1
     shell: 
-        """
-        python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}
-        """
+        "python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
 
-
-rule fix_featurecounts_hisat2:
+rule fix_featurecounts_hisat2_fastp:
     input:
-        "results/hisat2/featureCounts/all.featureCounts"
+        "results/hisat2/all.hisat2.fastp.featureCounts"
     output:
-	"results/hisat2/featureCounts/all.fixed.featureCounts"
+	"results/hisat2/all.hisat2.fastp.fixcol2.featureCounts"
     log:
-        "logs/hisat2/featureCounts/fix.log"
+        "logs/hisat2/fct_fix_fastp.log"
     threads: 1
     resources: time_min=220, mem_mb=2000, cpus=1
     shell: 
-        """
-        python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}
-        """
-
-rule fix_featurecounts_star:
-    input:
-        "results/star/featureCounts/all.featureCounts"
-    output:
-	"results/star/featureCounts/all.fixed.featureCounts"
-    log:
-        "logs/star/featureCounts/fix.log"
-    threads: 1
-    resources: time_min=220, mem_mb=2000, cpus=1
-    shell: 
-        """
-        python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}
-        """
+        "python3 ../scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"

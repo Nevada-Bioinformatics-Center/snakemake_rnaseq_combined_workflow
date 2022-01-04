@@ -6,9 +6,15 @@ min_version("5.1.2")
 
 ##### load config and sample sheets #####
 
+
+#WRAPPER_PREFIX='https://github.com/hans-vg/snakemake-wrappers/raw'
+WRAPPER_PREFIX='https://raw.githubusercontent.com/hans-vg/snakemake-wrappers'
+
 configfile: "config.yaml"
+
 wildcard_constraints:
-    sample="\w+"
+    sample="\w+",
+    trimmer="\w+"
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
@@ -29,7 +35,7 @@ rule all:
         "qc/multiqc_report_pretrim.html",
         expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
         expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
-        #expand("results/{aligner}/featureCounts/all.fixed.featureCounts", aligner=aligners)
+        #expand("results/{aligner}/all.{aligner}.{trimmer}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers),
 
 
 include: "rules/qc.smk"

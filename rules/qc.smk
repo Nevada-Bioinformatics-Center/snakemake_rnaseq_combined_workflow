@@ -82,7 +82,7 @@ rule rseqc_stat_star:
         "logs/star/{trimmer}/rseqc/rseqc_stat/{sample}.{unit}.log",
     conda:
         "../envs/rseqc.yaml"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     shell:
         "bam_stat.py -i {input} > {output} 2> {log}"
 
@@ -96,7 +96,7 @@ rule rseqc_stat_hisat2:
         "logs/hisat2/{trimmer}/rseqc/rseqc_stat/{sample}.{unit}.log",
     conda:
         "../envs/rseqc.yaml"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     shell:
         "bam_stat.py -i {input} > {output} 2> {log}"
 
@@ -164,7 +164,7 @@ rule rseqc_readdup_star:
         "logs/star/{trimmer}/rseqc/rseqc_readdup/{sample}.{unit}.log",
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
-    resources: time_min=320, mem_mb=16000, cpus=2
+    resources: time_min=320, mem_mb=40000, cpus=2
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -180,7 +180,7 @@ rule rseqc_readdup_hisat2:
         "logs/hisat2/{trimmer}/rseqc/rseqc_readdup/{sample}.{unit}.log",
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
-    resources: time_min=320, mem_mb=16000, cpus=2
+    resources: time_min=320, mem_mb=40000, cpus=2
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -195,7 +195,7 @@ rule rseqc_readgc_star:
         "qc/star/{trimmer}/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
     log:
         "logs/star/{trimmer}/rseqc/rseqc_readgc/{sample}.{unit}.log",
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
     conda:
@@ -211,7 +211,7 @@ rule rseqc_readgc_hisat2:
         "qc/hisat2/{trimmer}/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
     log:
         "logs/hisat2/{trimmer}/rseqc/rseqc_readgc/{sample}.{unit}.log",
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
     conda:
@@ -228,7 +228,7 @@ rule fastqc_pretrim_r1:
     params: ""
     log:
         "logs/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
         "v0.75.0/bio/fastqc"
@@ -242,7 +242,7 @@ rule fastqc_pretrim_r2:
     params: ""
     log:
         "logs/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
         "v0.75.0/bio/fastqc"
@@ -256,7 +256,7 @@ rule fastqc_posttrim_r1:
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r1.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
         "v0.75.0/bio/fastqc"
@@ -270,7 +270,7 @@ rule fastqc_posttrim_r2:
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
         "v0.75.0/bio/fastqc"
@@ -283,9 +283,10 @@ rule multiqc_pre:
         "qc/multiqc_report_pretrim.html"
     log:
         "logs/multiqc_pre.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_trimmomatic:
     input:
@@ -296,9 +297,10 @@ rule multiqc_post_trimmomatic:
         "qc/multiqc_report_posttrim_trimmomatic.html"
     log:
         "logs/multiqc_posttrim_trimmomatic.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_fastp:
     input:
@@ -309,9 +311,10 @@ rule multiqc_post_fastp:
         "qc/multiqc_report_posttrim_fastp.html"
     log:
         "logs/multiqc_posttrim_fastp.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_trimgalore:
     input:
@@ -322,9 +325,10 @@ rule multiqc_post_trimgalore:
         "qc/multiqc_report_posttrim_trimgalore.html"
     log:
         "logs/multiqc_posttrim_trimgalore.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_trimmomatic:
     input:
@@ -348,9 +352,10 @@ rule multiqc_star_trimmomatic:
         "qc/multiqc_report_star_trimmomatic.html"
     log:
         "logs/multiqc_star_trimmomatic.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_fastp:
     input:
@@ -374,9 +379,10 @@ rule multiqc_star_fastp:
         "qc/multiqc_report_star_fastp.html"
     log:
         "logs/multiqc_star_fastp.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_trimgalore:
     input:
@@ -400,9 +406,10 @@ rule multiqc_star_trimgalore:
         "qc/multiqc_report_star_trimgalore.html"
     log:
         "logs/multiqc_star_trimgalore.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        #"0.84.0/bio/multiqc"
 
 rule multiqc_hisat2_trimmomatic:
     input:
@@ -426,9 +433,10 @@ rule multiqc_hisat2_trimmomatic:
         "qc/multiqc_report_hisat2_trimmomatic.html"
     log:
         "logs/multiqc_hisat2_trimmomatic.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_hisat2_fastp:
     input:
@@ -452,9 +460,10 @@ rule multiqc_hisat2_fastp:
         "qc/multiqc_report_hisat2_fastp.html"
     log:
         "logs/multiqc_hisat2_fastp.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_hisat2_trimgalore:
     input:
@@ -478,6 +487,7 @@ rule multiqc_hisat2_trimgalore:
         "qc/multiqc_report_hisat2_trimgalore.html"
     log:
         "logs/multiqc_hisat2_trimgalore.log"
-    resources: time_min=320, mem_mb=8000, cpus=1
+    resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        "v0.75.0/bio/multiqc"
+        #"0.84.0/bio/multiqc"
+        f"{WRAPPER_PREFIX}/master/bio/multiqc"

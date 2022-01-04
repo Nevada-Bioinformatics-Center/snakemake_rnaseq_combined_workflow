@@ -3,3 +3,4 @@ channels:
   - bioconda
 dependencies:
   - bioconda::rseqc=4.0
+  - bioconda::pysam=0.17.0

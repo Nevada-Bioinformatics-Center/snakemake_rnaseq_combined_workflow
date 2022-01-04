@@ -21,21 +21,21 @@ rule trimmomatic_pe:
         "logs/trimmomatic/{sample}.{unit}.log"
     params:
         # list of trimmers (see manual)
-        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
-        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 CROP:50"],
+        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 CROP:50"],
         #trimmer = ["CROP:50"],
         #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 LEADING:30 MINLEN:36"],
         # optional parameters
         extra="",
         compression_level="-9"
     threads: 16
-    resources: time_min=480, mem_mb=20000, cpus=16
+    resources: time_min=480, mem_mb=40000, cpus=16
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
     # https://snakemake.readthedocs.io/en/latest/executing/cluster.html#job-properties
     wrapper:
-        "v0.69.0/bio/trimmomatic/pe"
+        "0.75.0/bio/trimmomatic/pe"
 
 rule fastp_pe:
     input:
@@ -51,7 +51,7 @@ rule fastp_pe:
         adapters="--detect_adapter_for_pe",
         extra=""
     threads: 16
-    resources: time_min=480, mem_mb=20000, cpus=16
+    resources: time_min=480, mem_mb=40000, cpus=16
     wrapper:
         "0.73.0/bio/fastp"
 

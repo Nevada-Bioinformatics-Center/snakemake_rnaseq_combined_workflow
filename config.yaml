@@ -9,17 +9,19 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "grch38_ens"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grch38_ens/Homo_sapiens.GRCh38.dna.primary_assembly.fa"
+  index: "DM6.1_spuddb"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/DM6.1_spudDB/DM_1-3_516_R44_potato_genome_assembly.v6.1.sm.fa"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grch38_ens/Homo_sapiens.GRCh38.104.gtf"
-  adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/DM6.1_spudDB/DM_1-3_516_R44_potato.v6.1.working_models.converted.gtf"
+  #adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
+  adapter: "/mypool/projects/references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
-  aligners: "hisat2"
-  trimmers: "trimmomatic"
+  aligners: "star,hisat2"
+  #trimmers: "fastp,trimmomatic"
+  trimmers: "fastp"
   star: ""
   hisat2: ""
-  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,transcript_version,gene_name,gene_source,gene_biotype,transcript_name,transcript_source,transcript_biotype"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"
