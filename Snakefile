@@ -13,27 +13,26 @@ WRAPPER_PREFIX='https://raw.githubusercontent.com/hans-vg/snakemake-wrappers'
 configfile: "config.yaml"
 
 wildcard_constraints:
-    sample="\w+",
+    sample="[\w-]+",
     trimmer="\w+"
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 aligners=config["params"]["aligners"].split(",")
 trimmers=config["params"]["trimmers"].split(",")
-#samples=units["sample"]
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
-#print("Samples:", samples)
 
 def strip_suffix(pattern, suffix):
     return pattern[: -len(suffix)]
 
+wrappers_version="v1.2.0"
 
 ##### target rules #####
 rule all:
     input:
-        "qc/multiqc_report_pretrim.html",
-        expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
+        #"qc/multiqc_report_pretrim.html",
+        #expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
         expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
         #expand("results/{aligner}/all.{aligner}.{trimmer}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers),
 

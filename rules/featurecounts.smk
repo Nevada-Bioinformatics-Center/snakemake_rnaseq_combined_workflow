@@ -17,7 +17,8 @@ rule featurecounts_onefile_star:
     threads: 16
     resources: time_min=220, mem_mb=20000, cpus=16
     wrapper:
-        "0.73.0/bio/subread/featurecounts"
+        "v1.2.0/bio/subread/featurecounts"
+        #f"{wrappers_version}/bio/subread/featurecounts"
 
 rule featurecounts_onefile_hisat2:
     input:
@@ -39,7 +40,8 @@ rule featurecounts_onefile_hisat2:
     threads: 8
     resources: time_min=220, mem_mb=20000, cpus=8
     wrapper:
-        "0.73.0/bio/subread/featurecounts"
+        "v1.2.0/bio/subread/featurecounts"
+        #f"{wrappers_version}/bio/subread/featurecounts"
 
 #rule fix_featurecounts:
 #    input:

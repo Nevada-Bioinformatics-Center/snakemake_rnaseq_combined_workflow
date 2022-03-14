@@ -35,7 +35,8 @@ rule trimmomatic_pe:
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
     # https://snakemake.readthedocs.io/en/latest/executing/cluster.html#job-properties
     wrapper:
-        "0.75.0/bio/trimmomatic/pe"
+        f"{wrappers_version}/bio/trimmomatic/pe"
+        #"0.75.0/bio/trimmomatic/pe"
 
 rule fastp_pe:
     input:
@@ -53,8 +54,9 @@ rule fastp_pe:
     threads: 16
     resources: time_min=480, mem_mb=40000, cpus=16
     wrapper:
-        "0.73.0/bio/fastp"
+        f"{wrappers_version}/bio/fastp"
 
+##NOT WORKING YET
 rule trim_galore_pe:
     input:
         get_fastq
@@ -70,4 +72,4 @@ rule trim_galore_pe:
     threads: 16
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
-        "0.79.0/bio/trim_galore/pe"
+        f"{wrappers_version}/bio/trim_galore/pe"

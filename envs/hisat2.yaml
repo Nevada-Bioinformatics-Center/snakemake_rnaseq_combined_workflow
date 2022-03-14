@@ -3,4 +3,5 @@ channels:
   - bioconda
 dependencies:
   - bioconda::hisat2=2.2.1
-  - bioconda::samtools=1.12
+  - bioconda::samtools=1.15
+  - perl=5.26.2

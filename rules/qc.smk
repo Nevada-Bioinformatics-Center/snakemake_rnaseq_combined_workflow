@@ -231,7 +231,8 @@ rule fastqc_pretrim_r1:
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
-        "v0.75.0/bio/fastqc"
+        #"v0.75.0/bio/fastqc"
+        f"{wrappers_version}/bio/fastqc"
 
 rule fastqc_pretrim_r2:
     input:
@@ -245,7 +246,8 @@ rule fastqc_pretrim_r2:
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
-        "v0.75.0/bio/fastqc"
+        #"v0.75.0/bio/fastqc"
+        f"{wrappers_version}/bio/fastqc"
 
 rule fastqc_posttrim_r1:
     input:
@@ -259,7 +261,7 @@ rule fastqc_posttrim_r1:
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
-        "v0.75.0/bio/fastqc"
+        f"{wrappers_version}/bio/fastqc"
 
 rule fastqc_posttrim_r2:
     input:
@@ -273,7 +275,8 @@ rule fastqc_posttrim_r2:
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
-        "v0.75.0/bio/fastqc"
+        #"v0.75.0/bio/fastqc"
+        f"{wrappers_version}/bio/fastqc"
 
 rule multiqc_pre:
     input:
@@ -286,7 +289,8 @@ rule multiqc_pre:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_trimmomatic:
     input:
@@ -300,7 +304,8 @@ rule multiqc_post_trimmomatic:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_fastp:
     input:
@@ -314,7 +319,8 @@ rule multiqc_post_fastp:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_trimgalore:
     input:
@@ -328,7 +334,8 @@ rule multiqc_post_trimgalore:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_trimmomatic:
     input:
@@ -355,7 +362,8 @@ rule multiqc_star_trimmomatic:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_fastp:
     input:
@@ -382,7 +390,8 @@ rule multiqc_star_fastp:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_trimgalore:
     input:
@@ -408,8 +417,9 @@ rule multiqc_star_trimgalore:
         "logs/multiqc_star_trimgalore.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
         #"0.84.0/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
 
 rule multiqc_hisat2_trimmomatic:
     input:
@@ -462,8 +472,9 @@ rule multiqc_hisat2_fastp:
         "logs/multiqc_hisat2_fastp.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        ##"0.84.0/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_hisat2_trimgalore:
     input:
@@ -490,4 +501,5 @@ rule multiqc_hisat2_trimgalore:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"

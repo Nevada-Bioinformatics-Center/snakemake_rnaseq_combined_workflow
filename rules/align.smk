@@ -23,7 +23,8 @@ rule star_index:
     log:
         "logs/star_index_genome.log"
     wrapper:
-        "0.71.1/bio/star/index"
+        #"0.71.1/bio/star/index"
+        f"{wrappers_version}/bio/star/index"
             
 
 rule star_align:
@@ -46,7 +47,8 @@ rule star_align:
     threads: 16
     resources: time_min=480, mem_mb=200000, cpus=16
     wrapper:
-        "0.73.0/bio/star/align"
+        #"0.73.0/bio/star/align"
+        f"{wrappers_version}/bio/star/align"
 
 rule symlink_bam:
     input:
@@ -68,7 +70,8 @@ rule samtools_index_star:
         "" # optional params string
     resources: time_min=320, mem_mb=2000, cpus=1
     wrapper:
-        "0.73.0/bio/samtools/index"
+        #"0.73.0/bio/samtools/index"
+        f"{wrappers_version}/bio/samtools/index"
 
 
 ##################
@@ -158,7 +161,8 @@ rule sambamba_sort:
         unit="rep\d+"
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
-        "0.74.0/bio/sambamba/sort"
+        #"0.74.0/bio/sambamba/sort"
+        f"{wrappers_version}/bio/sambamba/sort"
 
 rule samtools_index_hisat2:
     input:
@@ -169,5 +173,6 @@ rule samtools_index_hisat2:
         "" # optional params string
     resources: time_min=480, mem_mb=2000, cpus=1
     wrapper:
-        "0.73.0/bio/samtools/index"
+        #"0.73.0/bio/samtools/index"
+        f"{wrappers_version}/bio/samtools/index"
 
