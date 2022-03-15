@@ -9,17 +9,17 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "grch38_gencode"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grch38_gencode/GRCh38.primary_assembly.genome.fa"
+  index: "psuedoscorpion_genome"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/Psuedoscorpion_genome/Psuedoscorpion_genome.fasta"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grch38_gencode/gencode.v38.primary_assembly.annotation.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/Psuedoscorpion_genome/Psuedoscorpion_genome.genes.converted.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
-  aligners: "hisat2"
+  aligners: "hisat2,star"
   trimmers: "fastp"
   star: ""
   hisat2: ""
-  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,gene_type,gene_name,transcript_type,transcript_name,hgnc_id,havana_gene,havana_transcript,ont"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"

@@ -40,7 +40,7 @@ rule star_align:
         "logs/star/{trimmer}/{sample}.{unit}.log"
     params:
         # path to STAR reference genome index
-        index=config["ref"]["index"] + "_star",
+        idx=config["ref"]["index"] + "_star",
         # optional parameters
         extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
