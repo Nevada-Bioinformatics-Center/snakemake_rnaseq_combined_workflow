@@ -34,8 +34,9 @@ rule star_align:
         genomedir=directory(config["ref"]["index"] + "_star")
     output:
         # see STAR manual for additional output files
-        "star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
-        "star/{trimmer}/{sample}.{unit}/ReadsPerGene.out.tab"
+        bam="star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
+        log="star/{trimmer}/{sample}.{unit}/Log.out",
+        reads_per_gene="star/{trimmer}/{sample}.{unit}/ReadsPerGene.out.tab"
     log:
         "logs/star/{trimmer}/{sample}.{unit}.log"
     params:

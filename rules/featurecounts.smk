@@ -6,8 +6,8 @@ rule featurecounts_onefile_star:
     output:
         multiext("results/star/all.star.{trimmer}",
                  ".featureCounts",
-                 ".featureCounts.summary",
-                 ".featureCounts.jcounts")
+                 ".featureCounts.summary")
+#                 ".featureCounts.jcounts")
     log:
         "logs/star/{trimmer}/featurecount_all.log"
     params:
@@ -28,8 +28,8 @@ rule featurecounts_onefile_hisat2:
     output:
         multiext("results/hisat2/all.hisat2.{trimmer}",
                  ".featureCounts",
-                 ".featureCounts.summary",
-                 ".featureCounts.jcounts")
+                 ".featureCounts.summary")
+#                 ".featureCounts.jcounts")
     log:
         "logs/hisat2/{trimmer}/featurecount_all.log"
     params:
