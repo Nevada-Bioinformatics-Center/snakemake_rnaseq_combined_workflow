@@ -26,7 +26,7 @@ print("Trimmers:", trimmers)
 def strip_suffix(pattern, suffix):
     return pattern[: -len(suffix)]
 
-wrappers_version="v1.2.0"
+wrappers_version="v1.3.0"
 
 ##### target rules #####
 rule all:

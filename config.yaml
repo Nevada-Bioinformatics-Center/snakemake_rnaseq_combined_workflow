@@ -21,5 +21,6 @@ params:
   trimmers: "fastp"
   star: ""
   hisat2: ""
-  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
+  #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
+  featurecounts: "-p -C -t exon -g transcript_id --extraAttributes gene_id"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"

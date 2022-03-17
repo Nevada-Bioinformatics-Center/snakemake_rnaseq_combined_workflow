@@ -1,6 +1,6 @@
 rule featurecounts_onefile_star:
     input:
-        sam=expand("star/{trimmer}/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=trimmers),
+        samples=expand("star/{trimmer}/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=trimmers),
         annotation=config["ref"]["annotation"],
         fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
     output:
@@ -17,12 +17,13 @@ rule featurecounts_onefile_star:
     threads: 16
     resources: time_min=220, mem_mb=20000, cpus=16
     wrapper:
-        "v1.2.0/bio/subread/featurecounts"
+        f"{wrappers_version}/bio/subread/featurecounts"
+        #"v1.2.0/bio/subread/featurecounts"
         #f"{wrappers_version}/bio/subread/featurecounts"
 
 rule featurecounts_onefile_hisat2:
     input:
-        sam=expand("hisat2/{trimmer}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
+        samples=expand("hisat2/{trimmer}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
         annotation=config["ref"]["annotation"],
         fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
     output:
@@ -37,10 +38,11 @@ rule featurecounts_onefile_hisat2:
         r_path="",    # implicitly sets the --Rpath flag
         #extra="-p -C -t exon -g gene_id --extraAttributes gene_name,transcript_id,transcript_name"   #-p to count fragments instead of reads, -C to not count fragments if mapped to different chrs, -t exon (only consider exons, -g look at the gene_id field to get the feature name
         extra="{}".format(config["params"]["featurecounts"])
-    threads: 8
-    resources: time_min=220, mem_mb=20000, cpus=8
+    threads: 16
+    resources: time_min=220, mem_mb=20000, cpus=16
     wrapper:
-        "v1.2.0/bio/subread/featurecounts"
+        f"{wrappers_version}/bio/subread/featurecounts"
+        #"v1.2.0/bio/subread/featurecounts"
         #f"{wrappers_version}/bio/subread/featurecounts"
 
 #rule fix_featurecounts:
