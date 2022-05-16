@@ -9,10 +9,10 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "psuedoscorpion_genome"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/Psuedoscorpion_genome/Psuedoscorpion_genome.fasta"
+  index: "s_lycopersicum"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/S_lycopersicum_4.0/S_lycopersicum_chromosomes.4.00.fa"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/Psuedoscorpion_genome/Psuedoscorpion_genome.genes.converted.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/S_lycopersicum_4.0/ITAG4.1_gene_models.gffread.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
@@ -22,5 +22,5 @@ params:
   star: ""
   hisat2: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
-  featurecounts: "-p -C -t exon -g transcript_id --extraAttributes gene_id"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"

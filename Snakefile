@@ -1,5 +1,6 @@
 import pandas as pd
 from snakemake.utils import validate, min_version
+import os
 ##### set minimum snakemake version #####
 min_version("5.1.2")
 
@@ -22,6 +23,8 @@ aligners=config["params"]["aligners"].split(",")
 trimmers=config["params"]["trimmers"].split(",")
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
+cwd = os.getcwd()
+print("Cwd:", cwd)
 
 def strip_suffix(pattern, suffix):
     return pattern[: -len(suffix)]
@@ -34,7 +37,7 @@ rule all:
         "qc/multiqc_report_pretrim.html",
         #expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
         expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
-        #expand("results/{aligner}/all.{aligner}.{trimmer}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers),
+        expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers),
 
 
 include: "rules/qc.smk"
