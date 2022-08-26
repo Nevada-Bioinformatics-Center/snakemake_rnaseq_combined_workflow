@@ -36,7 +36,8 @@ rule all:
     input:
         "qc/multiqc_report_pretrim.html",
         #expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
-        expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
+        #expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
+        expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
         #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers),
 
 

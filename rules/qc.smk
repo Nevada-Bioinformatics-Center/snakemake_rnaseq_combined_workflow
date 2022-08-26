@@ -476,6 +476,22 @@ rule multiqc_hisat2_fastp:
         f"{wrappers_version}/bio/multiqc"
         #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
+rule multiqc_hisat2_fastp_nofct:
+    input:
+        expand("hisat2/fastp/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        expand("report/fastp/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_hisat2_fastp_nofct.html"
+    log:
+        "logs/multiqc_hisat2_fastp_nofct.log"
+    resources: time_min=320, mem_mb=20000, cpus=1
+    wrapper:
+        ##"0.84.0/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
+        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
+
 rule multiqc_hisat2_trimgalore:
     input:
         expand("hisat2/trimgalore/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),

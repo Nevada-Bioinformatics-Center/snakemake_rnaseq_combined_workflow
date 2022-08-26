@@ -9,15 +9,15 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "OH8245"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/OH8245/OH8245.Genome.fasta"
+  index: "s_galapagense_LA0436"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/s_galapagense_LA0436/Sg_LA0436_denovo.fa"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/OH8245/oh8245_genes.filter.gffread.gtf"
+  annotation: ""
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
-  aligners: "hisat2,star"
+  aligners: "hisat2"
   trimmers: "fastp"
   star: ""
   hisat2: ""
