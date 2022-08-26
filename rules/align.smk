@@ -34,9 +34,9 @@ rule star_align:
         genomedir=directory(config["ref"]["index"] + "_star")
     output:
         # see STAR manual for additional output files
-        bam="star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
+        aln="star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
         log="star/{trimmer}/{sample}.{unit}/Log.out",
-        reads_per_gene="star/{trimmer}/{sample}.{unit}/ReadsPerGene.out.tab"
+        sj="star/{trimmer}/{sample}.{unit}/ReadsPerGene.out.tab"
     log:
         "logs/star/{trimmer}/{sample}.{unit}.log"
     params:
@@ -105,6 +105,22 @@ rule hisat2_extractsplicesites:
         "../envs/hisat2.yaml"
     shell:
         "hisat2_extract_splice_sites.py {input.gtf} > {output} 2> {log}"
+
+#rule hisat2_index_noexons:
+#    input:
+#        fasta = config["ref"]["genomefa"],
+#    output:
+#        directory(config["ref"]["index"] + "_hisat2")
+#    params:
+#        prefix = config["ref"]["index"] + "_hisat2/genome"
+#    log:
+#        "logs/hisat2_index_genome.log"
+#    threads: 16
+#    resources: time_min=480, mem_mb=200000, cpus=16
+#    conda:
+#        "../envs/hisat2.yaml"
+#    shell:
+#        "mkdir {output} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
 
 rule hisat2_index:
     input:
