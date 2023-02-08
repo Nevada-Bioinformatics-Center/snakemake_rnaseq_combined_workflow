@@ -9,19 +9,19 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "s_galapagense_LA0436"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/s_galapagense_LA0436/Sg_LA0436_denovo.fa"
+  index: "xenla10.1"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/XENLA_10.1/XENLA_10.1_genome.fa"
   # gtf file with transcripts
-  annotation: ""
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/XENLA_10.1/XENLA_10.1_GCF_XBmodels.agat.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
-  aligners: "hisat2"
+  aligners: "hisat2,star"
   trimmers: "fastp"
   star: ""
   hisat2: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
-  featurecounts: "-p -C -t exon -g transcript_id"
+  featurecounts: "-p -C -t exon -g transcript_id,Dbxref,ID,Parent,gbkey,gene,product,gene,inference,product"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"
