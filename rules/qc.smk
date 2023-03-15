@@ -109,11 +109,11 @@ rule fastqc_pretrim_r1:
     input:
        get_fastq1
     output:
-        html="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1.html",
-        zip="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_pretrim/{sample}.{unit}_r1.html",
+        zip="qc/fastqc_pretrim/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: ""
     log:
-        "logs/fastqc_pretrim/{trimmer}/{sample}.{unit}_r1.log"
+        "logs/fastqc_pretrim/{sample}.{unit}_r1.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
@@ -124,11 +124,11 @@ rule fastqc_pretrim_r2:
     input:
        get_fastq2
     output:
-        html="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2.html",
-        zip="qc/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_pretrim/{sample}.{unit}_r2.html",
+        zip="qc/fastqc_pretrim/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
     params: ""
     log:
-        "logs/fastqc_pretrim/{trimmer}/{sample}.{unit}_r2.log"
+        "logs/fastqc_pretrim/{sample}.{unit}_r2.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
@@ -140,7 +140,7 @@ rule fastqc_posttrim_r1:
          "trimmed/{trimmer}_{pese}/{sample}.{unit}.1.fastq.gz"
     output:
         html="qc/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r1.html",
-        zip="qc/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r1_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        zip="qc/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r1_fastqc.zip" 
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r1.log"
@@ -151,36 +151,49 @@ rule fastqc_posttrim_r1:
 
 rule fastqc_posttrim_r2:
     input:
-        "trimmed/{trimmer}/{sample}.{unit}.2.fastq.gz"
+        "trimmed/{trimmer}_{pese}/{sample}.{unit}.2.fastq.gz"
     output:
-        html="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.html",
-        zip="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+        html="qc/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r2.html",
+        zip="qc/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r2_fastqc.zip"
     params: ""
     log:
-        "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.log"
+        "logs/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r2.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
         #"v0.75.0/bio/fastqc"
         f"{wrappers_version}/bio/fastqc"
 
-rule multiqc_pre:
+#rule fastqc_posttrim_r2:
+#    input:
+#        "trimmed/{trimmer}/{sample}.{unit}.2.fastq.gz"
+#    output:
+#        html="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.html",
+#        zip="qc/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2_fastqc.zip" # the suffix _fastqc.zip is necessary for multiqc to find the file. If not using multiqc, you are free to choose an arbitrary filename
+#    params: ""
+#    log:
+#        "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.log"
+#    resources: time_min=320, mem_mb=20000, cpus=1
+#    threads: 1
+#    wrapper:
+#        #"v0.75.0/bio/fastqc"
+#        f"{wrappers_version}/bio/fastqc"
+
+rule multiqc_pre_pe:
     input:
-        expand("qc/fastqc_pretrim/{trimmer}/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples(), trimmer=trimmers),
-        expand("qc/fastqc_pretrim/{trimmer}/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples(), trimmer=trimmers)
+        expand("qc/fastqc_pretrim/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples(), trimmer=trimmers),
+        expand("qc/fastqc_pretrim/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples(), trimmer=trimmers)
     output:
-        "qc/multiqc_report_pretrim.html"
+        "qc/multiqc_report_pretrim_pe.html"
     log:
-        "logs/multiqc_pre.log"
+        "logs/multiqc_pretrim_pe.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_pre_se:
     input:
-        expand("qc/fastqc_pretrim/{trimmer}/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples(), trimmer=trimmers),
+        expand("qc/fastqc_pretrim/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples(), trimmer=trimmers),
     output:
         "qc/multiqc_report_pretrim_se.html"
     log:
@@ -360,9 +373,21 @@ rule multiqc_hisat2_fastp_se:
         "logs/multiqc_hisat2_fastp_se.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        ##"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
+
+rule multiqc_hisat2_fastp_pe:
+    input:
+        expand("hisat2/fastp_pe/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        "results/hisat2/all.hisat2.fastp_pe.featureCounts.summary",
+        expand("report/fastp_pe/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+    output:
+        "qc/multiqc_report_hisat2_fastp_pe.html"
+    log:
+        "logs/multiqc_hisat2_fastp_pe.log"
+    resources: time_min=320, mem_mb=20000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/multiqc"
 
 rule multiqc_hisat2_fastp:
     input:

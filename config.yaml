@@ -9,21 +9,22 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "MGAS5005"
-  genomefa: "/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/refs/MGAS5005.fasta"
+  index: "grch38ens"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grch38_ens/Homo_sapiens.GRCh38.dna.primary_assembly.fa"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/refs/MGAS5005.gffread.CDS.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grch38_ens/Homo_sapiens.GRCh38.104.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
+  #aligners: "hisat2,star"
   aligners: "hisat2"
   trimmers: "fastp"
-  pese: "se"
+  pese: "pe"
   star: ""
   hisat2: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
-  featurecounts: "-p -C -t exon -g transcript_id,Dbxref,ID,Parent,gbkey,gene,product,gene,inference,product"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,gene_name,gene_source,gene_biotype,transcript_name,transcript_source,transcript_biotype,tag,ccds_id"
   featurecountsse: "-t CDS -g transcript_id --extraAttributes gene_name,Dbxref,Name,gbkey,gene,inference,locus_tag,product,protein_id"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes gene_biotype,transcript_id,transcript_biotype,gene_name,transcript_name"

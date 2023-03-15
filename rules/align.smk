@@ -1,13 +1,13 @@
 
 def get_trim_fastq1(wildcards):
     if pese == "pe":
-        fq1 = expand("trimmed/{trimmer}/{sample}.{unit}.1.fastq.gz", **wildcards)
+        fq1 = expand("trimmed/{trimmer}_pe/{sample}.{unit}.1.fastq.gz", **wildcards)
     else:
         fq1 = expand("trimmed/{trimmer}_se/{sample}.{unit}.1.fastq.gz", **wildcards)
     return fq1
 
 def get_trim_fastq2(wildcards):
-    fq2 = expand("trimmed/{trimmer}/{sample}.{unit}.2.fastq.gz", **wildcards)
+    fq2 = expand("trimmed/{trimmer}_pe/{sample}.{unit}.2.fastq.gz", **wildcards)
     return fq2
 
 ##Star align
@@ -109,27 +109,9 @@ rule hisat2_extractsplicesites:
     shell:
         "hisat2_extract_splice_sites.py {input.gtf} > {output} 2> {log}"
 
-rule hisat2_index_noexons:
-    input:
-        fasta = config["ref"]["genomefa"],
-    output:
-        directory(config["ref"]["index"] + "_hisat2")
-    params:
-        prefix = config["ref"]["index"] + "_hisat2/genome"
-    log:
-        "logs/hisat2_index_genome.log"
-    threads: 16
-    resources: time_min=480, mem_mb=200000, cpus=16
-    conda:
-        "../envs/hisat2.yaml"
-    shell:
-        "mkdir {output} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
-
-#rule hisat2_index:
+#rule hisat2_index_noexons:
 #    input:
 #        fasta = config["ref"]["genomefa"],
-#        exons = "hisat2_prep/genome.exons",
-#        ss = "hisat2_prep/genome.ss"
 #    output:
 #        directory(config["ref"]["index"] + "_hisat2")
 #    params:
@@ -141,7 +123,25 @@ rule hisat2_index_noexons:
 #    conda:
 #        "../envs/hisat2.yaml"
 #    shell:
-#        "mkdir {output} && hisat2-build -p {threads} --ss {input.ss} --exon {input.exons} {input.fasta} {params.prefix} 2> {log}"
+#        "mkdir {output} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+
+rule hisat2_index:
+    input:
+        fasta = config["ref"]["genomefa"],
+        exons = "hisat2_prep/genome.exons",
+        ss = "hisat2_prep/genome.ss"
+    output:
+        directory(config["ref"]["index"] + "_hisat2")
+    params:
+        prefix = config["ref"]["index"] + "_hisat2/genome"
+    log:
+        "logs/hisat2_index_genome.log"
+    threads: 16
+    resources: time_min=480, mem_mb=200000, cpus=16
+    conda:
+        "../envs/hisat2.yaml"
+    shell:
+        "mkdir {output} && hisat2-build -p {threads} --ss {input.ss} --exon {input.exons} {input.fasta} {params.prefix} 2> {log}"
 
 
 rule hisat2_align:
@@ -167,6 +167,30 @@ rule hisat2_align:
         "../envs/hisat2.yaml"
     shell:
         "(hisat2 --threads {threads} -x {params.idx} {params.extra} -1 {input.r1} -2 {input.r2} | samtools view -Sbh -o {output}) 2> {log}"
+
+rule hisat2_align_pe:
+    input:
+        r1=get_trim_fastq1,
+        r2=get_trim_fastq2,
+        idx=config["ref"]["index"] + "_hisat2/"
+    output:
+        "hisat2/{trimmer}_pe/{sample}.{unit}.bam"
+    log:
+        "logs/hisat2/{trimmer}_pe/{sample}.{unit}.log"
+    params:
+      ## --new summary to allow multiqc parsing and 
+      ## --dta to use XS BAM alignment information for stringtie downstream
+        #extra="--new-summary --dta",
+        extra="{}".format(config["params"]["hisat2"]),
+        idx=config["ref"]["index"] + "_hisat2/genome",
+    threads: 16
+    wildcard_constraints:
+        unit="rep\d+"
+    resources: time_min=480, mem_mb=40000, cpus=16
+    conda:
+        "../envs/hisat2.yaml"
+    shell:
+        "(hisat2 --threads {threads} -x {params.idx} {params.extra} -U {input.r1} | samtools view -Sbh -o {output}) 2> {log}"
 
 rule hisat2_align_se:
     input:
@@ -204,7 +228,21 @@ rule sambamba_sort_se:
         unit="rep\d+"
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
-        #"0.74.0/bio/sambamba/sort"
+        f"{wrappers_version}/bio/sambamba/sort"
+
+rule sambamba_sort_pe:
+    input:
+        "hisat2/{trimmer}_pe/{sample}.{unit}.bam"
+    output:
+        "hisat2/{trimmer}_pe/{sample}.{unit}.sorted.bam"
+    log:
+        "logs/hisat2/{trimmer}_pe/sambamba-sort/{sample}.{unit}.log"
+    params: ""
+    threads: 16 
+    wildcard_constraints:
+        unit="rep\d+"
+    resources: time_min=480, mem_mb=20000, cpus=16
+    wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
 
 rule sambamba_sort:

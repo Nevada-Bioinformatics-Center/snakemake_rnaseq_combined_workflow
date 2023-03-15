@@ -43,15 +43,34 @@ rule trimmomatic_pe:
         f"{wrappers_version}/bio/trimmomatic/pe"
         #"0.75.0/bio/trimmomatic/pe"
 
+#Orig method without pese wildcard
+#rule fastp_pe:
+#    input:
+#        sample=get_fastq
+#    output:
+#        trimmed=["trimmed/fastp/{sample}.{unit}.1.fastq.gz", "trimmed/fastp/{sample}.{unit}.2.fastq.gz"],
+#        html="report/fastp/{sample}.{unit}.html",
+#        json="report/fastp/{sample}.{unit}.fastp.json"
+#    log:
+#        "logs/fastp/{sample}.{unit}.log"
+#    params:
+#        #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
+#        adapters="--detect_adapter_for_pe",
+#        extra=""
+#    threads: 16
+#    resources: time_min=480, mem_mb=40000, cpus=16
+#    wrapper:
+#        f"{wrappers_version}/bio/fastp"
+
 rule fastp_pe:
     input:
         sample=get_fastq
     output:
-        trimmed=["trimmed/fastp/{sample}.{unit}.1.fastq.gz", "trimmed/fastp/{sample}.{unit}.2.fastq.gz"],
-        html="report/fastp/{sample}.{unit}.html",
-        json="report/fastp/{sample}.{unit}.fastp.json"
+        trimmed=["trimmed/fastp_pe/{sample}.{unit}.1.fastq.gz", "trimmed/fastp_pe/{sample}.{unit}.2.fastq.gz"],
+        html="report/fastp_pe/{sample}.{unit}.html",
+        json="report/fastp_pe/{sample}.{unit}.fastp.json"
     log:
-        "logs/fastp/{sample}.{unit}.log"
+        "logs/fastp_pe/{sample}.{unit}.log"
     params:
         #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
         adapters="--detect_adapter_for_pe",
