@@ -1,13 +1,21 @@
 sample	unit	fq1	fq2
-St24	rep1	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-24-vesicles-A_S1_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-24-vesicles-A_S1_R2.fastq.gz
-St24	rep2	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-24-vesicles-B_S5_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-24-vesicles-B_S5_R2.fastq.gz
-St24	rep3	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-24-vesicles-C_S6_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-24-vesicles-C_S6_R2.fastq.gz
-St27.1d.ctrl	rep1	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1d-ctrl-eye-cup-F_S2_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1d-ctrl-eye-cup-F_S2_R2.fastq.gz
-St27.1d.ctrl	rep2	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1d-ctrl-eye-cup-G_S3_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1d-ctrl-eye-cup-G_S3_R2.fastq.gz
-St27.1d.ctrl	rep3	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1d-ctrl-eye-cup-H_S4_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1d-ctrl-eye-cup-H_S4_R2.fastq.gz
-St27.1d.surgery	rep1	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1dps-eye-cup-G_S10_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1dps-eye-cup-G_S10_R2.fastq.gz
-St27.1d.surgery	rep2	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1dps-eye-cup-H_S11_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1dps-eye-cup-H_S11_R2.fastq.gz
-St27.1d.surgery	rep3	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1dps-eye-cup-I_S12_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-1dps-eye-cup-I_S12_R2.fastq.gz
-St27	rep1	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-vesicles-A_S7_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-vesicles-A_S7_R2.fastq.gz
-St27	rep2	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-vesicles-B_S8_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-vesicles-B_S8_R2.fastq.gz
-St27	rep3	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-vesicles-C_S9_R1.fastq.gz	/data/gpfs/assoc/inbre/projects/kelly_tseng/xenopus_rnaseq/raw_seq/St-27-vesicles-C_S9_R2.fastq.gz
+L3-P01	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P01-ATCACG-Sequences.fq	
+L3-P02	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P02-CGATGT-Sequences.fq	
+L3-P03	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P03-TTAGGC-Sequences.fq	
+L3-P04	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P04-TGACCA-Sequences.fq	
+L3-P05	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P05-ACAGTG-Sequences.fq	
+L3-P06	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P06-GCCAAT-Sequences.fq	
+L3-P07	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P07-CAGATC-Sequences.fq	
+L3-P08	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P08-ACTTGA-Sequences.fq	
+L3-P09	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P09-GATCAG-Sequences.fq	
+L3-P10	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_1_samples/4R171-L3-P10-TAGCTT-Sequences.fq	
+L4-P01	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P01-ATCACG-Sequences.fq	
+L4-P02	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P02-CGATGT-Sequences.fq	
+L4-P03	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P03-TTAGGC-Sequences.fq	
+L4-P04	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P04-TGACCA-Sequences.fq	
+L4-P05	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P05-ACAGTG-Sequences.fq	
+L4-P06	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P06-GCCAAT-Sequences.fq	
+L4-P07	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P07-CAGATC-Sequences.fq	
+L4-P08	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P08-ACTTGA-Sequences.fq	
+L4-P09	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P09-GATCAG-Sequences.fq	
+L4-P10	rep1	/data/gpfs/assoc/inbre/projects/paul_sumday/rnaseq_from2019/raw_seq/group_2_samples/4R171-L4-P10-TAGCTT-Sequences.fq	

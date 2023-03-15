@@ -2,7 +2,12 @@ def get_fastq(wildcards):
     return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
 
 def get_fastq1(wildcards):
-    return units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item()
+    #print(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())
+    #print(type(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item()))
+    if pese == "se":
+        return [(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())]
+    else:
+        return (units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())
 
 def get_fastq2(wildcards):
     return units.loc[(wildcards.sample, wildcards.unit), ["fq2"]].dropna().item()
@@ -50,6 +55,24 @@ rule fastp_pe:
     params:
         #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
         adapters="--detect_adapter_for_pe",
+        extra=""
+    threads: 16
+    resources: time_min=480, mem_mb=40000, cpus=16
+    wrapper:
+        f"{wrappers_version}/bio/fastp"
+
+rule fastp_se:
+    input:
+        sample=get_fastq1
+    output:
+        trimmed="trimmed/fastp_se/{sample}.{unit}.1.fastq.gz",
+        failed="trimmed/fastp_se/{sample}.{unit}.failed.fastq.gz",
+        html="report/fastp_se/{sample}.{unit}.html",
+        json="report/fastp_se/{sample}.{unit}.fastp.json"
+    log:
+        "logs/fastp_se/{sample}.{unit}.log"
+    params:
+        adapters="",
         extra=""
     threads: 16
     resources: time_min=480, mem_mb=40000, cpus=16

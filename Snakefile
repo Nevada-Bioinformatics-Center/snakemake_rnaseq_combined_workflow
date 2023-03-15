@@ -16,30 +16,34 @@ configfile: "config.yaml"
 wildcard_constraints:
     sample="[\w\\-\\.]+",
     unit="rep\d+",
-    trimmer="\w+"
+    trimmer="[a-z]+"
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
 aligners=config["params"]["aligners"].split(",")
 trimmers=config["params"]["trimmers"].split(",")
+pese=config["params"]["pese"]
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
+print("PE/SE mode:", pese)
 cwd = os.getcwd()
 print("Cwd:", cwd)
 
 def strip_suffix(pattern, suffix):
     return pattern[: -len(suffix)]
 
+
 wrappers_version="v1.9.0"
 
 ##### target rules #####
 rule all:
     input:
-        "qc/multiqc_report_pretrim.html",
-        expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
-        expand("qc/multiqc_report_{aligner}_{trimmer}.html", aligner=aligners, trimmer=trimmers),
+        #"qc/multiqc_report_pretrim.html",
+        #expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
+        expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
+        expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
         #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
-        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers),
+        expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
 
 
 include: "rules/qc.smk"
