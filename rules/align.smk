@@ -30,18 +30,18 @@ rule star_index:
         f"{wrappers_version}/bio/star/index"
             
 
-rule star_align:
+rule star_align_pe:
     input:
         fq1=get_trim_fastq1,
         fq2=get_trim_fastq2,
         genomedir=directory(config["ref"]["index"] + "_star")
     output:
         # see STAR manual for additional output files
-        aln="star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
-        log="star/{trimmer}/{sample}.{unit}/Log.out",
-        sj="star/{trimmer}/{sample}.{unit}/ReadsPerGene.out.tab"
+        aln="star/{trimmer}_pe/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
+        log="star/{trimmer}_pe/{sample}.{unit}/Log.out",
+        sj="star/{trimmer}_pe/{sample}.{unit}/ReadsPerGene.out.tab"
     log:
-        "logs/star/{trimmer}/{sample}.{unit}.log"
+        "logs/star/{trimmer}_pe/{sample}.{unit}.log"
     params:
         # path to STAR reference genome index
         idx=config["ref"]["index"] + "_star",
@@ -51,32 +51,71 @@ rule star_align:
     threads: 16
     resources: time_min=480, mem_mb=200000, cpus=16
     wrapper:
-        #"0.73.0/bio/star/align"
         f"{wrappers_version}/bio/star/align"
 
-rule symlink_bam:
+rule symlink_bam_pe:
     input:
-        "star/{trimmer}/{sample}.{unit}/Aligned.sortedByCoord.out.bam" 
+        "star/{trimmer}_pe/{sample}.{unit}/Aligned.sortedByCoord.out.bam" 
     output:
-        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+        "star/{trimmer}_pe/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
     threads: 1
     shell:
         """
         ln -s Aligned.sortedByCoord.out.bam {output}
         """
 
-rule samtools_index_star:
+rule samtools_index_star_pe:
     input:
-        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+        "star/{trimmer}_pe/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
     output:
-        "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
+        "star/{trimmer}_pe/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
     params:
         "" # optional params string
     resources: time_min=320, mem_mb=2000, cpus=1
     wrapper:
-        #"0.73.0/bio/samtools/index"
         f"{wrappers_version}/bio/samtools/index"
 
+rule star_align_se:
+    input:
+        fq1=get_trim_fastq1,
+        genomedir=directory(config["ref"]["index"] + "_star")
+    output:
+        # see STAR manual for additional output files
+        aln="star/{trimmer}_se/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
+        log="star/{trimmer}_se/{sample}.{unit}/Log.out",
+        sj="star/{trimmer}_se/{sample}.{unit}/ReadsPerGene.out.tab"
+    log:
+        "logs/star/{trimmer}/{sample}.{unit}.log"
+    params:
+        idx=config["ref"]["index"] + "_star",
+        extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
+              config["ref"]["annotation"], config["params"]["star"])
+    threads: 16
+    resources: time_min=480, mem_mb=200000, cpus=16
+    wrapper:
+        f"{wrappers_version}/bio/star/align"
+
+rule symlink_bam_se:
+    input:
+        "star/{trimmer}_se/{sample}.{unit}/Aligned.sortedByCoord.out.bam" 
+    output:
+        "star/{trimmer}_se/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+    threads: 1
+    shell:
+        """
+        ln -s Aligned.sortedByCoord.out.bam {output}
+        """
+
+rule samtools_index_star_se:
+    input:
+        "star/{trimmer}_se/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+    output:
+        "star/{trimmer}_se/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
+    params:
+        "" # optional params string
+    resources: time_min=320, mem_mb=2000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/samtools/index"
 
 ##################
 ##Hisat2 align
@@ -190,7 +229,7 @@ rule hisat2_align_pe:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "(hisat2 --threads {threads} -x {params.idx} {params.extra} -U {input.r1} | samtools view -Sbh -o {output}) 2> {log}"
+        "(hisat2 --threads {threads} -x {params.idx} {params.extra} -1 {input.r1} -2 {input.r2} | samtools view -Sbh -o {output}) 2> {log}"
 
 rule hisat2_align_se:
     input:

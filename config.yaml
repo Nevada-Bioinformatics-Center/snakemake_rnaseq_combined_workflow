@@ -18,7 +18,7 @@ ref:
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
   #aligners: "hisat2,star"
-  aligners: "hisat2"
+  aligners: "hisat2,star"
   trimmers: "fastp"
   pese: "pe"
   star: ""

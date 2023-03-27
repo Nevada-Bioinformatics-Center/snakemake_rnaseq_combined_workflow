@@ -161,7 +161,6 @@ rule fastqc_posttrim_r2:
     resources: time_min=320, mem_mb=20000, cpus=1
     threads: 1
     wrapper:
-        #"v0.75.0/bio/fastqc"
         f"{wrappers_version}/bio/fastqc"
 
 #rule fastqc_posttrim_r2:
@@ -275,33 +274,35 @@ rule multiqc_star_trimmomatic:
         f"{wrappers_version}/bio/multiqc"
         #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
-rule multiqc_star_fastp:
+rule multiqc_star_fastp_pe:
     input:
-        expand("star/fastp/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
-        "results/star/all.star.fastp.featureCounts.summary",
-        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
-        expand("qc/star/fastp/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
-        expand("qc/star/fastp/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
-        expand("qc/star/fastp/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
-        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
-        expand("report/fastp/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("star/fastp_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+        "results/star/all.star.fastp_pe.featureCounts.summary",
+        expand("report/fastp_pe/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_pe/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
-        "qc/multiqc_report_star_fastp.html"
+        "qc/multiqc_report_star_fastp_pe.html"
     log:
-        "logs/multiqc_star_fastp.log"
+        "logs/multiqc_star_fastp_pe.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
+
+rule multiqc_star_fastp_se:
+    input:
+        expand("star/fastp_se/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+        "results/star/all.star.fastp_se.featureCounts.summary",
+        expand("report/fastp_se/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_se/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_se/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_star_fastp_se.html"
+    log:
+        "logs/multiqc_star_fastp_se.log"
+    resources: time_min=320, mem_mb=20000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/multiqc"
 
 rule multiqc_star_trimgalore:
     input:
