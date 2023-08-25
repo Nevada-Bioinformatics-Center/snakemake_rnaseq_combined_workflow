@@ -20,9 +20,10 @@ rule star_index:
     params:
         #needed to change params below to build xenopus index
         #extra = "--limitGenomeGenerateRAM 60550893493 --genomeSAsparseD 3 --genomeSAindexNbases 12 -- genomeChrBinNbits 14"
-        extra = ""
+        #extra = ""
+        extra = "--limitGenomeGenerateRAM 128741722890",
     threads: 16
-    resources: time_min=480, mem_mb=40000, cpus=16
+    resources: time_min=480, mem_mb=129000, cpus=16
     log:
         "logs/star_index_genome.log"
     wrapper:
@@ -148,27 +149,9 @@ rule hisat2_extractsplicesites:
     shell:
         "hisat2_extract_splice_sites.py {input.gtf} > {output} 2> {log}"
 
-#rule hisat2_index_noexons:
-#    input:
-#        fasta = config["ref"]["genomefa"],
-#    output:
-#        directory(config["ref"]["index"] + "_hisat2")
-#    params:
-#        prefix = config["ref"]["index"] + "_hisat2/genome"
-#    log:
-#        "logs/hisat2_index_genome.log"
-#    threads: 16
-#    resources: time_min=480, mem_mb=200000, cpus=16
-#    conda:
-#        "../envs/hisat2.yaml"
-#    shell:
-#        "mkdir {output} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
-
-rule hisat2_index:
+rule hisat2_index_noexons:
     input:
         fasta = config["ref"]["genomefa"],
-        exons = "hisat2_prep/genome.exons",
-        ss = "hisat2_prep/genome.ss"
     output:
         directory(config["ref"]["index"] + "_hisat2")
     params:
@@ -180,7 +163,25 @@ rule hisat2_index:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "mkdir {output} && hisat2-build -p {threads} --ss {input.ss} --exon {input.exons} {input.fasta} {params.prefix} 2> {log}"
+        "mkdir {output} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+
+#rule hisat2_index:
+#    input:
+#        fasta = config["ref"]["genomefa"],
+#        exons = "hisat2_prep/genome.exons",
+#        ss = "hisat2_prep/genome.ss"
+#    output:
+#        directory(config["ref"]["index"] + "_hisat2")
+#    params:
+#        prefix = config["ref"]["index"] + "_hisat2/genome"
+#    log:
+#        "logs/hisat2_index_genome.log"
+#    threads: 16
+#    resources: time_min=480, mem_mb=200000, cpus=16
+#    conda:
+#        "../envs/hisat2.yaml"
+#    shell:
+#        "mkdir {output} && hisat2-build -p {threads} --ss {input.ss} --exon {input.exons} {input.fasta} {params.prefix} 2> {log}"
 
 
 rule hisat2_align:
