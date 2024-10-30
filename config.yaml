@@ -9,10 +9,10 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "chloromonas"
-  genomefa: "/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/transcriptome_2023/annotations/trinotate/chloromonas/trinity_out.Trinity.95.fasta"
+  index: "dmel6.6"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/dmel_r6.60_FB2024_05/dmel-all-chromosome-r6.60.fasta"
   # gtf file with transcripts
-  annotation: "/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/transcriptome_2023/annotations/trinotate/chloromonas/trinity_out.Trinity.95.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/dmel_r6.60_FB2024_05/dmel-all-r6.60.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
@@ -20,12 +20,12 @@ params:
   #aligners: "hisat2,star"
   aligners: "hisat2,star"
   trimmers: "fastp"
-  pese: "pe"
+  pese: "se"
   star: ""
   hisat2: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
-  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
+  featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id,transcript_symbol,gene_symbol"
   featurecountsse: "-t CDS -g transcript_id --extraAttributes gene_name,Dbxref,Name,gbkey,gene,inference,locus_tag,product,protein_id"
   featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes transcript_id"
   featurecountsmultifrac: "-p -M --fraction -t exon -g gene_id --extraAttributes transcript_id"

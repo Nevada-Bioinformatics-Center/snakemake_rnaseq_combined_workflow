@@ -1,7 +1,21 @@
-sample	unit	fq1	fq2
-CA	rep1	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CA.rep1.1.fastq.gz	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CA.rep1.2.fastq.gz
-CA	rep2	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CA.rep2.1.fastq.gz	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CA.rep2.2.fastq.gz
-CA	rep3	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CA.rep3.1.fastq.gz	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CA.rep3.2.fastq.gz
-CN	rep1	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CN.rep1.1.fastq.gz	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CN.rep1.2.fastq.gz
-CN	rep2	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CN.rep2.1.fastq.gz	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CN.rep2.2.fastq.gz
-CN	rep3	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CN.rep3.1.fastq.gz	/data/gpfs/assoc/inbre/projects/elisabeth_hausrath/rnaseq_chloromonas/snakemake_rnaseq_combined_workflow_TrinityAssembly/trimmed/fastp/CN.rep3.2.fastq.gz
+sample	unit	fq1
+0.15M_rGAL4_InRi_1	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.15M_rGAL4_InRi_1_R1_001.fastq.gz
+0.15M_rGAL4_InRi_2	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.15M_rGAL4_InRi_2_R1_001.fastq.gz
+0.15M_rGAL4_InRi_3	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.15M_rGAL4_InRi_3_R1_001.fastq.gz
+0.15M_rGAL4_w1118_1	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.15M_rGAL4_w1118_1_R1_001.fastq.gz
+0.15M_rGAL4_w1118_2	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.15M_rGAL4_w1118_2_R1_001.fastq.gz
+0.15M_rGAL4_w1118_3	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.15M_rGAL4_w1118_3_R1_001.fastq.gz
+0.7M_rGAL4_InRi_1	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.7M_rGAL4_InRi_1_R1_001.fastq.gz
+0.7M_rGAL4_InRi_2	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.7M_rGAL4_InRi_2_R1_001.fastq.gz
+0.7M_rGAL4_InRi_3	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.7M_rGAL4_InRi_3_R1_001.fastq.gz
+0.7M_rGAL4_w1118_1	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.7M_rGAL4_w1118_1_R1_001.fastq.gz
+0.7M_rGAL4_w1118_2	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.7M_rGAL4_w1118_2_R1_001.fastq.gz
+0.7M_rGAL4_w1118_3	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/0.7M_rGAL4_w1118_3_R1_001.fastq.gz
+UAS-InR-RNAi-2	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/UAS-InR-RNAi-2_S9_L001_R1_001.fastq.gz
+UAS-InR-RNAi-3	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/UAS-InR-RNAi-3_S10_L001_R1_001.fastq.gz
+UAS-InR-RNAi-4	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/UAS-InR-RNAi-4_S11_L001_R1_001.fastq.gz
+UAS-InR-RNAi-5	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/UAS-InR-RNAi-5_S12_L001_R1_001.fastq.gz
+W118-1	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/W118-1_S1_L001_R1_001.fastq.gz
+W118-2	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/W118-2_S2_L001_R1_001.fastq.gz
+W118-3	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/W118-3_S3_L001_R1_001.fastq.gz
+W118-5	rep1	/data/gpfs/assoc/inbre/projects/dennis_matthew/rnaseq_2021_withsuppdata/raw_seq/W118-5_S4_L001_R1_001.fastq.gz

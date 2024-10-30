@@ -295,7 +295,6 @@ rule multiqc_star_fastp_se:
         "results/star/all.star.fastp_se.featureCounts.summary",
         expand("report/fastp_se/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
         expand("qc/fastqc_posttrim/fastp_se/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/fastp_se/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
         "qc/multiqc_report_star_fastp_se.html"
     log:
