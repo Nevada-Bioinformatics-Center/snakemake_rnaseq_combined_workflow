@@ -9,8 +9,8 @@ units: units.tsv
 
 ref:
   # the star index location or genomefa to index
-  index: "dmel6.6"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/dmel_r6.60_FB2024_05/dmel-all-chromosome-r6.60.fasta"
+  index: "assembly_v1"
+  genomefa: "/data/gpfs/assoc/inbre/projects/allyson_hindle/genome_assembly_annotation/hifasm/first.asm.hic.hap1.p_ctg.fa"
   # gtf file with transcripts
   annotation: "/data/gpfs/assoc/inbre/projects/common_references/dmel_r6.60_FB2024_05/dmel-all-r6.60.gtf"
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
@@ -18,9 +18,9 @@ ref:
 params:
   ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
   #aligners: "hisat2,star"
-  aligners: "hisat2,star"
+  aligners: "hisat2"
   trimmers: "fastp"
-  pese: "se"
+  pese: "pe"
   star: ""
   hisat2: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"

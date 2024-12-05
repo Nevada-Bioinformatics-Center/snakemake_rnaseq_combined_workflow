@@ -419,10 +419,10 @@ rule multiqc_hisat2_fastp:
 
 rule multiqc_hisat2_fastp_nofct:
     input:
-        expand("hisat2/fastp/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
-        expand("report/fastp/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("hisat2/fastp_{pese}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), pese=pese),
+        expand("report/fastp_{pese}/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples(), pese=pese),
+        #expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        #expand("qc/fastqc_posttrim/fastp/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
         "qc/multiqc_report_hisat2_fastp_nofct.html"
     log:
