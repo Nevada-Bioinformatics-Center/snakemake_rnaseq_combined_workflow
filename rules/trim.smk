@@ -74,7 +74,7 @@ rule fastp_pe:
     params:
         #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
         adapters="--detect_adapter_for_pe",
-        extra=""
+        extra=config["params"]["fastp"]
     threads: 16
     resources: time_min=480, mem_mb=40000, cpus=16
     wrapper:
@@ -92,7 +92,7 @@ rule fastp_se:
         "logs/fastp_se/{sample}.{unit}.log"
     params:
         adapters="",
-        extra=""
+        extra=config["params"]["fastp"]
     threads: 16
     resources: time_min=480, mem_mb=40000, cpus=16
     wrapper:

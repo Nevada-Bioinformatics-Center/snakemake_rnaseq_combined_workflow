@@ -40,11 +40,11 @@ rule all:
     input:
         expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
         #expand("qc/multiqc_report_posttrim_{trimmer}.html", trimmer=trimmers),
-        #expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
-        expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
+        expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
+        #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
         #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
-        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
-        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
+        expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
+        expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
 
 
 include: "rules/qc.smk"

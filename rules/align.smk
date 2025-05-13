@@ -21,7 +21,7 @@ rule star_index:
         #needed to change params below to build xenopus index
         #extra = "--limitGenomeGenerateRAM 60550893493 --genomeSAsparseD 3 --genomeSAindexNbases 12 -- genomeChrBinNbits 14"
         #extra = ""
-        extra = "--limitGenomeGenerateRAM 128741722890",
+        extra = config["params"]["starindex"],
     threads: 16
     resources: time_min=480, mem_mb=129000, cpus=16
     log:
@@ -153,9 +153,11 @@ rule hisat2_index_noexons:
     input:
         fasta = config["ref"]["genomefa"],
     output:
-        directory(config["ref"]["index"] + "_hisat2")
+        #directory(config["ref"]["index"] + "_hisat2")
+        config["ref"]["index"] + "_hisat2/genome.1.ht2"
     params:
-        prefix = config["ref"]["index"] + "_hisat2/genome"
+        prefix = config["ref"]["index"] + "_hisat2/genome",
+        odir=config["ref"]["index"] + "_hisat2"
     log:
         "logs/hisat2_index_genome.log"
     threads: 16
@@ -163,7 +165,7 @@ rule hisat2_index_noexons:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "mkdir {output} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+        "mkdir {params.odir} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
 
 #rule hisat2_index:
 #    input:
