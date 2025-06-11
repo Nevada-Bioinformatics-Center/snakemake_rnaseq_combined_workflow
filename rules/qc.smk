@@ -447,4 +447,4 @@ rule multiqc_hisat2_trimgalore_pe:
         "logs/multiqc_hisat2_trimgalore_pe.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        f"{wrappers_version}/bio/multiqc"
+        "v7.0.0/bio/multiqc"
