@@ -105,25 +105,25 @@ rule featurecounts_onefile_star_pe_multifrac:
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
-rule featurecounts_onefile_hisat2:
-    input:
-        samples=expand("hisat2/{trimmer}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
-        annotation=config["ref"]["annotation"],
-        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
-    output:
-        multiext("results/hisat2/all.hisat2.{trimmer}",
-                 ".featureCounts",
-                 ".featureCounts.summary")
-    log:
-        "logs/hisat2/{trimmer}/featurecount_all.log"
-    params:
-        tmp_dir="",   # implicitly sets the --tmpDir flag
-        r_path="",    # implicitly sets the --Rpath flag
-        extra="-P {}".format(config["params"]["featurecounts"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
-    wrapper:
-        f"{wrappers_version}/bio/subread/featurecounts"
+#rule featurecounts_onefile_hisat2:
+#    input:
+#        samples=expand("hisat2/{trimmer}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
+#        annotation=config["ref"]["annotation"],
+#        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
+#    output:
+#        multiext("results/hisat2/all.hisat2.{trimmer}",
+#                 ".featureCounts",
+#                 ".featureCounts.summary")
+#    log:
+#        "logs/hisat2/{trimmer}/featurecount_all.log"
+#    params:
+#        tmp_dir="",   # implicitly sets the --tmpDir flag
+#        r_path="",    # implicitly sets the --Rpath flag
+#        extra="-P -B {}".format(config["params"]["featurecounts"])
+#    threads: 16
+#    resources: time_min=220, mem_mb=20000, cpus=16
+#    wrapper:
+#        f"{wrappers_version}/bio/subread/featurecounts"
 
 rule featurecounts_onefile_hisat2_se:
     input:

@@ -153,7 +153,7 @@ rule hisat2_index_noexons:
     input:
         fasta = config["ref"]["genomefa"],
     output:
-        #directory(config["ref"]["index"] + "_hisat2")
+        directory(config["ref"]["index"] + "_hisat2"),
         config["ref"]["index"] + "_hisat2/genome.1.ht2"
     params:
         prefix = config["ref"]["index"] + "_hisat2/genome",
@@ -165,7 +165,8 @@ rule hisat2_index_noexons:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "mkdir {params.odir} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+        #"mkdir {params.odir} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+        "hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
 
 #rule hisat2_index:
 #    input:
