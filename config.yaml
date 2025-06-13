@@ -8,21 +8,27 @@
 units: units.tsv
 
 ref:
-  # the star index location or genomefa to index
+  # name of index folder within the current directory
   index: "ASM692v2"
+  #genome fasta file to index
   genomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/GCF_000006925.2_ASM692v2_genomic.fna"
-  # gtf file with transcripts
+  #Transcriptomefa can be left blank unless using salmon
+  transcriptomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/cds_from_genomic.fna"
+  # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
   annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gff"
+  #DEPRECATED (unused)
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
-  ##Comma seperated list of aligners: Currnet options are star and hisat2. Only listing one will only run 1 aligner
-  #aligners: "hisat2,star"
-  aligners: "hisat2"
-  trimmers: "fastp"
+  ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
+  #aligners: "hisat2,star,salmon"
+  aligners: "hisat2,salmon"
+  ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
+  trimmers: "trimgalore"
+  ##Comma seperated list: Currnet options are pe or se (can't mix data types in a run)
   pese: "pe"
-  star: ""
+  star: "--limitBAMsortRAM 1148869324"
   fastp: "--trim_poly_g"
   starindex: "--genomeSAindexNbases 10"
   hisat2: ""
@@ -30,7 +36,7 @@ params:
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t CDS,rRNA -g gene_id --extraAttributes transcript_id,gene,gbkey,locus_tag,product,protein_id,note"
-  featurecounts: "-p -C -t CDS,rRNA,tRNA -g ID --extraAttributes Dbxref,Name,transcript_id,gene,gbkey,locus_tag,product,protein_id,Note"
+  featurecounts: "-p -B -C -t CDS,rRNA,tRNA -g ID --extraAttributes Dbxref,Name,transcript_id,gene,gbkey,locus_tag,product,protein_id,Note"
   featurecountsse: "-t CDS -g transcript_id --extraAttributes gene_name,Dbxref,Name,gbkey,gene,inference,locus_tag,product,protein_id"
   #featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes transcript_id"
   #featurecountsmultifrac: "-p -M --fraction -t exon -g gene_id --extraAttributes transcript_id"

@@ -98,15 +98,14 @@ rule fastp_se:
     wrapper:
         f"{wrappers_version}/bio/fastp"
 
-##NOT WORKING YET
 rule trim_galore_pe:
     input:
         get_fastq
     output:
-        "trimmed/trimgalore/{sample}.{unit}.1.fastq.gz",
-        "trimmed/trimgalore/{sample}.{unit}.1.fastq.gz_trimming_report.txt",
-        "trimmed/trimgalore/{sample}.{unit}.2.fastq.gz",
-        "trimmed/trimgalore/{sample}.{unit}.2.fastq.gz_trimming_report.txt",
+        fasta_fwd="trimmed/trimgalore_pe/{sample}.{unit}.1.fastq.gz",
+        report_fwd="trimmed/trimgalore_pe/{sample}.{unit}.1_trimming_report.txt",
+        fasta_rev="trimmed/trimgalore_pe/{sample}.{unit}.2.fastq.gz",
+        report_rev="trimmed/trimgalore_pe/{sample}.{unit}.2_trimming_report.txt",
     params:
         extra="--illumina -q 20",
     log:
@@ -114,4 +113,19 @@ rule trim_galore_pe:
     threads: 16
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
-        f"{wrappers_version}/bio/trim_galore/pe"
+        "v6.2.0/bio/trim_galore/pe"
+
+rule trim_galore_se:
+    input:
+        get_fastq
+    output:
+        fasta="trimmed/trimgalore_se/{sample}.{unit}.1.fastq.gz",
+        report="trimmed/trimgalore_se/{sample}.{unit}.1_trimming_report.txt",
+    params:
+        extra="--illumina -q 20",
+    log:
+        "logs/trimgalore/{sample}.{unit}.log",
+    threads: 16
+    resources: time_min=480, mem_mb=20000, cpus=16
+    wrapper:
+        "v6.2.0/bio/trim_galore/se"

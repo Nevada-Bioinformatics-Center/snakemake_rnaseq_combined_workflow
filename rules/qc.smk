@@ -114,10 +114,9 @@ rule fastqc_pretrim_r1:
     params: ""
     log:
         "logs/fastqc_pretrim/{sample}.{unit}_r1.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: time_min=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
-        #"v0.75.0/bio/fastqc"
         f"{wrappers_version}/bio/fastqc"
 
 rule fastqc_pretrim_r2:
@@ -129,10 +128,9 @@ rule fastqc_pretrim_r2:
     params: ""
     log:
         "logs/fastqc_pretrim/{sample}.{unit}_r2.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: time_min=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
-        #"v0.75.0/bio/fastqc"
         f"{wrappers_version}/bio/fastqc"
 
 rule fastqc_posttrim_r1:
@@ -144,7 +142,7 @@ rule fastqc_posttrim_r1:
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r1.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: time_min=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
         f"{wrappers_version}/bio/fastqc"
@@ -158,7 +156,7 @@ rule fastqc_posttrim_r2:
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r2.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: time_min=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
         f"{wrappers_version}/bio/fastqc"
@@ -212,9 +210,7 @@ rule multiqc_post_trimmomatic:
         "logs/multiqc_posttrim_trimmomatic.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_fastp:
     input:
@@ -227,9 +223,7 @@ rule multiqc_post_fastp:
         "logs/multiqc_posttrim_fastp.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_post_trimgalore:
     input:
@@ -242,9 +236,7 @@ rule multiqc_post_trimgalore:
         "logs/multiqc_posttrim_trimgalore.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_trimmomatic:
     input:
@@ -270,9 +262,7 @@ rule multiqc_star_trimmomatic:
         "logs/multiqc_star_trimmomatic.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_star_fastp_pe:
     input:
@@ -303,32 +293,20 @@ rule multiqc_star_fastp_se:
     wrapper:
         f"{wrappers_version}/bio/multiqc"
 
-rule multiqc_star_trimgalore:
+rule multiqc_star_trimgalore_pe:
     input:
-        expand("star/trimgalore/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
-        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
-        "results/star/all.star.trimgalore.featureCounts.summary",
-        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
-        expand("qc/star/trimgalore/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
-        expand("qc/star/trimgalore/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
-        expand("qc/star/trimgalore/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
-        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
-        expand("logs/trimgalore/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("star/trimgalore_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples()),
+        "results/star/all.star.trimgalore_pe.featureCounts.summary",
+        expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.1_trimming_report.txt", unit=units.itertuples()),
+        expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.2_trimming_report.txt", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
-        "qc/multiqc_report_star_trimgalore.html"
+        "qc/multiqc_report_star_trimgalore_pe.html"
     log:
-        "logs/multiqc_star_trimgalore.log"
+        "logs/multiqc_star_trimgalore_pe.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
 
 rule multiqc_hisat2_trimmomatic:
@@ -355,8 +333,7 @@ rule multiqc_hisat2_trimmomatic:
         "logs/multiqc_hisat2_trimmomatic.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
-        f"{WRAPPER_PREFIX}/master/bio/multiqc"
+        f"{wrappers_version}/bio/multiqc"
 
 rule multiqc_hisat2_fastp_se:
     input:
@@ -413,9 +390,7 @@ rule multiqc_hisat2_fastp:
         "logs/multiqc_hisat2_fastp.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        ##"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
 rule multiqc_hisat2_fastp_nofct:
     input:
@@ -429,34 +404,36 @@ rule multiqc_hisat2_fastp_nofct:
         "logs/multiqc_hisat2_fastp_nofct.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        ##"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
 
-rule multiqc_hisat2_trimgalore:
+rule multiqc_hisat2_trimgalore_pe:
     input:
-        expand("hisat2/trimgalore/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
-        #expand("results/featureCounts/{unit.sample}-{unit.unit}.featureCounts.summary", unit=units.itertuples()),
-        "results/hisat2/all.hisat2.trimgalore.featureCounts.summary",
-        #expand("stats/{unit.sample}-{unit.unit}.isize.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionanno.junction.bed", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.junctionsat.junctionSaturation_plot.pdf", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.infer_experiment.txt", unit=units.itertuples()),
-        expand("qc/hisat2/trimgalore/rseqc/{unit.sample}.{unit.unit}.stats.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.inner_distance_freq.inner_distance.txt", unit=units.itertuples()),
-        #expand("qc/rseqc/{unit.sample}-{unit.unit}.readdistribution.txt", unit=units.itertuples()),
-        expand("qc/hisat2/trimgalore/rseqc/{unit.sample}.{unit.unit}.readdup.DupRate_plot.pdf", unit=units.itertuples()),
-        expand("qc/hisat2/trimgalore/rseqc/{unit.sample}.{unit.unit}.readgc.GC_plot.pdf", unit=units.itertuples()),
-        #expand("logs/rseqc/rseqc_junction_annotation/{unit.sample}-{unit.unit}.log", unit=units.itertuples()),
-        expand("logs/trimgalore/{unit.sample}.{unit.unit}.log", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
-        expand("qc/fastqc_posttrim/trimgalore/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+        expand("hisat2/trimgalore_pe/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples()),
+        "results/hisat2/all.hisat2.trimgalore_pe.featureCounts.summary",
+        expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.1_trimming_report.txt", unit=units.itertuples()),
+        expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.2_trimming_report.txt", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
     output:
-        "qc/multiqc_report_hisat2_trimgalore.html"
+        "qc/multiqc_report_hisat2_trimgalore_pe.html"
     log:
-        "logs/multiqc_hisat2_trimgalore.log"
+        "logs/multiqc_hisat2_trimgalore_pe.log"
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
-        #"0.84.0/bio/multiqc"
         f"{wrappers_version}/bio/multiqc"
-        #f"{WRAPPER_PREFIX}/master/bio/multiqc"
+
+rule multiqc_salmon_trimgalore_pe:
+    input:
+        expand("salmon/trimgalore_pe/{unit.sample}.{unit.unit}/", unit=units.itertuples()),
+        expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.1_trimming_report.txt", unit=units.itertuples()),
+        expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.2_trimming_report.txt", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_salmon_trimgalore_pe.html"
+    log:
+        "logs/multiqc_salmon_trimgalore_pe.log"
+    resources: time_min=320, mem_mb=20000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/multiqc"
+

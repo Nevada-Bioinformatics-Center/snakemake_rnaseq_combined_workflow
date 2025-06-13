@@ -153,7 +153,7 @@ rule hisat2_index_noexons:
     input:
         fasta = config["ref"]["genomefa"],
     output:
-        #directory(config["ref"]["index"] + "_hisat2")
+        directory(config["ref"]["index"] + "_hisat2"),
         config["ref"]["index"] + "_hisat2/genome.1.ht2"
     params:
         prefix = config["ref"]["index"] + "_hisat2/genome",
@@ -165,7 +165,8 @@ rule hisat2_index_noexons:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "mkdir {params.odir} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+        #"mkdir {params.odir} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
+        "hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
 
 #rule hisat2_index:
 #    input:
@@ -314,4 +315,109 @@ rule samtools_index_hisat2:
     wrapper:
         #"0.73.0/bio/samtools/index"
         f"{wrappers_version}/bio/samtools/index"
+
+##Salmon Section
+rule salmon_index:
+    input:
+        sequences=config["ref"]["transcriptomefa"],
+    output:
+        multiext(
+            "salmon/transcriptome_index/",
+            "complete_ref_lens.bin",
+            "ctable.bin",
+            "ctg_offsets.bin",
+            "duplicate_clusters.tsv",
+            "info.json",
+            "mphf.bin",
+            "pos.bin",
+            "pre_indexing.log",
+            "rank.bin",
+            "refAccumLengths.bin",
+            "ref_indexing.log",
+            "reflengths.bin",
+            "refseq.bin",
+            "seq.bin",
+            "versionInfo.json",
+        ),
+        idxdir=directory("salmon/transcriptome_index"),
+    log:
+        "logs/salmon/transcriptome_index.log",
+    threads: 16
+    resources: time_min=320, mem_mb=40000, cpus=16
+    params:
+        # optional parameters
+        extra="",
+    wrapper:
+        f"{wrappers_version}/bio/salmon/index"
+
+
+rule salmon_quant_reads_pe:
+    input:
+        r1="trimmed/{trimmer}_pe/{sample}.{unit}.1.fastq.gz",
+        r2="trimmed/{trimmer}_pe/{sample}.{unit}.2.fastq.gz",
+        index="salmon/transcriptome_index",
+    output:
+        quant="salmon/{trimmer}_pe/{sample}.{unit}/quant.sf",
+        lib="salmon/{trimmer}_pe/{sample}.{unit}/lib_format_counts.json",
+        dirout=directory("salmon/{trimmer}_pe/{sample}.{unit}/"),
+    log:
+        "logs/salmon/{trimmer}_pe/{sample}.{unit}.log",
+    params:
+        # optional parameters
+        libtype="A",
+        extra="--gcBias",
+    threads: 16
+    resources: time_min=320, mem_mb=40000, cpus=16
+    wrapper:
+        f"{wrappers_version}/bio/salmon/quant"
+
+rule salmon_quant_reads_se:
+    input:
+        r="trimmed/{trimmer}_se/{sample}.{unit}.1.fastq.gz",
+        index="salmon/transcriptome_index/",
+    output:
+        quant="salmon/{trimmer}_se/{sample}.{unit}/quant.sf",
+        lib="salmon/{trimmer}_se/{sample}.{unit}/lib_format_counts.json",
+        dirout=directory("salmon/{trimmer}_se/{sample}.{unit}/"),
+    log:
+        "logs/salmon/{trimmer}_se/{sample}.{unit}.log",
+    params:
+        # optional parameters
+        libtype="A",
+        extra="--gcBias",
+    threads: 16
+    resources: time_min=320, mem_mb=40000, cpus=16
+    wrapper:
+        f"{wrappers_version}/bio/salmon/quant"
+
+#rule symlink_salmon_quants:
+#    input:
+#        quant="salmon/{trimmer}_{pese}/{sample}.{unit}/quant.sf",
+#        lib="salmon/{trimmer}_{pese}/{sample}.{unit}/lib_format_counts.json",
+#    output:
+#        quant="salmon/{trimmer}_{pese}/{sample}.{unit}/{sample}.{unit}.quant.sf",
+#        lib="salmon/{trimmer}_{pese}/{sample}.{unit}/{sample}.{unit}.lib_format_counts.json",
+#    params:
+#        #quant="{sample}.{unit}.quant.sf",
+#        #lib="{sample}.{unit}.lib_format_counts.json",
+#        quant="../../../salmon/{trimmer}_{pese}/{sample}.{unit}/quant.sf",
+#        lib="../../../salmon/{trimmer}_{pese}/{sample}.{unit}/lib_format_counts.json",
+#    threads: 1
+#    resources: time_min=320, mem_mb=2000, cpus=1
+#    shell:
+#        "ln -s {params.quant} {output.quant} && ln -s {params.lib} {output.lib}"
+
+
+rule salmon_merge_quants:
+    input:
+        quant=expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/", trimmer=trimmers, pese=pese, unit=units.itertuples())
+    output:
+        "salmon/{trimmer}_{pese}/merged_quant.tsv",
+    threads: 1
+    resources: time_min=320, mem_mb=20000, cpus=1
+    conda: "../envs/salmon.yaml"
+    log:
+        "logs/salmon/{trimmer}_{pese}/merge_quant.log",
+    shell:
+        "salmon quantmerge --quants {input.quant} -o {output} 2> {log}"
 
