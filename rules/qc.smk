@@ -436,4 +436,3 @@ rule multiqc_salmon_trimgalore_pe:
     resources: time_min=320, mem_mb=20000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/multiqc"
-

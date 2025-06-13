@@ -10,7 +10,6 @@ units: units.tsv
 ref:
   # name of index folder within the current directory
   index: "ASM692v2"
-  #genome fasta file to index
   genomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/GCF_000006925.2_ASM692v2_genomic.fna"
   #Transcriptomefa can be left blank unless using salmon
   transcriptomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/cds_from_genomic.fna"
