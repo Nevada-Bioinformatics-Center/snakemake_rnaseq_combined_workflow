@@ -111,9 +111,9 @@ rule trim_galore_pe:
     log:
         "logs/trimgalore/{sample}.{unit}.log",
     threads: 16
-    resources: time_min=480, mem_mb=20000, cpus=16
+    resources: time_min=480, mem_mb=50000, cpus=16
     wrapper:
-        "v6.2.0/bio/trim_galore/pe"
+        f"{wrappers_version}/bio/trim_galore/pe"
 
 rule trim_galore_se:
     input:
@@ -126,6 +126,6 @@ rule trim_galore_se:
     log:
         "logs/trimgalore/{sample}.{unit}.log",
     threads: 16
-    resources: time_min=480, mem_mb=20000, cpus=16
+    resources: time_min=480, mem_mb=50000, cpus=16
     wrapper:
-        "v6.2.0/bio/trim_galore/se"
+        f"{wrappers_version}/bio/trim_galore/se"

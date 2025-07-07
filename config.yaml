@@ -9,33 +9,33 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "ASM692v2"
-  genomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/GCF_000006925.2_ASM692v2_genomic.fna"
+  index: "ATL_v3"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.asm.fa"
   #Transcriptomefa can be left blank unless using salmon
   transcriptomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/cds_from_genomic.fna"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gff"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.gff3"
   #DEPRECATED (unused)
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "hisat2,salmon"
+  aligners: "hisat2,star"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
-  trimmers: "trimgalore"
+  trimmers: "trimgalore,fastp"
   ##Comma seperated list: Currnet options are pe or se (can't mix data types in a run)
   pese: "pe"
-  star: "--limitBAMsortRAM 1148869324"
+  star: ""
   fastp: "--trim_poly_g"
-  starindex: "--genomeSAindexNbases 10"
+  starindex: ""
   hisat2: ""
   hisat2index: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t CDS,rRNA -g gene_id --extraAttributes transcript_id,gene,gbkey,locus_tag,product,protein_id,note"
-  featurecounts: "-p -B -C -t CDS,rRNA,tRNA -g ID --extraAttributes Dbxref,Name,transcript_id,gene,gbkey,locus_tag,product,protein_id,Note"
+  featurecounts: "-p -B -C -t exon -g Parent"
   featurecountsse: "-t CDS -g transcript_id --extraAttributes gene_name,Dbxref,Name,gbkey,gene,inference,locus_tag,product,protein_id"
   #featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes transcript_id"
   #featurecountsmultifrac: "-p -M --fraction -t exon -g gene_id --extraAttributes transcript_id"

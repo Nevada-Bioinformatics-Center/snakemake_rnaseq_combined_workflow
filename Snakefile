@@ -14,9 +14,9 @@ WRAPPER_PREFIX='https://raw.githubusercontent.com/hans-vg/snakemake-wrappers'
 configfile: "config.yaml"
 
 wildcard_constraints:
-    sample="[\w\\-\\.]+",
-    unit="rep\d+",
-    trimmer="[a-z]+"
+    sample=r"[\w\\-\\.]+",
+    unit=r"rep\d+",
+    trimmer=r"[a-z]+"
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index

@@ -204,7 +204,7 @@ rule hisat2_align:
         idx=config["ref"]["index"] + "_hisat2/genome",
     threads: 16
     wildcard_constraints:
-        unit="rep\d+"
+        unit=r"rep\d+"
     resources: time_min=480, mem_mb=40000, cpus=16
     conda:
         "../envs/hisat2.yaml"
@@ -228,7 +228,7 @@ rule hisat2_align_pe:
         idx=config["ref"]["index"] + "_hisat2/genome",
     threads: 16
     wildcard_constraints:
-        unit="rep\d+"
+        unit=r"rep\d+"
     resources: time_min=480, mem_mb=40000, cpus=16
     conda:
         "../envs/hisat2.yaml"
@@ -251,7 +251,7 @@ rule hisat2_align_se:
         idx=config["ref"]["index"] + "_hisat2/genome",
     threads: 16
     wildcard_constraints:
-        unit="rep\d+"
+        unit=r"rep\d+"
     resources: time_min=480, mem_mb=40000, cpus=16
     conda:
         "../envs/hisat2.yaml"
@@ -268,7 +268,7 @@ rule sambamba_sort_se:
     params: ""
     threads: 16 
     wildcard_constraints:
-        unit="rep\d+"
+        unit=r"rep\d+"
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
@@ -283,7 +283,7 @@ rule sambamba_sort_pe:
     params: ""
     threads: 16 
     wildcard_constraints:
-        unit="rep\d+"
+        unit=r"rep\d+"
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
@@ -298,7 +298,7 @@ rule sambamba_sort:
     params: ""
     threads: 16 
     wildcard_constraints:
-        unit="rep\d+"
+        unit=r"rep\d+"
     resources: time_min=480, mem_mb=20000, cpus=16
     wrapper:
         #"0.74.0/bio/sambamba/sort"
