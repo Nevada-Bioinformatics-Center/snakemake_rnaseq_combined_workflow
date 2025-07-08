@@ -22,9 +22,9 @@ ref:
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "hisat2,star"
+  aligners: "star"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
-  trimmers: "trimgalore,fastp"
+  trimmers: "fastp,trimgalore"
   ##Comma seperated list: Currnet options are pe or se (can't mix data types in a run)
   pese: "pe"
   star: ""

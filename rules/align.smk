@@ -50,7 +50,7 @@ rule star_align_pe:
         extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
     threads: 16
-    resources: time_min=480, mem_mb=200000, cpus=16
+    resources: time_min=480, mem_mb=50000, cpus=16
     wrapper:
         f"{wrappers_version}/bio/star/align"
 

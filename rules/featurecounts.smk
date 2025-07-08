@@ -63,29 +63,53 @@ rule featurecounts_onefile_star_se:
 #    wrapper:
 #        f"{wrappers_version}/bio/subread/featurecounts"
 
+#rule featurecounts_onefile_star_pe:
+#    input:
+#        #lambda wildcards: samples=expand(
+#        #    "star/{trimmer}_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam",
+#        #    unit=units.itertuples(),
+#        #    trimmer=wildcards.trimmer
+#        #),
+#        samples=expand(
+#            "star/{trimmer}_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam",
+#            unit=units.itertuples(),
+#            trimmer=wildcards.trimmer
+#        ),
+#        annotation=config["ref"]["annotation"],
+#        fasta=config["ref"]["genomefa"]
+#    output:
+#        multiext("results/star/all.star.{trimmer}_pe", ".featureCounts", ".featureCounts.summary")
+#    log:
+#        "logs/star/{trimmer}/featurecount_all_pe.log"
+#    params:
+#        tmp_dir="",
+#        r_path="",
+#        extra=config["params"]["featurecounts"]
+#    threads: 16
+#    resources:
+#        time_min=220,
+#        mem_mb=20000,
+#        cpus=16
+#    wrapper:
+#        f"{wrappers_version}/bio/subread/featurecounts"
+
 rule featurecounts_onefile_star_pe:
     input:
-        lambda wildcards: expand(
-            "star/{trimmer}_pe/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",
-            sample=[u.sample for u in units],
-            unit=[u.unit for u in units],
-            trimmer=wildcards.trimmer
-        ),
+        samples=lambda wildcards: expand("star/{trimmer}_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=wildcards.trimmer),
         annotation=config["ref"]["annotation"],
-        fasta=config["ref"]["genomefa"]
+        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
     output:
-        multiext("results/star/all.star.{trimmer}_pe", ".featureCounts", ".featureCounts.summary")
+        multiext("results/star/all.star.{trimmer}_pe",
+                 ".featureCounts",
+                 ".featureCounts.summary")
     log:
         "logs/star/{trimmer}/featurecount_all_pe.log"
     params:
-        tmp_dir="",
-        r_path="",
-        extra=config["params"]["featurecounts"]
+        tmp_dir="",   # implicitly sets the --tmpDir flag
+        r_path="",    # implicitly sets the --Rpath flag
+        extra="{}".format(config["params"]["featurecounts"])
     threads: 16
-    resources:
-        time_min=220,
-        mem_mb=20000,
-        cpus=16
+    resources: time_min=220, mem_mb=20000, cpus=16
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
@@ -194,9 +218,8 @@ rule featurecounts_onefile_hisat2_se:
 rule featurecounts_onefile_hisat2_pe:
     input:
         lambda wildcards: expand(
-            "hisat2/{trimmer}_pe/{sample}.{unit}.sorted.bam",
-            sample=[u.sample for u in units],
-            unit=[u.unit for u in units],
+            "hisat2/{trimmer}_pe/{unit.sample}.{unit.unit}.sorted.bam",
+            unit=units.itertuples(),
             trimmer=wildcards.trimmer
         ),
         annotation=config["ref"]["annotation"],
