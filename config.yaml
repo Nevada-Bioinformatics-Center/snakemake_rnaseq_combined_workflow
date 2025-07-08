@@ -28,8 +28,10 @@ params:
   ##Comma seperated list: Currnet options are pe or se (can't mix data types in a run)
   pese: "pe"
   star: ""
-  fastp: "--trim_poly_g"
   starindex: ""
+  ## Amount of RAM for alingment (default 50000 which is 50GB of RAM)
+  starram: "75000"
+  fastp: "--trim_poly_g"
   hisat2: ""
   hisat2index: ""
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
