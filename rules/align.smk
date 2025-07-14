@@ -35,7 +35,7 @@ rule star_align_pe:
     input:
         fq1=get_trim_fastq1,
         fq2=get_trim_fastq2,
-        genomedir=directory(config["ref"]["index"] + "_star")
+        genomedir=config["ref"]["index"] + "_star"
     output:
         # see STAR manual for additional output files
         aln="star/{trimmer}_pe/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
@@ -79,7 +79,7 @@ rule samtools_index_star_pe:
 rule star_align_se:
     input:
         fq1=get_trim_fastq1,
-        genomedir=directory(config["ref"]["index"] + "_star")
+        genomedir=config["ref"]["index"] + "_star"
     output:
         # see STAR manual for additional output files
         aln="star/{trimmer}_se/{sample}.{unit}/Aligned.sortedByCoord.out.bam",
@@ -408,16 +408,16 @@ rule salmon_quant_reads_se:
 #        "ln -s {params.quant} {output.quant} && ln -s {params.lib} {output.lib}"
 
 
-rule salmon_merge_quants:
-    input:
-        quant=expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/", trimmer=trimmers, pese=pese, unit=units.itertuples())
-    output:
-        "salmon/{trimmer}_{pese}/merged_quant.tsv",
-    threads: 1
-    resources: time_min=320, mem_mb=20000, cpus=1
-    conda: "../envs/salmon.yaml"
-    log:
-        "logs/salmon/{trimmer}_{pese}/merge_quant.log",
-    shell:
-        "salmon quantmerge --quants {input.quant} -o {output} 2> {log}"
+#rule salmon_merge_quants:
+#    input:
+#        quant=expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/", trimmer=trimmers, pese=pese, unit=units.itertuples())
+#    output:
+#        "salmon/{trimmer}_{pese}/merged_quant.tsv",
+#    threads: 1
+#    resources: time_min=320, mem_mb=20000, cpus=1
+#    conda: "../envs/salmon.yaml"
+#    log:
+#        "logs/salmon/{trimmer}_{pese}/merge_quant.log",
+#    shell:
+#        "salmon quantmerge --quants {input.quant} -o {output} 2> {log}"
 

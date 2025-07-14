@@ -9,10 +9,10 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "ATL_v3"
+  index: "drosophila"
   genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.asm.fa"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/cds_from_genomic.fna"
+  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/GCF_000001215.4_drosophila/rna.fna"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
   annotation: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.gff3"
@@ -22,9 +22,9 @@ ref:
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "star"
+  aligners: "salmon"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
-  trimmers: "fastp,trimgalore"
+  trimmers: "trimgalore"
   ##Comma seperated list: Currnet options are pe or se (can't mix data types in a run)
   pese: "pe"
   star: ""

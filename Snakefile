@@ -14,7 +14,7 @@ WRAPPER_PREFIX='https://raw.githubusercontent.com/hans-vg/snakemake-wrappers'
 configfile: "config.yaml"
 
 wildcard_constraints:
-    sample=r"[\w\\-\\.]+",
+    sample=r"[\w\.-]+",
     unit=r"rep\d+",
     trimmer=r"[a-z]+"
 
@@ -41,7 +41,8 @@ rule all:
         expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
         expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
         (
-            expand("salmon/{trimmer}_{pese}/merged_quant.tsv", trimmer=trimmers, pese=pese)
+            #expand("salmon/{trimmer}_{pese}/merged_quant.tsv", trimmer=trimmers, pese=pese)
+            expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf", trimmer=trimmers, pese=pese, unit=units.itertuples())
             if "salmon" in aligners else []
         )
         #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),

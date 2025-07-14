@@ -422,9 +422,23 @@ rule multiqc_hisat2_trimgalore_pe:
     wrapper:
         f"{wrappers_version}/bio/multiqc"
 
+rule multiqc_salmon_fastp_pe:
+    input:
+        expand("salmon/fastp_pe/{unit.sample}.{unit.unit}/quant.sf", unit=units.itertuples()),
+        expand("report/fastp_pe/{unit.sample}.{unit.unit}.fastp.json", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
+        expand("qc/fastqc_posttrim/fastp_pe/{unit.sample}.{unit.unit}_r2_fastqc.zip", unit=units.itertuples())
+    output:
+        "qc/multiqc_report_salmon_fastp_pe.html"
+    log:
+        "logs/multiqc_salmon_fastp_pe.log"
+    resources: time_min=320, mem_mb=20000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/multiqc"
+
 rule multiqc_salmon_trimgalore_pe:
     input:
-        expand("salmon/trimgalore_pe/{unit.sample}.{unit.unit}/", unit=units.itertuples()),
+        expand("salmon/trimgalore_pe/{unit.sample}.{unit.unit}/quant.sf", unit=units.itertuples()),
         expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.1_trimming_report.txt", unit=units.itertuples()),
         expand("trimmed/trimgalore_pe/{unit.sample}.{unit.unit}.2_trimming_report.txt", unit=units.itertuples()),
         expand("qc/fastqc_posttrim/trimgalore_pe/{unit.sample}.{unit.unit}_r1_fastqc.zip", unit=units.itertuples()),
