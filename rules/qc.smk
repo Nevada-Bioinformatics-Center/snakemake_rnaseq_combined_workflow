@@ -9,6 +9,7 @@ def get_fastq2(wildcards):
     fq2 = units.loc[(wildcards.sample, wildcards.unit), ["fq2"]].dropna()
     return fq2
 
+
 rule rseqc_stat_star:
     input:
         "star/{trimmer}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam",

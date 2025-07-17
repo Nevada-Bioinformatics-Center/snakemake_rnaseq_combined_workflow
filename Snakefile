@@ -44,9 +44,9 @@ rule all:
             #expand("salmon/{trimmer}_{pese}/merged_quant.tsv", trimmer=trimmers, pese=pese)
             expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf", trimmer=trimmers, pese=pese, unit=units.itertuples())
             if "salmon" in aligners else []
-        )
+        ),
+        expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
         #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
-        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
         #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
         #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
 
