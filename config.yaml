@@ -9,20 +9,20 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "AstyMex3_surface"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/AstyMex3_surface/GCF_023375975.1_AstMex3_surface_genomic.withmito.fna"
+  index: "ATL_v3"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.asm.fa"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/GCF_000001215.4_drosophila/rna.fna"
+  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.cds.fa"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/AstyMex3_surface/GCF_023375975.1_AstMex3_surface_genomic.filtered.withmito.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.gff3"
   #DEPRECATED (unused)
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "star,hisat2"
+  aligners: "star,hisat2,salmon"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
   trimmers: "fastp,trimgalore"
   ##Comma seperated list: Currnet options are pe or se (can't mix data types in a run)
@@ -30,14 +30,17 @@ params:
   star: ""
   starindex: ""
   ## Amount of RAM for alingment (default 50000 which is 50GB of RAM)
-  starram: "100000"
+  starram: "150000"
+  sambambaram: "100000"
   fastp: "--trim_poly_g"
   hisat2: ""
   hisat2index: ""
+  hisat2ram: "150000"
+  salmonram: "50000"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t CDS,rRNA -g gene_id --extraAttributes transcript_id,gene,gbkey,locus_tag,product,protein_id,note"
-  featurecounts: "-p -B -C -t exon -g gene_id --extraAttributes transcript_id,db_xref,gene,gbkey,model_evidence,product,transcript_biotype"
+  featurecounts: "-p -B -C -t exon -g Parent"
   featurecountsse: "-t CDS -g transcript_id --extraAttributes gene_name,Dbxref,Name,gbkey,gene,inference,locus_tag,product,protein_id"
   #featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes transcript_id"
   #featurecountsmultifrac: "-p -M --fraction -t exon -g gene_id --extraAttributes transcript_id"

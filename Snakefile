@@ -35,20 +35,43 @@ def strip_suffix(pattern, suffix):
 
 wrappers_version="v7.0.0"
 
+# Build input file lists conditionally before rule
+multiqc_pretrim = expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese)
+
+aligner_inputs = []
+if "salmon" not in aligners:
+    aligner_inputs = expand(
+        cwd + "/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts",
+        aligner=aligners, trimmer=trimmers, pese=pese
+    )
+
+salmon_inputs = []
+if "salmon" in aligners:
+    salmon_inputs = expand(
+        "salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf",
+        trimmer=trimmers, pese=pese, unit=units.itertuples()
+    )
+
 ##### target rules #####
 rule all:
     input:
-        expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
+        multiqc_pretrim,
         expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
-        (
-            #expand("salmon/{trimmer}_{pese}/merged_quant.tsv", trimmer=trimmers, pese=pese)
-            expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf", trimmer=trimmers, pese=pese, unit=units.itertuples())
-            if "salmon" in aligners else []
-        ),
-        expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
-        #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
-        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
-        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
+        aligner_inputs,
+        salmon_inputs
+#        expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
+#        (
+#            expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
+#            expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
+#            if "salmon" not in aligners else []
+#        ),
+#        (
+#            expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf", trimmer=trimmers, pese=pese, unit=units.itertuples())
+#            if "salmon" in aligners else []
+#        ),
+#        #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
+#        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
+#        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
 
 
 include: "rules/qc.smk"
