@@ -20,9 +20,21 @@ wildcard_constraints:
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
+has_fq2 = units["fq2"].notna() & (units["fq2"] != "")
+
+if has_fq2.all():
+    pese = "pe"
+elif (~has_fq2).all():
+    pese = "se"
+else:
+    raise ValueError(
+        "Mixed single-end and paired-end samples detected in units.tsv.  "
+        "Either every row needs BOTH fq1+fq2 (for PE) or NONE should have fq2 (for SE)."
+    )
+
+
 aligners=config["params"]["aligners"].split(",")
 trimmers=config["params"]["trimmers"].split(",")
-pese=config["params"]["pese"]
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
 print("PE/SE mode:", pese)
@@ -59,19 +71,6 @@ rule all:
         expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
         aligner_inputs,
         salmon_inputs
-#        expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
-#        (
-#            expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
-#            expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
-#            if "salmon" not in aligners else []
-#        ),
-#        (
-#            expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf", trimmer=trimmers, pese=pese, unit=units.itertuples())
-#            if "salmon" in aligners else []
-#        ),
-#        #expand("qc/multiqc_report_{aligner}_{trimmer}_nofct.html", aligner=aligners, trimmer=trimmers),
-#        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
-#        #expand(cwd+"/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts", aligner=aligners, trimmer=trimmers, pese=pese),
 
 
 include: "rules/qc.smk"

@@ -22,8 +22,8 @@ rule star_index:
         #extra = "--limitGenomeGenerateRAM 60550893493 --genomeSAsparseD 3 --genomeSAindexNbases 12 -- genomeChrBinNbits 14"
         #extra = ""
         extra = config["params"]["starindex"],
-    threads: 16
-    resources: time_min=480, mem_mb=120000, cpus=16
+    threads: config["params"]["starcpu"]
+    resources: time_min=480, mem_mb=120000, cpus=config["params"]["starcpu"]
     log:
         "logs/star_index_genome.log"
     wrapper:
@@ -49,8 +49,8 @@ rule star_align_pe:
         # optional parameters
         extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
-    threads: 16
-    resources: time_min=480, mem_mb=config["params"]["starram"], cpus=16
+    threads: config["params"]["starcpu"]
+    resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
     wrapper:
         f"{wrappers_version}/bio/star/align"
 
@@ -72,6 +72,7 @@ rule samtools_index_star_pe:
         "star/{trimmer}_pe/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
     params:
         "" # optional params string
+    threads: 1
     resources: time_min=320, mem_mb=2000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/samtools/index"
@@ -91,8 +92,8 @@ rule star_align_se:
         idx=config["ref"]["index"] + "_star",
         extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
-    threads: 16
-    resources: time_min=480, mem_mb=config["params"]["starram"], cpus=16
+    threads: config["params"]["starcpu"]
+    resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
     wrapper:
         f"{wrappers_version}/bio/star/align"
 
@@ -160,12 +161,11 @@ rule hisat2_index_noexons:
         odir=config["ref"]["index"] + "_hisat2"
     log:
         "logs/hisat2_index_genome.log"
-    threads: 16
-    resources: time_min=480, mem_mb=200000, cpus=16
+    threads: config["params"]["hisat2cpu"]
+    resources: time_min=480, mem_mb=200000, cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:
-        #"mkdir {params.odir} && hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
         "hisat2-build -p {threads} {input.fasta} {params.prefix} 2> {log}"
 
 #rule hisat2_index:
@@ -202,10 +202,10 @@ rule hisat2_align_pe:
         #extra="--new-summary --dta",
         extra="{}".format(config["params"]["hisat2"]),
         idx=config["ref"]["index"] + "_hisat2/genome",
-    threads: 16
+    threads: config["params"]["hisat2cpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=16
+    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -225,10 +225,10 @@ rule hisat2_align_se:
         #extra="--new-summary --dta",
         extra="{}".format(config["params"]["hisat2"]),
         idx=config["ref"]["index"] + "_hisat2/genome",
-    threads: 16
+    threads: config["params"]["hisat2cpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=16
+    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -242,10 +242,10 @@ rule sambamba_sort_se:
     log:
         "logs/hisat2/{trimmer}_se/sambamba-sort/{sample}.{unit}.log"
     params: ""
-    threads: 16 
+    threads: config["params"]["sambambacpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["sambambaram"], cpus=16
+    resources: time_min=480, mem_mb=config["params"]["sambambaram"], cpus=config["params"]["sambambacpu"]
     wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
 
@@ -257,10 +257,10 @@ rule sambamba_sort_pe:
     log:
         "logs/hisat2/{trimmer}_pe/sambamba-sort/{sample}.{unit}.log"
     params: ""
-    threads: 16 
+    threads: config["params"]["sambambacpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["sambambaram"], cpus=16
+    resources: time_min=480, mem_mb=config["params"]["sambambaram"], cpus=config["params"]["sambambacpu"]
     wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
 
@@ -273,7 +273,6 @@ rule samtools_index_hisat2:
         "" # optional params string
     resources: time_min=480, mem_mb=2000, cpus=1
     wrapper:
-        #"0.73.0/bio/samtools/index"
         f"{wrappers_version}/bio/samtools/index"
 
 ##Salmon Section
@@ -302,8 +301,8 @@ rule salmon_index:
         idxdir=directory("salmon/transcriptome_index"),
     log:
         "logs/salmon/transcriptome_index.log",
-    threads: 16
-    resources: time_min=320, mem_mb=40000, cpus=16
+    threads: config["params"]["salmoncpu"]
+    resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     params:
         # optional parameters
         extra="",
@@ -326,8 +325,8 @@ rule salmon_quant_reads_pe:
         # optional parameters
         libtype="A",
         extra="--gcBias",
-    threads: 16
-    resources: time_min=320, mem_mb=config["params"]["salmonram"], cpus=16
+    threads: config["params"]["salmoncpu"]
+    resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     wrapper:
         f"{wrappers_version}/bio/salmon/quant"
 
@@ -346,38 +345,7 @@ rule salmon_quant_reads_se:
         libtype="A",
         extra="--gcBias",
     threads: 16
-    resources: time_min=320, mem_mb=config["params"]["salmonram"], cpus=16
+    resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     wrapper:
         f"{wrappers_version}/bio/salmon/quant"
-
-#rule symlink_salmon_quants:
-#    input:
-#        quant="salmon/{trimmer}_{pese}/{sample}.{unit}/quant.sf",
-#        lib="salmon/{trimmer}_{pese}/{sample}.{unit}/lib_format_counts.json",
-#    output:
-#        quant="salmon/{trimmer}_{pese}/{sample}.{unit}/{sample}.{unit}.quant.sf",
-#        lib="salmon/{trimmer}_{pese}/{sample}.{unit}/{sample}.{unit}.lib_format_counts.json",
-#    params:
-#        #quant="{sample}.{unit}.quant.sf",
-#        #lib="{sample}.{unit}.lib_format_counts.json",
-#        quant="../../../salmon/{trimmer}_{pese}/{sample}.{unit}/quant.sf",
-#        lib="../../../salmon/{trimmer}_{pese}/{sample}.{unit}/lib_format_counts.json",
-#    threads: 1
-#    resources: time_min=320, mem_mb=2000, cpus=1
-#    shell:
-#        "ln -s {params.quant} {output.quant} && ln -s {params.lib} {output.lib}"
-
-
-#rule salmon_merge_quants:
-#    input:
-#        quant=expand("salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/", trimmer=trimmers, pese=pese, unit=units.itertuples())
-#    output:
-#        "salmon/{trimmer}_{pese}/merged_quant.tsv",
-#    threads: 1
-#    resources: time_min=320, mem_mb=20000, cpus=1
-#    conda: "../envs/salmon.yaml"
-#    log:
-#        "logs/salmon/{trimmer}_{pese}/merge_quant.log",
-#    shell:
-#        "salmon quantmerge --quants {input.quant} -o {output} 2> {log}"
 

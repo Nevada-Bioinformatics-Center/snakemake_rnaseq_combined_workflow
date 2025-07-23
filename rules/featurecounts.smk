@@ -1,26 +1,3 @@
-#rule featurecounts_onefile_star:
-#    input:
-#        samples=expand("star/{trimmer}/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=trimmers),
-#        annotation=config["ref"]["annotation"],
-#        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
-#    output:
-#        multiext("results/star/all.star.{trimmer}",
-#                 ".featureCounts",
-#                 ".featureCounts.summary")
-##                 ".featureCounts.jcounts")
-#    log:
-#        "logs/star/{trimmer}/featurecount_all.log"
-#    params:
-#        tmp_dir="",   # implicitly sets the --tmpDir flag
-#        r_path="",    # implicitly sets the --Rpath flag
-#        extra="{}".format(config["params"]["featurecounts"])
-#    threads: 16
-#    resources: time_min=220, mem_mb=20000, cpus=16
-#    wrapper:
-#        f"{wrappers_version}/bio/subread/featurecounts"
-#        #"v1.2.0/bio/subread/featurecounts"
-#        #f"{wrappers_version}/bio/subread/featurecounts"
-
 rule featurecounts_onefile_star_se:
     input:
         samples=lambda wildcards: expand("star/{trimmer}_se/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=wildcards.trimmer),
@@ -30,68 +7,17 @@ rule featurecounts_onefile_star_se:
         multiext("results/star/all.star.{trimmer}_se",
                  ".featureCounts",
                  ".featureCounts.summary")
-#                 ".featureCounts.jcounts")
     log:
         "logs/star/{trimmer}/featurecount_all_se.log"
     params:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecountsse"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=920, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
-#rule featurecounts_onefile_star_pe:
-#    input:
-#        samples=expand("star/{trimmer}_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam", unit=units.itertuples(), trimmer=trimmers),
-#        annotation=config["ref"]["annotation"],
-#        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
-#    output:
-#        multiext("results/star/all.star.{trimmer}_pe",
-#                 ".featureCounts",
-#                 ".featureCounts.summary")
-##                 ".featureCounts.jcounts")
-#    log:
-#        "logs/star/{trimmer}/featurecount_all_pe.log"
-#    params:
-#        tmp_dir="",   # implicitly sets the --tmpDir flag
-#        r_path="",    # implicitly sets the --Rpath flag
-#        extra="{}".format(config["params"]["featurecounts"])
-#    threads: 16
-#    resources: time_min=220, mem_mb=20000, cpus=16
-#    wrapper:
-#        f"{wrappers_version}/bio/subread/featurecounts"
-
-#rule featurecounts_onefile_star_pe:
-#    input:
-#        #lambda wildcards: samples=expand(
-#        #    "star/{trimmer}_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam",
-#        #    unit=units.itertuples(),
-#        #    trimmer=wildcards.trimmer
-#        #),
-#        samples=expand(
-#            "star/{trimmer}_pe/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam",
-#            unit=units.itertuples(),
-#            trimmer=wildcards.trimmer
-#        ),
-#        annotation=config["ref"]["annotation"],
-#        fasta=config["ref"]["genomefa"]
-#    output:
-#        multiext("results/star/all.star.{trimmer}_pe", ".featureCounts", ".featureCounts.summary")
-#    log:
-#        "logs/star/{trimmer}/featurecount_all_pe.log"
-#    params:
-#        tmp_dir="",
-#        r_path="",
-#        extra=config["params"]["featurecounts"]
-#    threads: 16
-#    resources:
-#        time_min=220,
-#        mem_mb=20000,
-#        cpus=16
-#    wrapper:
-#        f"{wrappers_version}/bio/subread/featurecounts"
 
 rule featurecounts_onefile_star_pe:
     input:
@@ -108,8 +34,8 @@ rule featurecounts_onefile_star_pe:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecounts"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
@@ -122,15 +48,14 @@ rule featurecounts_onefile_star_pe_multi:
         multiext("results/star/all.star.{trimmer}_pe_multi",
                  ".featureCounts",
                  ".featureCounts.summary")
-#                 ".featureCounts.jcounts")
     log:
         "logs/star/{trimmer}/featurecount_all_pe_multi.log"
     params:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecountsmulti"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
@@ -150,30 +75,11 @@ rule featurecounts_onefile_star_pe_multifrac:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecountsmultifrac"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
-#rule featurecounts_onefile_hisat2:
-#    input:
-#        samples=expand("hisat2/{trimmer}/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
-#        annotation=config["ref"]["annotation"],
-#        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
-#    output:
-#        multiext("results/hisat2/all.hisat2.{trimmer}",
-#                 ".featureCounts",
-#                 ".featureCounts.summary")
-#    log:
-#        "logs/hisat2/{trimmer}/featurecount_all.log"
-#    params:
-#        tmp_dir="",   # implicitly sets the --tmpDir flag
-#        r_path="",    # implicitly sets the --Rpath flag
-#        extra="-P -B {}".format(config["params"]["featurecounts"])
-#    threads: 16
-#    resources: time_min=220, mem_mb=20000, cpus=16
-#    wrapper:
-#        f"{wrappers_version}/bio/subread/featurecounts"
 
 rule featurecounts_onefile_hisat2_se:
     input:
@@ -190,30 +96,11 @@ rule featurecounts_onefile_hisat2_se:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecountsse"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
-#rule featurecounts_onefile_hisat2_pe:
-#    input:
-#        samples=expand("hisat2/{trimmer}_pe/{unit.sample}.{unit.unit}.sorted.bam", unit=units.itertuples(), trimmer=trimmers),
-#        annotation=config["ref"]["annotation"],
-#        fasta=config["ref"]["genomefa"]     # implicitly sets the -G flag
-#    output:
-#        multiext("results/hisat2/all.hisat2.{trimmer}_pe",
-#                 ".featureCounts",
-#                 ".featureCounts.summary")
-#    log:
-#        "logs/hisat2/{trimmer}_pe/featurecount_all.log"
-#    params:
-#        tmp_dir="",   # implicitly sets the --tmpDir flag
-#        r_path="",    # implicitly sets the --Rpath flag
-#        extra="{}".format(config["params"]["featurecounts"])
-#    threads: 16
-#    resources: time_min=220, mem_mb=20000, cpus=16
-#    wrapper:
-#        f"{wrappers_version}/bio/subread/featurecounts"
 
 rule featurecounts_onefile_hisat2_pe:
     input:
@@ -230,9 +117,8 @@ rule featurecounts_onefile_hisat2_pe:
         tmp_dir="",
         r_path="",
         extra=config["params"]["featurecounts"]
-    threads: 16
-    resources:
-        time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
@@ -251,8 +137,8 @@ rule featurecounts_onefile_hisat2_pe_multi:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecountsmulti"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 
@@ -271,8 +157,8 @@ rule featurecounts_onefile_hisat2_pe_multifrac:
         tmp_dir="",   # implicitly sets the --tmpDir flag
         r_path="",    # implicitly sets the --Rpath flag
         extra="{}".format(config["params"]["featurecountsmultifrac"])
-    threads: 16
-    resources: time_min=220, mem_mb=20000, cpus=16
+    threads: config["params"]["featurecountscpu"]
+    resources: time_min=220, mem_mb=config["params"]["featurecountsram"], cpus=config["params"]["featurecountscpu"]
     wrapper:
         f"{wrappers_version}/bio/subread/featurecounts"
 

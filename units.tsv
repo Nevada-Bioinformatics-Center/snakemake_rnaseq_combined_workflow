@@ -1,19 +1,13 @@
 sample	unit	fq1	fq2
-0mpw_6394	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_6394_20_1_S16_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_6394_20_1_S16_R2_001.fastq.gz
-0mpw_6394	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_6394_20_2_S17_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_6394_20_2_S17_R2_001.fastq.gz
-0mpw_6394	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_6394_20_3_S7_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_6394_20_3_S7_R2_001.fastq.gz
-0mpw_7219	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_7219_7_1_S4_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_7219_7_1_S4_R2_001.fastq.gz
-0mpw_7219	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_7219_7_2_S5_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_7219_7_2_S5_R2_001.fastq.gz
-0mpw_7219	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_7219_7_3_S6_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_7219_7_3_S6_R2_001.fastq.gz
-0mpw_Atl	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_Atl_1_S1_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_Atl_1_S1_R2_001.fastq.gz
-0mpw_Atl	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_Atl_2_S2_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_Atl_2_S2_R2_001.fastq.gz
-0mpw_Atl	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_Atl_3_S3_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/0mpw_Atl_3_S3_R2_001.fastq.gz
-3dpw_6394	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_6394_20_1_S18_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_6394_20_1_S18_R2_001.fastq.gz
-3dpw_6394	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_6394_20_2_S14_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_6394_20_2_S14_R2_001.fastq.gz
-3dpw_6394	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_6394_20_3_S15_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_6394_20_3_S15_R2_001.fastq.gz
-3dpw_7219	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_7219_7_1_S11_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_7219_7_1_S11_R2_001.fastq.gz
-3dpw_7219	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_7219_7_2_S12_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_7219_7_2_S12_R2_001.fastq.gz
-3dpw_7219	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_7219_7_3_S13_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_7219_7_3_S13_R2_001.fastq.gz
-3dpw_Atl	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_Atl_1_S8_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_Atl_1_S8_R2_001.fastq.gz
-3dpw_Atl	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_Atl_2_S9_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_Atl_2_S9_R2_001.fastq.gz
-3dpw_Atl	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_Atl_3_S10_R1_001.fastq.gz	/data/gpfs/assoc/inbre/projects/dylan_kosma/rnaseq_crispr/raw_seq/3dpw_Atl_3_S10_R2_001.fastq.gz
+Nb_6394	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_6394_R1_S63_R1_001_ScytheTrimmed.fastq.gz
+Nb_6394	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_6394_R2_S64_R1_001_ScytheTrimmed.fastq.gz
+Nb_6394	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_6394_R3_S65_R1_001_ScytheTrimmed.fastq.gz
+Nb_7219	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_7219_R1_S60_R1_001_ScytheTrimmed.fastq.gz
+Nb_7219	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_7219_R2_S61_R1_001_ScytheTrimmed.fastq.gz
+Nb_7219	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_7219_R3_S62_R1_001_ScytheTrimmed.fastq.gz
+Nb_8481	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_8481_R1_S57_R1_001_ScytheTrimmed.fastq.gz
+Nb_8481	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_8481_R2_S58_R1_001_ScytheTrimmed.fastq.gz
+Nb_8481	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_8481_R3_S59_R1_001_ScytheTrimmed.fastq.gz
+Nb_C1	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_C1_S54_R1_001_ScytheTrimmed.fastq.gz
+Nb_C1	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_C2_S55_R1_001_ScytheTrimmed.fastq.gz
+Nb_C1	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/nicotiana_rnaseq/raw_seq/Nb_C3_S56_R1_001_ScytheTrimmed.fastq.gz

@@ -2,8 +2,6 @@ def get_fastq(wildcards):
     return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
 
 def get_fastq1(wildcards):
-    #print(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())
-    #print(type(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item()))
     if pese == "se":
         return [(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())]
     else:
@@ -17,50 +15,48 @@ rule trimmomatic_pe:
         r1=get_fastq1,
         r2=get_fastq2
     output:
-        r1="trimmed/trimmomatic/{sample}.{unit}.1.fastq.gz",
-        r2="trimmed/trimmomatic/{sample}.{unit}.2.fastq.gz",
+        r1="trimmed/trimmomatic_pe/{sample}.{unit}.1.fastq.gz",
+        r2="trimmed/trimmomatic_pe/{sample}.{unit}.2.fastq.gz",
         # reads where trimming entirely removed the mate
-        r1_unpaired="trimmed/trimmomatic/{sample}.{unit}.1.unpaired.fastq.gz",
-        r2_unpaired="trimmed/trimmomatic/{sample}.{unit}.2.unpaired.fastq.gz"
+        r1_unpaired="trimmed/trimmomatic_pe/{sample}.{unit}.1.unpaired.fastq.gz",
+        r2_unpaired="trimmed/trimmomatic_pe/{sample}.{unit}.2.unpaired.fastq.gz"
     log:
-        "logs/trimmomatic/{sample}.{unit}.log"
+        "logs/trimmomatic_pe/{sample}.{unit}.log"
     params:
         # list of trimmers (see manual)
         trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
-        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 CROP:50"],
-        #trimmer = ["CROP:50"],
-        #trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 LEADING:30 MINLEN:36"],
-        # optional parameters
         extra="",
         compression_level="-9"
-    threads: 16
-    resources: time_min=480, mem_mb=40000, cpus=16
+    threads: config["params"]["trimmomaticcpu"]
+    resources: time_min=480, mem_mb=config["params"]["trimmomaticram"], cpus=config["params"]["trimmomaticcpu"]
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
     # https://snakemake.readthedocs.io/en/latest/executing/cluster.html#job-properties
     wrapper:
         f"{wrappers_version}/bio/trimmomatic/pe"
-        #"0.75.0/bio/trimmomatic/pe"
 
-#Orig method without pese wildcard
-#rule fastp_pe:
-#    input:
-#        sample=get_fastq
-#    output:
-#        trimmed=["trimmed/fastp/{sample}.{unit}.1.fastq.gz", "trimmed/fastp/{sample}.{unit}.2.fastq.gz"],
-#        html="report/fastp/{sample}.{unit}.html",
-#        json="report/fastp/{sample}.{unit}.fastp.json"
-#    log:
-#        "logs/fastp/{sample}.{unit}.log"
-#    params:
-#        #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
-#        adapters="--detect_adapter_for_pe",
-#        extra=""
-#    threads: 16
-#    resources: time_min=480, mem_mb=40000, cpus=16
-#    wrapper:
-#        f"{wrappers_version}/bio/fastp"
+rule trimmomatic_se:
+    input:
+        r1=get_fastq1
+    output:
+        r1="trimmed/trimmomatic_se/{sample}.{unit}.1.fastq.gz",
+        r1_unpaired="trimmed/trimmomatic_se/{sample}.{unit}.1.unpaired.fastq.gz",
+    log:
+        "logs/trimmomatic_se/{sample}.{unit}.log"
+    params:
+        # list of trimmers (see manual)
+        trimmer = [f"ILLUMINACLIP:{config['ref']['adapter']}:2:30:10 SLIDINGWINDOW:4:15 MINLEN:36"],
+        extra="",
+        compression_level="-9"
+    threads: config["params"]["trimmomaticcpu"]
+    resources: time_min=480, mem_mb=config["params"]["trimmomaticram"], cpus=config["params"]["trimmomaticcpu"]
+    # optional specification of memory usage of the JVM that snakemake will respect with global
+    # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
+    # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
+    # https://snakemake.readthedocs.io/en/latest/executing/cluster.html#job-properties
+    wrapper:
+        f"{wrappers_version}/bio/trimmomatic/se"
 
 rule fastp_pe:
     input:
@@ -75,8 +71,8 @@ rule fastp_pe:
         #adapters="--adapter_sequence AGATCGGAAGAGCACACGTCTGAACTCCAGTCA --adapter_sequence_r2 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT",
         adapters="--detect_adapter_for_pe",
         extra=config["params"]["fastp"]
-    threads: 16
-    resources: time_min=480, mem_mb=40000, cpus=16
+    threads: config["params"]["fastpcpu"]
+    resources: time_min=480, mem_mb=config["params"]["fastpram"], cpus=config["params"]["fastpcpu"]
     wrapper:
         f"{wrappers_version}/bio/fastp"
 
@@ -93,8 +89,8 @@ rule fastp_se:
     params:
         adapters="",
         extra=config["params"]["fastp"]
-    threads: 16
-    resources: time_min=480, mem_mb=40000, cpus=16
+    threads: config["params"]["fastpcpu"]
+    resources: time_min=480, mem_mb=config["params"]["fastpram"], cpus=config["params"]["fastpcpu"]
     wrapper:
         f"{wrappers_version}/bio/fastp"
 
@@ -110,8 +106,8 @@ rule trim_galore_pe:
         extra="--illumina -q 20",
     log:
         "logs/trimgalore/{sample}.{unit}.log",
-    threads: 16
-    resources: time_min=480, mem_mb=50000, cpus=16
+    threads: config["params"]["trimgalorecpu"]
+    resources: time_min=480, mem_mb=config["params"]["trimgaloreram"], cpus=config["params"]["trimgalorecpu"]
     wrapper:
         f"{wrappers_version}/bio/trim_galore/pe"
 
@@ -125,7 +121,7 @@ rule trim_galore_se:
         extra="--illumina -q 20",
     log:
         "logs/trimgalore/{sample}.{unit}.log",
-    threads: 16
-    resources: time_min=480, mem_mb=50000, cpus=16
+    threads: config["params"]["trimgalorecpu"]
+    resources: time_min=480, mem_mb=config["params"]["trimgaloreram"], cpus=config["params"]["trimgalorecpu"]
     wrapper:
         f"{wrappers_version}/bio/trim_galore/se"
