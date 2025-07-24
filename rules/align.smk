@@ -47,7 +47,7 @@ rule star_align_pe:
         # path to STAR reference genome index
         idx=config["ref"]["index"] + "_star",
         # optional parameters
-        extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
+        extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
     threads: config["params"]["starcpu"]
     resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
@@ -90,7 +90,7 @@ rule star_align_se:
         "logs/star/{trimmer}/{sample}.{unit}.log"
     params:
         idx=config["ref"]["index"] + "_star",
-        extra="--outSAMtype BAM SortedByCoordinate --outReadsUnmapped Fastx --quantMode GeneCounts --sjdbGTFfile {} {}".format(
+        extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(
               config["ref"]["annotation"], config["params"]["star"])
     threads: config["params"]["starcpu"]
     resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
@@ -348,4 +348,28 @@ rule salmon_quant_reads_se:
     resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     wrapper:
         f"{wrappers_version}/bio/salmon/quant"
+
+rule samtools_flagstat_star:
+    input:
+        "star/{trimmer}_{pese}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam" 
+    output:
+        "star/{trimmer}_{pese}/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.flagstat" 
+    params:
+        "" # optional params string
+    threads: 1
+    resources: time_min=320, mem_mb=16000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/samtools/flagstat"
+
+rule samtools_flagstat_hisat2:
+    input:
+        "hisat2/{trimmer}_{pese}/{sample}.{unit}.sorted.bam" 
+    output:
+        "hisat2/{trimmer}_{pese}/{sample}.{unit}.sorted.bam.flagstat" 
+    params:
+        "" # optional params string
+    threads: 1
+    resources: time_min=320, mem_mb=16000, cpus=1
+    wrapper:
+        f"{wrappers_version}/bio/samtools/flagstat"
 
