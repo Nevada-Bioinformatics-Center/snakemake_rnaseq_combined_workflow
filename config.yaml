@@ -9,13 +9,13 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "NbeHZ1"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/NbeHZ1/NbeHZ1_genome_1.0.fa"
+  index: "Nb261"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/Nicotiana_benthamianaV261_solgenomics/Niben261_genome.fasta"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/NbeHZ1/NbeHZ1_CDS_1.0.fa"
+  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/Nicotiana_benthamianaV261_solgenomics/Niben261_genome.annotation.transcripts.fasta"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/NbeHZ1/NbeHZ1_annotation_1.0.gff3"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/Nicotiana_benthamianaV261_solgenomics/Niben261_genome.annotation.gene_models.gff"
   #DEPRECATED (unused)
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
@@ -24,7 +24,7 @@ params:
   #aligners: "hisat2,star,salmon"
   aligners: "star,hisat2,salmon"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
-  trimmers: "fastp,trimgalore"
+  trimmers: "fastp"
   ##extra parameters for star aligner during runtime
   star: ""
   ##hisat2index can be left blank if not reusing an index
@@ -33,7 +33,7 @@ params:
   starcpu: 16
   ## extra resource definition if using cluster for submission
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
-  starram: 75000
+  starram: 150000
   sambambacpu: 16
   sambambaram: 50000
   fastpcpu: 16
@@ -48,7 +48,7 @@ params:
   hisat2index: ""
   hisat2cpu: 16
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
-  hisat2ram: 75000
+  hisat2ram: 100000
   salmoncpu: 16
   salmonram: 50000
   #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
@@ -56,9 +56,10 @@ params:
   #featurecounts: "-p -C -t CDS,rRNA -g gene_id --extraAttributes transcript_id,gene,gbkey,locus_tag,product,protein_id,note"
   featurecountscpu: 16
   featurecountsram: 30000
-  featurecounts: "-p -B -C -t exon -g Parent"
-  featurecountsse: "-t exon -g ID --extraAttributes Parent"
+  featurecounts: "-t exon -g Parent"
   #featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes transcript_id"
   #featurecountsmultifrac: "-p -M --fraction -t exon -g gene_id --extraAttributes transcript_id"
-  featurecountsmulti: "-p -M -t CDS,rRNA,tRNA -g ID --extraAttributes Dbxref,Name,transcript_id,gene,gbkey,locus_tag,product,protein_id,Note"
-  featurecountsmultifrac: "-p -M --fraction -t CDS,rRNA,tRNA -g ID --extraAttributes Dbxref,Name,transcript_id,gene,gbkey,locus_tag,product,protein_id,Note"
+  runfctmulti: "true"
+  runfctmultifrac: "true"
+  featurecountsmulti: "-M -t exon -g ID --extraAttributes Parent"
+  featurecountsmultifrac: "-M --fraction -t exon -g ID --extraAttributes Parent"

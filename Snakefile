@@ -16,6 +16,7 @@ configfile: "config.yaml"
 wildcard_constraints:
     sample=r"[\w\.-]+",
     unit=r"rep\d+",
+    pese=r"pe|se",
     trimmer=r"[a-z]+"
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
@@ -35,6 +36,8 @@ else:
 
 aligners=config["params"]["aligners"].split(",")
 trimmers=config["params"]["trimmers"].split(",")
+runmulti=config["params"]["runfctmulti"]
+runmultifrac=config["params"]["runfctmultifrac"]
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
 print("PE/SE mode:", pese)
@@ -47,30 +50,62 @@ def strip_suffix(pattern, suffix):
 
 wrappers_version="v7.0.0"
 
-# Build input file lists conditionally before rule
-multiqc_pretrim = expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese)
+# 1) partition aligners
+non_salmon = [a for a in aligners if a.lower() != "salmon"]
+has_salmon = "salmon" in [a.lower() for a in aligners]
 
-aligner_inputs = []
-if "salmon" not in aligners:
-    aligner_inputs = expand(
-        cwd + "/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts",
-        aligner=aligners, trimmer=trimmers, pese=pese
+# 2) build all featureCounts inputs from the non-salmon list
+aligner_fc_inputs = expand(
+    cwd + "/results/{aligner}/all.{aligner}.{trimmer}_{pese}.fixcol2.featureCounts",
+    aligner=non_salmon,
+    trimmer=trimmers,
+    pese=pese
+)
+
+# 3) optionally build the multi and multiFrac featureCounts
+fctmulti_inputs = []
+if runmulti.lower() == "true" and non_salmon:
+    fctmulti_inputs = expand(
+        cwd + "/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multi.fixcol2.featureCounts",
+        aligner=non_salmon,
+        trimmer=trimmers,
+        pese=pese
+    )
+if runmultifrac.lower() == "true" and non_salmon:
+    fctmulti_inputs += expand(
+        cwd + "/results/{aligner}/all.{aligner}.{trimmer}_{pese}_multifrac.fixcol2.featureCounts",
+        aligner=non_salmon,
+        trimmer=trimmers,
+        pese=pese
     )
 
+# 4) build salmon quant inputs if salmon is requested
 salmon_inputs = []
-if "salmon" in aligners:
+if has_salmon:
     salmon_inputs = expand(
         "salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf",
-        trimmer=trimmers, pese=pese, unit=units.itertuples()
+        trimmer=trimmers,
+        pese=pese,
+        unit=units.itertuples()
     )
 
-##### target rules #####
 rule all:
     input:
-        multiqc_pretrim,
-        expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html", aligner=aligners, trimmer=trimmers, pese=pese),
-        aligner_inputs,
-        salmon_inputs
+        # pre-trim MultiQC
+        expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
+
+        # post-trim MultiQC
+        expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html",
+               aligner=aligners, trimmer=trimmers, pese=pese),
+
+        # featureCounts for all non-salmon aligners
+        aligner_fc_inputs,
+
+        # salmon quant (if any)
+        salmon_inputs,
+
+        # multi & multifrac featureCounts
+        fctmulti_inputs
 
 
 include: "rules/qc.smk"
