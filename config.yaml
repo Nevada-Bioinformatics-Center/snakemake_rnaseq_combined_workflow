@@ -9,13 +9,13 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "Nb261"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/Nicotiana_benthamianaV261_solgenomics/Niben261_genome.fasta"
+  index: "ATL_v3_hcrepr"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.asm.fa"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/Nicotiana_benthamianaV261_solgenomics/Niben261_genome.annotation.transcripts.fasta"
+  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.repr.cds.fa"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/Nicotiana_benthamianaV261_solgenomics/Niben261_genome.annotation.gene_models.gff"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.repr.gff3"
   #DEPRECATED (unused)
   adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
 
@@ -51,15 +51,9 @@ params:
   hisat2ram: 100000
   salmoncpu: 16
   salmonram: 50000
-  #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
-  #featurecounts: "-p -C -t exon -g gene_id --extraAttributes transcript_id"
   #featurecounts: "-p -C -t CDS,rRNA -g gene_id --extraAttributes transcript_id,gene,gbkey,locus_tag,product,protein_id,note"
   featurecountscpu: 16
   featurecountsram: 30000
   featurecounts: "-t exon -g Parent"
-  #featurecountsmulti: "-p -M -t exon -g gene_id --extraAttributes transcript_id"
-  #featurecountsmultifrac: "-p -M --fraction -t exon -g gene_id --extraAttributes transcript_id"
   runfctmulti: "true"
   runfctmultifrac: "true"
-  featurecountsmulti: "-M -t exon -g ID --extraAttributes Parent"
-  featurecountsmultifrac: "-M --fraction -t exon -g ID --extraAttributes Parent"
