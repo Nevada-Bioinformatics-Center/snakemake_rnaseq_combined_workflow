@@ -18,16 +18,12 @@ rule star_index:
     output:
         directory(config["ref"]["index"] + "_star")
     params:
-        #needed to change params below to build xenopus index
-        #extra = "--limitGenomeGenerateRAM 60550893493 --genomeSAsparseD 3 --genomeSAindexNbases 12 -- genomeChrBinNbits 14"
-        #extra = ""
         extra = config["params"]["starindex"],
     threads: config["params"]["starcpu"]
-    resources: time_min=480, mem_mb=120000, cpus=config["params"]["starcpu"]
+    resources: time_min=480, mem_mb=config["params"]["starindexram"], cpus=config["params"]["starcpu"]
     log:
         "logs/star_index_genome.log"
     wrapper:
-        #"0.71.1/bio/star/index"
         f"{wrappers_version}/bio/star/index"
             
 
@@ -180,7 +176,7 @@ rule hisat2_index:
     log:
         "logs/hisat2_index_genome.log"
     threads: config["params"]["hisat2cpu"]
-    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
+    resources: time_min=480, mem_mb=config["params"]["hisat2indexram"], cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:

@@ -1,61 +1,17 @@
 sample	unit	fq1	fq2
-Atl_14days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_14days_R1_S12_R1_001_ScytheTrimmed.fastq.gz	
-Atl_14days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_14days_R2_S13_R1_001_ScytheTrimmed.fastq.gz	
-Atl_14days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_14days_R3_S14_R1_001_ScytheTrimmed.fastq.gz	
-Atl_2days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_2days_R1_S6_R1_001_ScytheTrimmed.fastq.gz	
-Atl_2days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_2days_R2_S7_R1_001_ScytheTrimmed.fastq.gz	
-Atl_2days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_2days_R3_S8_R1_001_ScytheTrimmed.fastq.gz	
-Atl_30min	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_30min_R1_S3_R1_001_ScytheTrimmed.fastq.gz	
-Atl_30min	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_30min_R2_S4_R1_001_ScytheTrimmed.fastq.gz	
-Atl_30min	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_30min_R3_S5_R1_001_ScytheTrimmed.fastq.gz	
-Atl_7days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_7days_R1_S9_R1_001_ScytheTrimmed.fastq.gz	
-Atl_7days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_7days_R2_S10_R1_001_ScytheTrimmed.fastq.gz	
-Atl_7days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_7days_R3_S11_R1_001_ScytheTrimmed.fastq.gz	
-Atl_C1	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_C1_S1_R1_001_ScytheTrimmed.fastq.gz	
-Atl_C2	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_C2_S2_R1_001_ScytheTrimmed.fastq.gz	
-Atl_C3	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/Atl_C3_S66_R1_001_ScytheTrimmed.fastq.gz	
-FL1_14days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_14days_R1_S69_R1_001_ScytheTrimmed.fastq.gz	
-FL1_14days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_14days_R2_S25_R1_001_ScytheTrimmed.fastq.gz	
-FL1_14days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_14days_R3_S26_R1_001_ScytheTrimmed.fastq.gz	
-FL1_2days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_2days_R1_S19_R1_001_ScytheTrimmed.fastq.gz	
-FL1_2days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_2days_R2_S20_R1_001_ScytheTrimmed.fastq.gz	
-FL1_2days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_2days_R3_S21_R1_001_ScytheTrimmed.fastq.gz	
-FL1_30min	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_30min_R1_S17_R1_001_ScytheTrimmed.fastq.gz	
-FL1_30min	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_30min_R2_S18_R1_001_ScytheTrimmed.fastq.gz	
-FL1_30min	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_30min_R3_S68_R1_001_ScytheTrimmed.fastq.gz	
-FL1_7days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_7days_R1_S22_R1_001_ScytheTrimmed.fastq.gz	
-FL1_7days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_7days_R2_S23_R1_001_ScytheTrimmed.fastq.gz	
-FL1_7days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_7days_R3_S24_R1_001_ScytheTrimmed.fastq.gz	
-FL1_C1	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_C1_S15_R1_001_ScytheTrimmed.fastq.gz	
-FL1_C2	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_C2_S67_R1_001_ScytheTrimmed.fastq.gz	
-FL1_C3	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL1_C3_S16_R1_001_ScytheTrimmed.fastq.gz	
-FL2_14days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_14days_R1_S71_R1_001_ScytheTrimmed.fastq.gz	
-FL2_14days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_14days_R2_S38_R1_001_ScytheTrimmed.fastq.gz	
-FL2_14days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_14days_R3_S39_R1_001_ScytheTrimmed.fastq.gz	
-FL2_2days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_2days_R1_S33_R1_001_ScytheTrimmed.fastq.gz	
-FL2_2days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_2days_R2_S34_R1_001_ScytheTrimmed.fastq.gz	
-FL2_2days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_2days_R3_S35_R1_001_ScytheTrimmed.fastq.gz	
-FL2_30min	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_30min_R1_S30_R1_001_ScytheTrimmed.fastq.gz	
-FL2_30min	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_30min_R2_S31_R1_001_ScytheTrimmed.fastq.gz	
-FL2_30min	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_30min_R3_S32_R1_001_ScytheTrimmed.fastq.gz	
-FL2_7days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_7days_R1_S36_R1_001_ScytheTrimmed.fastq.gz	
-FL2_7days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_7days_R2_S37_R1_001_ScytheTrimmed.fastq.gz	
-FL2_7days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_7days_R3_S70_R1_001_ScytheTrimmed.fastq.gz	
-FL2_C1	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_C1_S27_R1_001_ScytheTrimmed.fastq.gz	
-FL2_C2	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_C2_S28_R1_001_ScytheTrimmed.fastq.gz	
-FL2_C3	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL2_C3_S29_R1_001_ScytheTrimmed.fastq.gz	
-FL3_14days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_14days_R1_S51_R1_001_ScytheTrimmed.fastq.gz	
-FL3_14days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_14days_R2_S52_R1_001_ScytheTrimmed.fastq.gz	
-FL3_14days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_14days_R3_S53_R1_001_ScytheTrimmed.fastq.gz	
-FL3_2days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_2days_R1_S46_R1_001_ScytheTrimmed.fastq.gz	
-FL3_2days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_2days_R2_S72_R1_001_ScytheTrimmed.fastq.gz	
-FL3_2days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_2days_R3_S47_R1_001_ScytheTrimmed.fastq.gz	
-FL3_30min	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_30min_R1_S43_R1_001_ScytheTrimmed.fastq.gz	
-FL3_30min	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_30min_R2_S44_R1_001_ScytheTrimmed.fastq.gz	
-FL3_30min	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_30min_R3_S45_R1_001_ScytheTrimmed.fastq.gz	
-FL3_7days	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_7days_R1_S48_R1_001_ScytheTrimmed.fastq.gz	
-FL3_7days	rep2	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_7days_R2_S49_R1_001_ScytheTrimmed.fastq.gz	
-FL3_7days	rep3	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_7days_R3_S50_R1_001_ScytheTrimmed.fastq.gz	
-FL3_C1	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_C1_S40_R1_001_ScytheTrimmed.fastq.gz	
-FL3_C2	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_C2_S41_R1_001_ScytheTrimmed.fastq.gz	
-FL3_C3	rep1	/data/gpfs/assoc/inbre/projects/dylan_kosma/potato_fl_project/raw_seq_trimmed/FL3_C3_S42_R1_001_ScytheTrimmed.fastq.gz	
+myotube_ctrl	rep1	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-001.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-001.R2.fastq.gz
+myotube_1.5	rep1	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-002.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-002.R2.fastq.gz
+myotube_2.5	rep1	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-003.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-003.R2.fastq.gz
+myotube_ctrl	rep2	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-004.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-004.R2.fastq.gz
+myotube_1.5	rep2	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-005.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-005.R2.fastq.gz
+myotube_2.5	rep2	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-006.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-006.R2.fastq.gz
+myotube_ctrl	rep3	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-007.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-007.R2.fastq.gz
+myotube_1.5	rep3	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-008.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-008.R2.fastq.gz
+myotube_2.5	rep3	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-009.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-009.R2.fastq.gz
+myotube_ctrl	rep4	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-010.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-010.R2.fastq.gz
+myotube_1.5	rep4	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-011.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-011.R2.fastq.gz
+myotube_2.5	rep4	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-012.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-012.R2.fastq.gz
+myoblast_ctrl	rep1	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-013.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-013.R2.fastq.gz
+myoblast_ctrl	rep2	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-014.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-014.R2.fastq.gz
+myoblast_ctrl	rep3	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-015.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-015.R2.fastq.gz
+myoblast_ctrl	rep4	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-016.R1.fastq.gz	/data/gpfs/assoc/inbre/projects/barbara_schneider/rnaseq_mouse_2025/raw_seq/31542-016.R2.fastq.gz

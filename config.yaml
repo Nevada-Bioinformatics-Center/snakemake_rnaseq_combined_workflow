@@ -1,30 +1,24 @@
-# path or URL to sequencing unit sheet (TSV format, columns: sample, unit, fq1, fq2, 
-# strandedness). Units are technical replicates (e.g. lanes, or resequencing of the 
-# same biological sample).If the column "strandedness" is present (which is optional), 
-# can be empty or has one of these values: none, yes or reverse. none is for unstranded 
-# protocols, yes an reverse follow the nomenclature used in `htseq-count --reverse` 
-# which is referenced in STAR manual section 7, "Counting number of reads per gene".
-
 units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "ATL_v3_hcrepr"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.asm.fa"
+  index: "gencode_grchm39_M38"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grcm39_gencode_M38/GRCm39.primary_assembly.genome.fa"
   #Transcriptomefa can be left blank unless using salmon
   transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.repr.cds.fa"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.repr.gff3"
-  #DEPRECATED (unused)
-  adapter: "/data/gpfs/assoc/inbre/projects/common_references/CustomBlacklist.fa"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grcm39_gencode_M38/gencode.vM38.primary_assembly.annotation.gtf"
 
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "star,hisat2,salmon"
+  aligners: "star,hisat2"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
   trimmers: "fastp"
+
+
+  #STAR configuration
   ##extra parameters for star aligner during runtime
   star: ""
   ##hisat2index can be left blank if not reusing an index
@@ -32,28 +26,49 @@ params:
   ## number of cores/threads used per job
   starcpu: 16
   ## extra resource definition if using cluster for submission
+  ##Amount of RAM for indexing the reference
+  starindexram: 150000
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
-  starram: 150000
+  starram: 50000
+
+  ##Sambamba configuration
   sambambacpu: 16
   sambambaram: 50000
+
+  ##FASTP configuration
   fastpcpu: 16
   fastpram: 40000
+  #extra options
   fastp: "--trim_poly_g"
+
+  #trim galore configuration
   trimgalorecpu: 16
   trimgaloreram: 60000
+
+  #trimmomatic configuration
   trimmomaticcpu: 16
   trimmomaticram: 40000
+
+  ##hisat2 configuration
+  ##Extra parameters for running hisat2
   hisat2: ""
   ##hisat2index can be left blank if not reusing an index
   hisat2index: ""
   hisat2cpu: 16
+  ## Amount of RAM for building the index
+  hisat2indexram: 150000
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
-  hisat2ram: 100000
+  hisat2ram: 50000
+
+  #Salmon configuration
   salmoncpu: 16
   salmonram: 50000
-  #featurecounts: "-p -C -t CDS,rRNA -g gene_id --extraAttributes transcript_id,gene,gbkey,locus_tag,product,protein_id,note"
+
+  ##Feature counts configuration
   featurecountscpu: 16
   featurecountsram: 30000
-  featurecounts: "-t exon -g Parent"
-  runfctmulti: "true"
-  runfctmultifrac: "true"
+  featurecounts: "-t exon -g gene_id --extraAttributes transcript_id,gene_type,gene_name,transcript_type,transcript_name,mgi_id,tag,havana_gene,havana_transcript,protein_id,ont"
+
+  #control running multimap featurecounts
+  runfctmulti: "false"
+  runfctmultifrac: "false"
