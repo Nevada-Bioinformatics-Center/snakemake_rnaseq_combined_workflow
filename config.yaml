@@ -9,6 +9,7 @@ ref:
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
   annotation: "/data/gpfs/assoc/inbre/projects/common_references/grcm39_gencode_M38/gencode.vM38.primary_assembly.annotation.gtf"
+  adapter: ""
 
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
