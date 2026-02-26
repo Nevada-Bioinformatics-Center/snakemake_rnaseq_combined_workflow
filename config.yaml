@@ -2,13 +2,13 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "gencode_grchm39_M38"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/grcm39_gencode_M38/GRCm39.primary_assembly.genome.fa"
+  index: "ISCGNv2"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2.fasta"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/ATL_v3_spuddb/ATL_v3.hc_gene_models.repr.cds.fa"
+  transcriptomefa: ""
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/grcm39_gencode_M38/gencode.vM38.primary_assembly.annotation.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2.agat.gtf"
   adapter: ""
 
 params:
@@ -28,7 +28,7 @@ params:
   starcpu: 16
   ## extra resource definition if using cluster for submission
   ##Amount of RAM for indexing the reference
-  starindexram: 150000
+  starindexram: 100000
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
   starram: 50000
 
