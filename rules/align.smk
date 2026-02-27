@@ -43,8 +43,8 @@ rule star_align_pe:
         # path to STAR reference genome index
         idx=config["ref"]["index"] + "_star",
         # optional parameters
-        extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(
-              config["ref"]["annotation"], config["params"]["star"])
+        #extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
+        extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --outSAMattrRGline ID:{{sample}} SM:{{sample}} PL:ILLUMINA --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
     threads: config["params"]["starcpu"]
     resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
     wrapper:
@@ -86,8 +86,9 @@ rule star_align_se:
         "logs/star/{trimmer}/{sample}.{unit}.log"
     params:
         idx=config["ref"]["index"] + "_star",
-        extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(
-              config["ref"]["annotation"], config["params"]["star"])
+        #extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
+        extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --outSAMattrRGline ID:{{sample}} SM:{{sample}} PL:ILLUMINA --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
+
     threads: config["params"]["starcpu"]
     resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
     wrapper:
@@ -205,7 +206,9 @@ rule hisat2_align_pe:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "(hisat2 --threads {threads} -x {params.idx} {params.extra} -1 {input.r1} -2 {input.r2} | samtools view -Sbh -o {output}) 2> {log}"
+        "(hisat2 --threads {threads} -x {params.idx} {params.extra} "
+        "--rg-id {wildcards.sample} --rg SM:{wildcards.sample} --rg PL:ILLUMINA "
+        "-1 {input.r1} -2 {input.r2} | samtools view -Sbh -o {output}) 2> {log}"
 
 rule hisat2_align_se:
     input:
@@ -228,7 +231,9 @@ rule hisat2_align_se:
     conda:
         "../envs/hisat2.yaml"
     shell:
-        "(hisat2 --threads {threads} -x {params.idx} {params.extra} -U {input.r1} | samtools view -Sbh -o {output}) 2> {log}"
+        "(hisat2 --threads {threads} -x {params.idx} {params.extra} "
+        "--rg-id {wildcards.sample} --rg SM:{wildcards.sample} --rg PL:ILLUMINA "
+        "-U {input.r1} | samtools view -Sbh -o {output}) 2> {log}"
 
 rule sambamba_sort_se:
     input:

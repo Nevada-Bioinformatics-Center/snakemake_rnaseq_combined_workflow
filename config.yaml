@@ -5,7 +5,7 @@ ref:
   index: "ISCGNv2"
   genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2.fasta"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: ""
+  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2_transcriptome.fasta"
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
   annotation: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2.agat.gtf"
@@ -14,7 +14,7 @@ ref:
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "star,hisat2"
+  aligners: "star,hisat2,salmon"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
   trimmers: "fastp"
 
@@ -30,7 +30,7 @@ params:
   ##Amount of RAM for indexing the reference
   starindexram: 100000
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
-  starram: 50000
+  starram: 70000
 
   ##Sambamba configuration
   sambambacpu: 16
