@@ -2,19 +2,19 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "ISCGNv2"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2.fasta"
+  index: "TAIR12"
+  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/GCA_978657495.1_TAIR12/GCA_978657495.1_TAIR12_genomic.fna"
   #Transcriptomefa can be left blank unless using salmon
-  transcriptomefa: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2_transcriptome.fasta"
+  transcriptomefa: ""
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/ISCGN_v2/ISCGN_v2.agat.gtf"
+  annotation: "/data/gpfs/assoc/inbre/projects/common_references/GCA_978657495.1_TAIR12/GCA_978657495.1_TAIR12_genomic.gtf"
   adapter: ""
 
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "star,hisat2,salmon"
+  aligners: "star,hisat2"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
   trimmers: "fastp"
 
@@ -30,7 +30,7 @@ params:
   ##Amount of RAM for indexing the reference
   starindexram: 100000
   ## Amount of RAM for alignment (default 50000 which is 50GB of RAM)
-  starram: 70000
+  starram: 100000
 
   ##Sambamba configuration
   sambambacpu: 16
@@ -40,7 +40,7 @@ params:
   fastpcpu: 16
   fastpram: 40000
   #extra options
-  fastp: "--trim_poly_g"
+  fastp: "--trim_poly_x"
 
   #trim galore configuration
   trimgalorecpu: 16
@@ -68,7 +68,7 @@ params:
   ##Feature counts configuration
   featurecountscpu: 16
   featurecountsram: 30000
-  featurecounts: "-t exon -g gene_id --extraAttributes transcript_id,gene_type,gene_name,transcript_type,transcript_name,mgi_id,tag,havana_gene,havana_transcript,protein_id,ont"
+  featurecounts: "-t exon -g gene_id --extraAttributes transcript_id,gene,locus_tag,note,product,standard_name,transcript_biotype"
 
   #control running multimap featurecounts
   runfctmulti: "false"
