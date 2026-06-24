@@ -1,3 +1,36 @@
+rule fix_gtf:
+    input:
+        gtf=config["ref"]["annotation"]
+    output:
+        gtf="results/ref/prepared_annotation.gtf"
+    run:
+        # Step 1: Scan the file to see if a fix is even necessary
+        needs_fix = False
+        with open(input.gtf, 'r') as f:
+            for line in f:
+                if 'gene_id ""' in line:
+                    needs_fix = True
+                    break
+        
+        # Step 2: Fix the file OR symlink it
+        if needs_fix:
+            print(f"Empty gene_ids found in {input.gtf}. Creating fixed version...")
+            with open(input.gtf, 'r') as infile, open(output.gtf, 'w') as outfile:
+                for line in infile:
+                    if line.startswith("#"):
+                        outfile.write(line)
+                        continue
+                    if 'gene_id ""' in line:
+                        match = re.search(r'transcript_id "([^"]+)"', line)
+                        if match:
+                            line = line.replace('gene_id ""', f'gene_id "{match.group(1)}"')
+                    outfile.write(line)
+        else:
+            print(f"GTF is clean. Symlinking {input.gtf}...")
+            # Use absolute path to ensure the symlink doesn't break
+            abs_input = os.path.abspath(input.gtf)
+            os.symlink(abs_input, output.gtf)
+
 # STAR featureCounts rule with multiext syntax
 rule featurecounts_onefile_star:
     input:
@@ -5,7 +38,8 @@ rule featurecounts_onefile_star:
             "star/{trimmer}_{pese}/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam",
             unit=units.itertuples(), trimmer=wc.trimmer, pese=wc.pese
         ),
-        annotation=config["ref"]["annotation"],
+        annotation="results/ref/prepared_annotation.gtf",
+       # annotation=config["ref"]["annotation"],
         fasta=config["ref"]["genomefa"]
     output:
         multiext(
@@ -40,7 +74,8 @@ rule featurecounts_onefile_hisat2:
             "hisat2/{trimmer}_{pese}/{unit.sample}.{unit.unit}.sorted.bam",
             unit=units.itertuples(), trimmer=wc.trimmer, pese=wc.pese
         ),
-        annotation=config["ref"]["annotation"],
+        annotation="results/ref/prepared_annotation.gtf",
+        #annotation=config["ref"]["annotation"],
         fasta=config["ref"]["genomefa"]
     output:
         multiext(

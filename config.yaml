@@ -2,19 +2,19 @@ units: units.tsv
 
 ref:
   # name of index folder within the current directory
-  index: "TAIR12"
-  genomefa: "/data/gpfs/assoc/inbre/projects/common_references/GCA_978657495.1_TAIR12/GCA_978657495.1_TAIR12_genomic.fna"
+  index: "Cqui_1.0"
+  genomefa: "/mypool/projects/common_references/GCF_015732765.1_VPISU_Cqui_1.0_pri_paternal/GCF_015732765.1_VPISU_Cqui_1.0_pri_paternal_genomic.fna"
   #Transcriptomefa can be left blank unless using salmon
   transcriptomefa: ""
   # gtf or gff file with transcripts
   #annotation: "/data/gpfs/assoc/inbre/projects/helen_wing/rnaseq_training/ref/genomic.gtf"
-  annotation: "/data/gpfs/assoc/inbre/projects/common_references/GCA_978657495.1_TAIR12/GCA_978657495.1_TAIR12_genomic.gtf"
+  annotation: "/mypool/projects/common_references/GCF_015732765.1_VPISU_Cqui_1.0_pri_paternal/GCF_015732765.1_VPISU_Cqui_1.0_pri_paternal_genomic.gtf"
   adapter: ""
 
 params:
   ##Comma seperated list of aligners: Currnet options are star, hisat2, and salmon. Only listing one will only run 1 aligner
   #aligners: "hisat2,star,salmon"
-  aligners: "star,hisat2"
+  aligners: "star"
   ##Comma seperated list: Currnet options are fastp, trimmomatic, trimgalore
   trimmers: "fastp"
 
@@ -68,7 +68,7 @@ params:
   ##Feature counts configuration
   featurecountscpu: 16
   featurecountsram: 30000
-  featurecounts: "-t exon -g gene_id --extraAttributes transcript_id,gene,locus_tag,note,product,standard_name,transcript_biotype"
+  featurecounts: "-t exon -g gene_id --extraAttributes transcript_id,gene,db_xref,model_evidence,product,transcript_biotype"
 
   #control running multimap featurecounts
   runfctmulti: "false"
