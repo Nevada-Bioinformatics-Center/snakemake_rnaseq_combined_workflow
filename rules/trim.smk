@@ -75,7 +75,7 @@ rule fastp_pe:
 
 rule fastp_se:
     input:
-        sample=get_fastq1
+        sample=lambda wc: [get_fastq1(wc)]  # fastp wrapper counts list elements to detect SE vs PE
     output:
         trimmed="trimmed/fastp_se/{sample}.{unit}.1.fastq.gz",
         failed="trimmed/fastp_se/{sample}.{unit}.failed.fastq.gz",
