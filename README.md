@@ -29,6 +29,8 @@ Then in the directory where you have your fastq files, run the following command
 
 Likewise, once the worksheet is filled out, copy the table and paste it into an empty units.tsv file.
 
+Paired-end and single-end samples can be mixed in one `units.tsv`: leave `fq2` empty for single-end rows. PE and SE samples are counted in separate featureCounts runs and then merged into one table per aligner/trimmer.
+
 #### Step 3: Execute workflow
 
 Test your configuration by performing a dry-run via

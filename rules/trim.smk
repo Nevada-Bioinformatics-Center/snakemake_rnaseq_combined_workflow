@@ -2,13 +2,10 @@ def get_fastq(wildcards):
     return units.loc[(wildcards.sample, wildcards.unit), ["fq1", "fq2"]].dropna()
 
 def get_fastq1(wildcards):
-    if pese == "se":
-        return [(units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())]
-    else:
-        return (units.loc[(wildcards.sample, wildcards.unit), ["fq1"]].dropna().item())
+    return units.loc[(wildcards.sample, wildcards.unit), "fq1"]
 
 def get_fastq2(wildcards):
-    return units.loc[(wildcards.sample, wildcards.unit), ["fq2"]].dropna().item()
+    return units.loc[(wildcards.sample, wildcards.unit), "fq2"]
 
 rule trimmomatic_pe:
     input:
@@ -113,7 +110,7 @@ rule trim_galore_pe:
 
 rule trim_galore_se:
     input:
-        get_fastq
+        get_fastq1
     output:
         fasta="trimmed/trimgalore_se/{sample}.{unit}.1.fastq.gz",
         report="trimmed/trimgalore_se/{sample}.{unit}.1_trimming_report.txt",

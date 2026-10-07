@@ -1,14 +1,10 @@
 
 def get_trim_fastq1(wildcards):
-    if pese == "pe":
-        fq1 = expand("trimmed/{trimmer}_pe/{sample}.{unit}.1.fastq.gz", **wildcards)
-    else:
-        fq1 = expand("trimmed/{trimmer}_se/{sample}.{unit}.1.fastq.gz", **wildcards)
-    return fq1
+    layout = units.loc[(wildcards.sample, wildcards.unit), "layout"]
+    return f"trimmed/{wildcards.trimmer}_{layout}/{wildcards.sample}.{wildcards.unit}.1.fastq.gz"
 
 def get_trim_fastq2(wildcards):
-    fq2 = expand("trimmed/{trimmer}_pe/{sample}.{unit}.2.fastq.gz", **wildcards)
-    return fq2
+    return f"trimmed/{wildcards.trimmer}_pe/{wildcards.sample}.{wildcards.unit}.2.fastq.gz"
 
 ##Star align
 rule star_index:
@@ -83,7 +79,7 @@ rule star_align_se:
         log="star/{trimmer}_se/{sample}.{unit}/Log.out",
         sj="star/{trimmer}_se/{sample}.{unit}/ReadsPerGene.out.tab"
     log:
-        "logs/star/{trimmer}/{sample}.{unit}.log"
+        "logs/star/{trimmer}_se/{sample}.{unit}.log"
     params:
         idx=config["ref"]["index"] + "_star",
         #extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])

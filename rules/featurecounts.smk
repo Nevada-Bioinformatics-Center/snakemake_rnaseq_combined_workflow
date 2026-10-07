@@ -36,7 +36,7 @@ rule featurecounts_onefile_star:
     input:
         samples=lambda wc: expand(
             "star/{trimmer}_{pese}/{unit.sample}.{unit.unit}/{unit.sample}.{unit.unit}_Aligned.sortedByCoord.out.bam",
-            unit=units.itertuples(), trimmer=wc.trimmer, pese=wc.pese
+            unit=units_for(wc.pese), trimmer=wc.trimmer, pese=wc.pese
         ),
         annotation="results/ref/prepared_annotation.gtf",
        # annotation=config["ref"]["annotation"],
@@ -72,7 +72,7 @@ rule featurecounts_onefile_hisat2:
     input:
         samples=lambda wc: expand(
             "hisat2/{trimmer}_{pese}/{unit.sample}.{unit.unit}.sorted.bam",
-            unit=units.itertuples(), trimmer=wc.trimmer, pese=wc.pese
+            unit=units_for(wc.pese), trimmer=wc.trimmer, pese=wc.pese
         ),
         annotation="results/ref/prepared_annotation.gtf",
         #annotation=config["ref"]["annotation"],
@@ -141,3 +141,18 @@ rule fix_featurecounts_general_multifrac:
     shell: 
         "python3 scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
 
+
+rule merge_featurecounts_layouts:
+    input:
+        lambda wc: expand(
+            cwd + "results/{aligner}/all.{aligner}.{trimmer}_{pese}{fct_mode}.fixcol2.featureCounts",
+            aligner=wc.aligner, trimmer=wc.trimmer, fct_mode=wc.fct_mode, pese=layouts_present
+        ),
+    output:
+        cwd + "results/{aligner}/all.{aligner}.{trimmer}{fct_mode}.fixcol2.featureCounts",
+    log:
+        "logs/{aligner}/fct_merge_{trimmer}{fct_mode}.log"
+    threads: 1
+    resources: time_min=220, mem_mb=8000, cpus=1
+    shell:
+        "python3 scripts/merge_featurecounts.py {output} {input} 2> {log}"

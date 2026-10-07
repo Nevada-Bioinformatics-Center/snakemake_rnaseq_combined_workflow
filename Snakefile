@@ -22,17 +22,13 @@ wildcard_constraints:
 
 units = pd.read_table(config["units"], dtype=str).set_index(["sample", "unit"], drop=False)
 units.index = units.index.set_levels([i.astype(str) for i in units.index.levels])  # enforce str in index
+# A unit is paired-end when fq2 is filled in, otherwise single-end.
 has_fq2 = units["fq2"].notna() & (units["fq2"] != "")
+units["layout"] = has_fq2.map({True: "pe", False: "se"})
+layouts_present = [l for l in ("pe", "se") if (units["layout"] == l).any()]
 
-if has_fq2.all():
-    pese = "pe"
-elif (~has_fq2).all():
-    pese = "se"
-else:
-    raise ValueError(
-        "Mixed single-end and paired-end samples detected in units.tsv.  "
-        "Either every row needs BOTH fq1+fq2 (for PE) or NONE should have fq2 (for SE)."
-    )
+def units_for(layout):
+    return units[units["layout"] == layout].itertuples()
 
 
 aligners=config["params"]["aligners"].split(",")
@@ -41,7 +37,7 @@ runmulti=config["params"]["runfctmulti"]
 runmultifrac=config["params"]["runfctmultifrac"]
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
-print("PE/SE mode:", pese)
+print("Layouts:", units["layout"].value_counts().to_dict())
 cwd = os.getcwd() + "/"
 print("Cwd:", cwd)
 
@@ -71,28 +67,26 @@ has_salmon = "salmon" in [a.lower() for a in aligners]
 salmon_inputs = []
 if has_salmon:
     salmon_inputs = expand(
-        "salmon/{trimmer}_{pese}/{unit.sample}.{unit.unit}/quant.sf",
+        "salmon/{trimmer}_{unit.layout}/{unit.sample}.{unit.unit}/quant.sf",
         trimmer=trimmers,
-        pese=pese,
         unit=units.itertuples()
     )
 
 rule all:
     input:
         # pre-trim MultiQC
-        expand("qc/multiqc_report_pretrim_{pese}.html", pese=pese),
+        "qc/multiqc_report_pretrim.html",
 
         # post-trim MultiQC
-        expand("qc/multiqc_report_{aligner}_{trimmer}_{pese}.html",
-               aligner=aligners, trimmer=trimmers, pese=pese),
+        expand("qc/multiqc_report_{aligner}_{trimmer}.html",
+               aligner=non_salmon, trimmer=trimmers),
 
-        #  featureCounts for all non salmon aligners (STAR + HISAT2),
+        #  merged PE+SE featureCounts for all non salmon aligners (STAR + HISAT2),
         #    over every fct_mode ("", "_multi", "_multifrac")
         expand(
-            cwd + "results/{aligner}/all.{aligner}.{trimmer}_{pese}{fct_mode}.fixcol2.featureCounts",
+            cwd + "results/{aligner}/all.{aligner}.{trimmer}{fct_mode}.fixcol2.featureCounts",
             aligner=non_salmon,
             trimmer=trimmers,
-            pese=pese,
             fct_mode=fct_modes
         ),
 
