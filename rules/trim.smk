@@ -25,7 +25,7 @@ rule trimmomatic_pe:
         extra="",
         compression_level="-9"
     threads: config["params"]["trimmomaticcpu"]
-    resources: time_min=480, mem_mb=config["params"]["trimmomaticram"], cpus=config["params"]["trimmomaticcpu"]
+    resources: runtime=480, mem_mb=config["params"]["trimmomaticram"], cpus=config["params"]["trimmomaticcpu"]
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
@@ -47,7 +47,7 @@ rule trimmomatic_se:
         extra="",
         compression_level="-9"
     threads: config["params"]["trimmomaticcpu"]
-    resources: time_min=480, mem_mb=config["params"]["trimmomaticram"], cpus=config["params"]["trimmomaticcpu"]
+    resources: runtime=480, mem_mb=config["params"]["trimmomaticram"], cpus=config["params"]["trimmomaticcpu"]
     # optional specification of memory usage of the JVM that snakemake will respect with global
     # resource restrictions (https://snakemake.readthedocs.io/en/latest/snakefiles/rules.html#resources)
     # and which can be used to request RAM during cluster job submission as `{resources.mem_mb}`:
@@ -69,7 +69,7 @@ rule fastp_pe:
         adapters="--detect_adapter_for_pe",
         extra=config["params"]["fastp"]
     threads: config["params"]["fastpcpu"]
-    resources: time_min=480, mem_mb=config["params"]["fastpram"], cpus=config["params"]["fastpcpu"]
+    resources: runtime=480, mem_mb=config["params"]["fastpram"], cpus=config["params"]["fastpcpu"]
     wrapper:
         f"{wrappers_version}/bio/fastp"
 
@@ -87,7 +87,7 @@ rule fastp_se:
         adapters="",
         extra=config["params"]["fastp"]
     threads: config["params"]["fastpcpu"]
-    resources: time_min=480, mem_mb=config["params"]["fastpram"], cpus=config["params"]["fastpcpu"]
+    resources: runtime=480, mem_mb=config["params"]["fastpram"], cpus=config["params"]["fastpcpu"]
     wrapper:
         f"{wrappers_version}/bio/fastp"
 
@@ -104,7 +104,7 @@ rule trim_galore_pe:
     log:
         "logs/trimgalore/{sample}.{unit}.log",
     threads: config["params"]["trimgalorecpu"]
-    resources: time_min=480, mem_mb=config["params"]["trimgaloreram"], cpus=config["params"]["trimgalorecpu"]
+    resources: runtime=480, mem_mb=config["params"]["trimgaloreram"], cpus=config["params"]["trimgalorecpu"]
     wrapper:
         f"{wrappers_version}/bio/trim_galore/pe"
 
@@ -119,6 +119,6 @@ rule trim_galore_se:
     log:
         "logs/trimgalore/{sample}.{unit}.log",
     threads: config["params"]["trimgalorecpu"]
-    resources: time_min=480, mem_mb=config["params"]["trimgaloreram"], cpus=config["params"]["trimgalorecpu"]
+    resources: runtime=480, mem_mb=config["params"]["trimgaloreram"], cpus=config["params"]["trimgalorecpu"]
     wrapper:
         f"{wrappers_version}/bio/trim_galore/se"

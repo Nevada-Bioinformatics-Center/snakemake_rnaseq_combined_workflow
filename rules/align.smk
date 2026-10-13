@@ -16,7 +16,7 @@ rule star_index:
     params:
         extra = config["params"]["starindex"],
     threads: config["params"]["starcpu"]
-    resources: time_min=480, mem_mb=config["params"]["starindexram"], cpus=config["params"]["starcpu"]
+    resources: runtime=480, mem_mb=config["params"]["starindexram"], cpus=config["params"]["starcpu"]
     log:
         "logs/star_index_genome.log"
     wrapper:
@@ -42,7 +42,7 @@ rule star_align_pe:
         #extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
         extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --outSAMattrRGline ID:{{sample}} SM:{{sample}} PL:ILLUMINA --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
     threads: config["params"]["starcpu"]
-    resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
+    resources: runtime=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
     wrapper:
         f"{wrappers_version}/bio/star/align"
 
@@ -65,7 +65,7 @@ rule samtools_index_star_pe:
     params:
         "" # optional params string
     threads: 1
-    resources: time_min=320, mem_mb=2000, cpus=1
+    resources: runtime=320, mem_mb=2000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/samtools/index"
 
@@ -86,7 +86,7 @@ rule star_align_se:
         extra="--outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --quantMode GeneCounts --outSAMattrRGline ID:{{sample}} SM:{{sample}} PL:ILLUMINA --sjdbGTFfile {} {}".format(config["ref"]["annotation"], config["params"]["star"])
 
     threads: config["params"]["starcpu"]
-    resources: time_min=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
+    resources: runtime=480, mem_mb=config["params"]["starram"], cpus=config["params"]["starcpu"]
     wrapper:
         f"{wrappers_version}/bio/star/align"
 
@@ -108,7 +108,7 @@ rule samtools_index_star_se:
         "star/{trimmer}_se/{sample}.{unit}/{sample}.{unit}_Aligned.sortedByCoord.out.bam.bai" 
     params:
         "" # optional params string
-    resources: time_min=320, mem_mb=2000, cpus=1
+    resources: runtime=320, mem_mb=2000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/samtools/index"
 
@@ -123,7 +123,7 @@ rule hisat2_extractexons:
     log:
         "logs/hisat2_extract_exons.log"
     threads: 1
-    resources: time_min=480, mem_mb=2000, cpus=1
+    resources: runtime=480, mem_mb=2000, cpus=1
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -137,7 +137,7 @@ rule hisat2_extractsplicesites:
     log:
         "logs/hisat2_extract_ss.log"
     threads: 1
-    resources: time_min=480, mem_mb=2000, cpus=1
+    resources: runtime=480, mem_mb=2000, cpus=1
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -155,7 +155,7 @@ rule hisat2_extractsplicesites:
 #    log:
 #        "logs/hisat2_index_genome.log"
 #    threads: config["params"]["hisat2cpu"]
-#    resources: time_min=480, mem_mb=200000, cpus=config["params"]["hisat2cpu"]
+#    resources: runtime=480, mem_mb=200000, cpus=config["params"]["hisat2cpu"]
 #    conda:
 #        "../envs/hisat2.yaml"
 #    shell:
@@ -173,7 +173,7 @@ rule hisat2_index:
     log:
         "logs/hisat2_index_genome.log"
     threads: config["params"]["hisat2cpu"]
-    resources: time_min=480, mem_mb=config["params"]["hisat2indexram"], cpus=config["params"]["hisat2cpu"]
+    resources: runtime=480, mem_mb=config["params"]["hisat2indexram"], cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -198,7 +198,7 @@ rule hisat2_align_pe:
     threads: config["params"]["hisat2cpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
+    resources: runtime=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -223,7 +223,7 @@ rule hisat2_align_se:
     threads: config["params"]["hisat2cpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
+    resources: runtime=480, mem_mb=config["params"]["hisat2ram"], cpus=config["params"]["hisat2cpu"]
     conda:
         "../envs/hisat2.yaml"
     shell:
@@ -242,7 +242,7 @@ rule sambamba_sort_se:
     threads: config["params"]["sambambacpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["sambambaram"], cpus=config["params"]["sambambacpu"]
+    resources: runtime=480, mem_mb=config["params"]["sambambaram"], cpus=config["params"]["sambambacpu"]
     wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
 
@@ -257,7 +257,7 @@ rule sambamba_sort_pe:
     threads: config["params"]["sambambacpu"]
     wildcard_constraints:
         unit=r"rep\d+"
-    resources: time_min=480, mem_mb=config["params"]["sambambaram"], cpus=config["params"]["sambambacpu"]
+    resources: runtime=480, mem_mb=config["params"]["sambambaram"], cpus=config["params"]["sambambacpu"]
     wrapper:
         f"{wrappers_version}/bio/sambamba/sort"
 
@@ -268,7 +268,7 @@ rule samtools_index_hisat2:
         "hisat2/{trimmer}/{sample}.{unit}.sorted.bam.bai"
     params:
         "" # optional params string
-    resources: time_min=480, mem_mb=2000, cpus=1
+    resources: runtime=480, mem_mb=2000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/samtools/index"
 
@@ -299,7 +299,7 @@ rule salmon_index:
     log:
         "logs/salmon/transcriptome_index.log",
     threads: config["params"]["salmoncpu"]
-    resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
+    resources: runtime=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     params:
         # optional parameters
         extra="",
@@ -323,7 +323,7 @@ rule salmon_quant_reads_pe:
         libtype="A",
         extra="--gcBias",
     threads: config["params"]["salmoncpu"]
-    resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
+    resources: runtime=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     wrapper:
         f"{wrappers_version}/bio/salmon/quant"
 
@@ -342,7 +342,7 @@ rule salmon_quant_reads_se:
         libtype="A",
         extra="--gcBias",
     threads: 16
-    resources: time_min=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
+    resources: runtime=480, mem_mb=config["params"]["salmonram"], cpus=config["params"]["salmoncpu"]
     wrapper:
         f"{wrappers_version}/bio/salmon/quant"
 
@@ -354,7 +354,7 @@ rule samtools_flagstat_star:
     params:
         "" # optional params string
     threads: 1
-    resources: time_min=320, mem_mb=16000, cpus=1
+    resources: runtime=320, mem_mb=16000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/samtools/flagstat"
 
@@ -366,7 +366,7 @@ rule samtools_flagstat_hisat2:
     params:
         "" # optional params string
     threads: 1
-    resources: time_min=320, mem_mb=16000, cpus=1
+    resources: runtime=320, mem_mb=16000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/samtools/flagstat"
 

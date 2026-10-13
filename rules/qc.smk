@@ -26,7 +26,7 @@ rule picard_mark_duplicates:
     params:
         extra = "--REMOVE_DUPLICATES false"
     resources: 
-        time_min=320, 
+        runtime=320, 
         mem_mb=40000, 
         cpus=1
     wrapper:
@@ -92,7 +92,7 @@ rule find_rrna_barrnap:
         kingdom="euk",
         extra=""
     resources: 
-        time_min=320, 
+        runtime=320, 
         mem_mb=40000, 
         cpus=8
     log:
@@ -119,7 +119,7 @@ rule picard_bed_to_interval_list:
     params:
         extra="--SORT true"
     resources: 
-        time_min=320, 
+        runtime=320, 
         mem_mb=4000, 
         cpus=1
     wrapper:
@@ -133,7 +133,7 @@ rule filter_discordant_for_picard:
     log:
         "logs/picard/filter_discordant/{sample}.{unit}.{aligner}.{trimmer}_{pese}.log"
     resources: 
-        time_min=320, 
+        runtime=320, 
         mem_mb=4000, 
         cpus=4
     conda:
@@ -155,7 +155,7 @@ rule picard_rnaseq_metrics:
         strand="NONE", 
         extra=lambda wildcards, input: f"--VALIDATION_STRINGENCY SILENT --RIBOSOMAL_INTERVALS {input.ribo}"
     resources:
-        time_min=120,
+        runtime=120,
         mem_mb=8000, 
         cpus=1
     wrapper: 
@@ -171,7 +171,7 @@ rule rseqc_stat_star:
         "logs/star/{trimmer}/rseqc/rseqc_stat/{sample}.{unit}.log",
     conda:
         "../envs/rseqc.yaml"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     shell:
         "bam_stat.py -i {input} > {output} 2> {log}"
 
@@ -185,7 +185,7 @@ rule rseqc_stat_hisat2:
         "logs/hisat2/{trimmer}/rseqc/rseqc_stat/{sample}.{unit}.log",
     conda:
         "../envs/rseqc.yaml"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     shell:
         "bam_stat.py -i {input} > {output} 2> {log}"
 
@@ -202,7 +202,7 @@ rule rseqc_readdup_star:
         "logs/star/{trimmer}/rseqc/rseqc_readdup/{sample}.{unit}.log",
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
-    resources: time_min=320, mem_mb=40000, cpus=2
+    resources: runtime=320, mem_mb=40000, cpus=2
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -218,7 +218,7 @@ rule rseqc_readdup_hisat2:
         "logs/hisat2/{trimmer}/rseqc/rseqc_readdup/{sample}.{unit}.log",
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".DupRate_plot.pdf"),
-    resources: time_min=320, mem_mb=40000, cpus=2
+    resources: runtime=320, mem_mb=40000, cpus=2
     conda:
         "../envs/rseqc.yaml"
     shell:
@@ -233,7 +233,7 @@ rule rseqc_readgc_star:
         "qc/star/{trimmer}/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
     log:
         "logs/star/{trimmer}/rseqc/rseqc_readgc/{sample}.{unit}.log",
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
     conda:
@@ -249,7 +249,7 @@ rule rseqc_readgc_hisat2:
         "qc/hisat2/{trimmer}/rseqc/{sample}.{unit}.readgc.GC_plot.pdf",
     log:
         "logs/hisat2/{trimmer}/rseqc/rseqc_readgc/{sample}.{unit}.log",
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     params:
         prefix=lambda w, output: strip_suffix(output[0], ".GC_plot.pdf"),
     conda:
@@ -266,7 +266,7 @@ rule fastqc_pretrim_r1:
     params: ""
     log:
         "logs/fastqc_pretrim/{sample}.{unit}_r1.log"
-    resources: time_min=320, mem_mb=10000, cpus=1
+    resources: runtime=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
         f"{wrappers_version}/bio/fastqc"
@@ -280,7 +280,7 @@ rule fastqc_pretrim_r2:
     params: ""
     log:
         "logs/fastqc_pretrim/{sample}.{unit}_r2.log"
-    resources: time_min=320, mem_mb=10000, cpus=1
+    resources: runtime=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
         f"{wrappers_version}/bio/fastqc"
@@ -294,7 +294,7 @@ rule fastqc_posttrim_r1:
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r1.log"
-    resources: time_min=320, mem_mb=10000, cpus=1
+    resources: runtime=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
         f"{wrappers_version}/bio/fastqc"
@@ -308,7 +308,7 @@ rule fastqc_posttrim_r2:
     params: ""
     log:
         "logs/fastqc_posttrim/{trimmer}_{pese}/{sample}.{unit}_r2.log"
-    resources: time_min=320, mem_mb=10000, cpus=1
+    resources: runtime=320, mem_mb=10000, cpus=1
     threads: 1
     wrapper:
         f"{wrappers_version}/bio/fastqc"
@@ -322,7 +322,7 @@ rule fastqc_posttrim_r2:
 #    params: ""
 #    log:
 #        "logs/fastqc_posttrim/{trimmer}/{sample}.{unit}_r2.log"
-#    resources: time_min=320, mem_mb=20000, cpus=1
+#    resources: runtime=320, mem_mb=20000, cpus=1
 #    threads: 1
 #    wrapper:
 #        #"v0.75.0/bio/fastqc"
@@ -337,7 +337,7 @@ rule multiqc_post_trimmomatic:
         "qc/multiqc_report_posttrim_trimmomatic.html"
     log:
         "logs/multiqc_posttrim_trimmomatic.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/multiqc"
 
@@ -350,7 +350,7 @@ rule multiqc_post_fastp:
         "qc/multiqc_report_posttrim_fastp.html"
     log:
         "logs/multiqc_posttrim_fastp.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/multiqc"
 
@@ -363,7 +363,7 @@ rule multiqc_post_trimgalore:
         "qc/multiqc_report_posttrim_trimgalore.html"
     log:
         "logs/multiqc_posttrim_trimgalore.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/multiqc"
 
@@ -375,7 +375,7 @@ rule multiqc_pre:
         "qc/multiqc_report_pretrim.html"
     log:
         "logs/multiqc_pretrim.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/multiqc"
 
@@ -420,6 +420,6 @@ rule multiqc_aligned:
         aligner=r"star|hisat2"
     log:
         "logs/multiqc_{aligner}_{trimmer}.log"
-    resources: time_min=320, mem_mb=20000, cpus=1
+    resources: runtime=320, mem_mb=20000, cpus=1
     wrapper:
         f"{wrappers_version}/bio/multiqc"

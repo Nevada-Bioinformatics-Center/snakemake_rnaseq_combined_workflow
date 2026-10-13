@@ -61,7 +61,7 @@ rule featurecounts_onefile_star:
         ),
     threads: config["params"]["featurecountscpu"]
     resources:
-        time_min=220,
+        runtime=220,
         mem_mb=config["params"]["featurecountsram"],
         cpus=config["params"]["featurecountscpu"]
     wrapper:
@@ -97,7 +97,7 @@ rule featurecounts_onefile_hisat2:
         ),
     threads: config["params"]["featurecountscpu"]
     resources:
-        time_min=220,
+        runtime=220,
         mem_mb=config["params"]["featurecountsram"],
         cpus=config["params"]["featurecountscpu"]
     wrapper:
@@ -112,7 +112,7 @@ rule fix_featurecounts_general:
     log:
         "logs/star/fct_fix_{aligner}_{trimmer}_{pese}.log"
     threads: 1
-    resources: time_min=220, mem_mb=8000, cpus=1
+    resources: runtime=220, mem_mb=8000, cpus=1
     shell: 
         "python3 scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
 
@@ -125,7 +125,7 @@ rule fix_featurecounts_general_multi:
     log:
         "logs/star/fct_fix_{aligner}_{trimmer}_{pese}_multi.log"
     threads: 1
-    resources: time_min=220, mem_mb=8000, cpus=1
+    resources: runtime=220, mem_mb=8000, cpus=1
     shell: 
         "python3 scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
 
@@ -137,7 +137,7 @@ rule fix_featurecounts_general_multifrac:
     log:
         "logs/star/fct_fix_{aligner}_{trimmer}_{pese}_multifrac.log"
     threads: 1
-    resources: time_min=220, mem_mb=8000, cpus=1
+    resources: runtime=220, mem_mb=8000, cpus=1
     shell: 
         "python3 scripts/fix_featurecounts_output.py -f {input} -c 2 > {output} 2> {log}"
 
@@ -153,6 +153,6 @@ rule merge_featurecounts_layouts:
     log:
         "logs/{aligner}/fct_merge_{trimmer}{fct_mode}.log"
     threads: 1
-    resources: time_min=220, mem_mb=8000, cpus=1
+    resources: runtime=220, mem_mb=8000, cpus=1
     shell:
         "python3 scripts/merge_featurecounts.py {output} {input} 2> {log}"
