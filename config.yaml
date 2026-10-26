@@ -40,7 +40,7 @@ params:
   fastpcpu: 16
   fastpram: 40000
   #extra options
-  fastp: "--trim_poly_x"
+  fastp: "--trim_poly_x --length_required 35"
 
   #trim galore configuration
   trimgalorecpu: 16
@@ -73,3 +73,12 @@ params:
   #control running multimap featurecounts
   runfctmulti: "false"
   runfctmultifrac: "false"
+
+  ##Optional rRNA removal with SortMeRNA, run after trimming and before alignment
+  runsortmerna: "false"
+  ##Comma separated list of rRNA reference fasta files (required if runsortmerna is true)
+  sortmerna_refs: ""
+  ##extra options (for PE, --paired_in removes a pair if either mate is rRNA)
+  sortmerna: "--paired_in"
+  sortmernacpu: 16
+  sortmernaram: 50000

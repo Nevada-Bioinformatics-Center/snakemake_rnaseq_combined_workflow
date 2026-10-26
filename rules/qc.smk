@@ -393,6 +393,8 @@ def get_multiqc_aligned_inputs(wc):
             bam + ".flagstat",
             f"qc/fastqc_posttrim/{tp}/{name}_r1_fastqc.zip",
         ]
+        if runsortmerna:
+            files.append(f"qc/sortmerna/{tp}/{name}.sortmerna.log")
         if u.layout == "pe":
             files += [
                 f"qc/picard/{wc.aligner}/{tp}/{name}.rnaseq_metrics.txt",

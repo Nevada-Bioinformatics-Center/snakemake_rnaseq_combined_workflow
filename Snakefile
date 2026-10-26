@@ -35,6 +35,15 @@ aligners=config["params"]["aligners"].split(",")
 trimmers=config["params"]["trimmers"].split(",")
 runmulti=config["params"]["runfctmulti"]
 runmultifrac=config["params"]["runfctmultifrac"]
+runsortmerna = str(config["params"].get("runsortmerna", "false")).lower() == "true"
+sortmerna_refs = [r.strip() for r in str(config["params"].get("sortmerna_refs", "")).split(",") if r.strip()]
+if runsortmerna:
+    if not sortmerna_refs:
+        raise ValueError("runsortmerna is true but params: sortmerna_refs is empty in config.yaml")
+    missing = [r for r in sortmerna_refs if not os.path.exists(r)]
+    if missing:
+        raise ValueError(f"sortmerna_refs not found: {missing}")
+print("SortMeRNA:", runsortmerna)
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
 print("Layouts:", units["layout"].value_counts().to_dict())
@@ -96,5 +105,6 @@ rule all:
 
 include: "rules/qc.smk"
 include: "rules/trim.smk"
+include: "rules/sortmerna.smk"
 include: "rules/align.smk"
 include: "rules/featurecounts.smk"

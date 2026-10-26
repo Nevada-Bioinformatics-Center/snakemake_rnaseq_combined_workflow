@@ -1,10 +1,12 @@
 
 def get_trim_fastq1(wildcards):
     layout = units.loc[(wildcards.sample, wildcards.unit), "layout"]
-    return f"trimmed/{wildcards.trimmer}_{layout}/{wildcards.sample}.{wildcards.unit}.1.fastq.gz"
+    src = "sortmerna" if runsortmerna else "trimmed"
+    return f"{src}/{wildcards.trimmer}_{layout}/{wildcards.sample}.{wildcards.unit}.1.fastq.gz"
 
 def get_trim_fastq2(wildcards):
-    return f"trimmed/{wildcards.trimmer}_pe/{wildcards.sample}.{wildcards.unit}.2.fastq.gz"
+    src = "sortmerna" if runsortmerna else "trimmed"
+    return f"{src}/{wildcards.trimmer}_pe/{wildcards.sample}.{wildcards.unit}.2.fastq.gz"
 
 ##Star align
 rule star_index:
@@ -309,8 +311,8 @@ rule salmon_index:
 
 rule salmon_quant_reads_pe:
     input:
-        r1="trimmed/{trimmer}_pe/{sample}.{unit}.1.fastq.gz",
-        r2="trimmed/{trimmer}_pe/{sample}.{unit}.2.fastq.gz",
+        r1=get_trim_fastq1,
+        r2=get_trim_fastq2,
         index="salmon/transcriptome_index",
     output:
         quant="salmon/{trimmer}_pe/{sample}.{unit}/quant.sf",
@@ -329,7 +331,7 @@ rule salmon_quant_reads_pe:
 
 rule salmon_quant_reads_se:
     input:
-        r="trimmed/{trimmer}_se/{sample}.{unit}.1.fastq.gz",
+        r=get_trim_fastq1,
         index="salmon/transcriptome_index/",
     output:
         quant="salmon/{trimmer}_se/{sample}.{unit}/quant.sf",
