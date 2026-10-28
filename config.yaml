@@ -82,3 +82,11 @@ params:
   sortmerna: "--paired_in"
   sortmernacpu: 16
   sortmernaram: 50000
+
+  ##Coverage QC on aligned BAMs (star/hisat2), summarized in the aligned MultiQC report
+  runmosdepth: "true"
+  mosdepth: ""
+  mosdepthcpu: 4
+  mosdepthram: 8000
+  runrseqcgenebody: "true"
+  rseqcram: 20000

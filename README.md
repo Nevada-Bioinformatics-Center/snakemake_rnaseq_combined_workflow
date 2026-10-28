@@ -31,6 +31,10 @@ Likewise, once the worksheet is filled out, copy the table and paste it into an 
 
 Paired-end and single-end samples can be mixed in one `units.tsv`: leave `fq2` empty for single-end rows. PE and SE samples are counted in separate featureCounts runs and then merged into one table per aligner/trimmer.
 
+#### Coverage QC
+
+For STAR and HISAT2 alignments, `runmosdepth` (genome and merged-exon coverage) and `runrseqcgenebody` (gene body coverage) add per-sample coverage sections to the aligned MultiQC report. Both are on by default. RNA-seq only covers transcribed regions, so genome-wide fractions are low; use the exon-region results as the main measure.
+
 #### Optional: rRNA removal with SortMeRNA
 
 Set `runsortmerna: "true"` in `config.yaml` and list rRNA reference fasta files (comma separated) in `sortmerna_refs`. After trimming, SortMeRNA splits out rRNA reads and only the remaining reads are aligned. Its logs are added to the aligned MultiQC report. For PE data the default `--paired_in` drops a pair if either mate is rRNA.

@@ -395,6 +395,13 @@ def get_multiqc_aligned_inputs(wc):
         ]
         if runsortmerna:
             files.append(f"qc/sortmerna/{tp}/{name}.sortmerna.log")
+        if runmosdepth:
+            files += [
+                f"qc/mosdepth/{wc.aligner}/{tp}/{name}.mosdepth.{k}.txt"
+                for k in ("summary", "global.dist", "region.dist")
+            ]
+        if runrseqcgenebody:
+            files.append(f"qc/rseqc/{wc.aligner}/{tp}/{name}.geneBodyCoverage.txt")
         if u.layout == "pe":
             files += [
                 f"qc/picard/{wc.aligner}/{tp}/{name}.rnaseq_metrics.txt",

@@ -44,6 +44,8 @@ if runsortmerna:
     if missing:
         raise ValueError(f"sortmerna_refs not found: {missing}")
 print("SortMeRNA:", runsortmerna)
+runmosdepth = str(config["params"].get("runmosdepth", "false")).lower() == "true"
+runrseqcgenebody = str(config["params"].get("runrseqcgenebody", "false")).lower() == "true"
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
 print("Layouts:", units["layout"].value_counts().to_dict())
@@ -108,3 +110,4 @@ include: "rules/trim.smk"
 include: "rules/sortmerna.smk"
 include: "rules/align.smk"
 include: "rules/featurecounts.smk"
+include: "rules/coverage.smk"

@@ -17,7 +17,7 @@ rule sortmerna_pe:
         refs=sortmerna_ref_args(),
         extra=config["params"]["sortmerna"],
     threads: config["params"]["sortmernacpu"]
-    resources: time_min=480, mem_mb=config["params"]["sortmernaram"], cpus=config["params"]["sortmernacpu"]
+    resources: runtime=480, mem_mb=config["params"]["sortmernaram"], cpus=config["params"]["sortmernacpu"]
     conda:
         "../envs/sortmerna.yaml"
     shell:
@@ -46,7 +46,7 @@ rule sortmerna_se:
         # --paired_in only applies to PE data
         extra=config["params"]["sortmerna"].replace("--paired_in", "").replace("--paired_out", ""),
     threads: config["params"]["sortmernacpu"]
-    resources: time_min=480, mem_mb=config["params"]["sortmernaram"], cpus=config["params"]["sortmernacpu"]
+    resources: runtime=480, mem_mb=config["params"]["sortmernaram"], cpus=config["params"]["sortmernacpu"]
     conda:
         "../envs/sortmerna.yaml"
     shell:
