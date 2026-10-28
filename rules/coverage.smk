@@ -1,37 +1,54 @@
 ##Coverage QC on aligned BAMs (params: runmosdepth, runrseqcgenebody)
-rule exons_bed:
+rule regions_bed:
     input:
         gtf="results/ref/prepared_annotation.gtf"
     output:
-        bed="results/ref/exons.merged.bed"
+        bed="results/ref/regions.merged.bed"
     log:
-        "logs/refs/exons_bed.log"
+        "logs/refs/regions_bed.log"
+    params:
+        feature=feature_type
     conda:
         "../envs/mosdepth.yaml"
     shell:
         """
-        awk 'BEGIN {{OFS="\\t"}} $3=="exon" {{print $1, $4-1, $5}}' {input.gtf} \
+        awk -v ft={params.feature} 'BEGIN {{OFS="\\t"}} $3==ft {{print $1, $4-1, $5}}' {input.gtf} \
             | sort -k1,1 -k2,2n | bedtools merge -i - > {output.bed} 2> {log}
         """
 
-rule gtf_to_bed12:
-    input:
-        "results/ref/prepared_annotation.gtf"
-    output:
-        db="results/ref/prepared_annotation.gffutils.db",
-        bed="results/ref/transcripts.bed12"
-    log:
-        "logs/refs/gtf_to_bed12.log"
-    conda:
-        "../envs/gffutils.yaml"
-    script:
-        "../scripts/gtf2bed.py"
+if feature_type == "exon":
+    rule gtf_to_bed12:
+        input:
+            "results/ref/prepared_annotation.gtf"
+        output:
+            db="results/ref/prepared_annotation.gffutils.db",
+            bed="results/ref/transcripts.bed12"
+        log:
+            "logs/refs/gtf_to_bed12.log"
+        conda:
+            "../envs/gffutils.yaml"
+        script:
+            "../scripts/gtf2bed.py"
+else:
+    rule gtf_to_bed12:
+        input:
+            "results/ref/prepared_annotation.gtf"
+        output:
+            bed="results/ref/transcripts.bed12"
+        log:
+            "logs/refs/gtf_to_bed12.log"
+        params:
+            feature=feature_type
+        conda:
+            "../envs/gffutils.yaml"
+        script:
+            "../scripts/gtf2bed12_features.py"
 
 rule mosdepth:
     input:
         bam=get_picard_input,
         bai=lambda wc: get_picard_input(wc) + ".bai",
-        regions="results/ref/exons.merged.bed"
+        regions="results/ref/regions.merged.bed"
     output:
         summary="qc/mosdepth/{aligner}/{trimmer}_{pese}/{sample}.{unit}.mosdepth.summary.txt",
         global_dist="qc/mosdepth/{aligner}/{trimmer}_{pese}/{sample}.{unit}.mosdepth.global.dist.txt",

@@ -404,10 +404,11 @@ def get_multiqc_aligned_inputs(wc):
             files.append(f"qc/rseqc/{wc.aligner}/{tp}/{name}.geneBodyCoverage.txt")
         if u.layout == "pe":
             files += [
-                f"qc/picard/{wc.aligner}/{tp}/{name}.rnaseq_metrics.txt",
                 f"{wc.aligner}/{tp}/{name}.marked.metrics.txt",
                 f"qc/fastqc_posttrim/{tp}/{name}_r2_fastqc.zip",
             ]
+        if runpicard:
+            files.append(f"qc/picard/{wc.aligner}/{tp}/{name}.rnaseq_metrics.txt")
         if wc.trimmer == "fastp":
             files.append(f"report/fastp_{u.layout}/{name}.fastp.json")
         elif wc.trimmer == "trimgalore":

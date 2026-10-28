@@ -90,3 +90,7 @@ params:
   mosdepthram: 8000
   runrseqcgenebody: "true"
   rseqcram: 20000
+  ##Feature used for coverage regions/gene bodies: auto (exon if present, else CDS), exon, or CDS
+  feature_type: "auto"
+  ##Picard CollectRnaSeqMetrics needs exons: auto (on only if the annotation has exons), true, or false
+  runpicardrnaseqmetrics: "auto"

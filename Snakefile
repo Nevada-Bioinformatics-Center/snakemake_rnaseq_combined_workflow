@@ -46,6 +46,30 @@ if runsortmerna:
 print("SortMeRNA:", runsortmerna)
 runmosdepth = str(config["params"].get("runmosdepth", "false")).lower() == "true"
 runrseqcgenebody = str(config["params"].get("runrseqcgenebody", "false")).lower() == "true"
+
+def gtf_has_feature(path, feature):
+    with open(path) as fh:
+        for line in fh:
+            if line[0] != "#" and line.split("\t", 3)[2:3] == [feature]:
+                return True
+    return False
+
+# Bacterial annotations often have gene/CDS lines but no exon lines.
+has_exons = gtf_has_feature(config["ref"]["annotation"], "exon")
+feature_type = str(config["params"].get("feature_type", "auto"))
+if feature_type.lower() == "auto":
+    feature_type = "exon" if has_exons else "CDS"
+if not gtf_has_feature(config["ref"]["annotation"], feature_type):
+    raise ValueError(f"No '{feature_type}' features found in {config['ref']['annotation']}")
+
+runpicard = str(config["params"].get("runpicardrnaseqmetrics", "auto")).lower()
+if runpicard == "auto":
+    runpicard = has_exons
+else:
+    runpicard = runpicard == "true"
+    if runpicard and not has_exons:
+        raise ValueError("runpicardrnaseqmetrics is true but the annotation has no exon features")
+print("Coverage feature type:", feature_type, "| Picard RNA-seq metrics:", runpicard)
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
 print("Layouts:", units["layout"].value_counts().to_dict())
