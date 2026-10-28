@@ -47,28 +47,33 @@ print("SortMeRNA:", runsortmerna)
 runmosdepth = str(config["params"].get("runmosdepth", "false")).lower() == "true"
 runrseqcgenebody = str(config["params"].get("runrseqcgenebody", "false")).lower() == "true"
 
-def gtf_has_feature(path, feature):
+def gtf_feature_counts(path):
+    counts = {}
     with open(path) as fh:
         for line in fh:
-            if line[0] != "#" and line.split("\t", 3)[2:3] == [feature]:
-                return True
-    return False
+            if line[0] != "#":
+                ft = line.split("\t", 3)[2:3]
+                if ft:
+                    counts[ft[0]] = counts.get(ft[0], 0) + 1
+    return counts
 
-# Bacterial annotations often have gene/CDS lines but no exon lines.
-has_exons = gtf_has_feature(config["ref"]["annotation"], "exon")
+feature_counts = gtf_feature_counts(config["ref"]["annotation"])
+# NCBI bacterial GTFs carry exon lines for rRNA/tRNA only, so require exons to be at least as common as CDS.
+has_exons = feature_counts.get("exon", 0) > 0 and feature_counts.get("exon", 0) >= feature_counts.get("CDS", 0)
 feature_type = str(config["params"].get("feature_type", "auto"))
 if feature_type.lower() == "auto":
     feature_type = "exon" if has_exons else "CDS"
-if not gtf_has_feature(config["ref"]["annotation"], feature_type):
+if feature_counts.get(feature_type, 0) == 0:
     raise ValueError(f"No '{feature_type}' features found in {config['ref']['annotation']}")
 
 runpicard = str(config["params"].get("runpicardrnaseqmetrics", "auto")).lower()
 if runpicard == "auto":
-    runpicard = has_exons
+    runpicard = feature_type == "exon"
 else:
     runpicard = runpicard == "true"
-    if runpicard and not has_exons:
+    if runpicard and feature_counts.get("exon", 0) == 0:
         raise ValueError("runpicardrnaseqmetrics is true but the annotation has no exon features")
+print("GTF feature counts:", feature_counts)
 print("Coverage feature type:", feature_type, "| Picard RNA-seq metrics:", runpicard)
 print("Aligners:", aligners)
 print("Trimmers:", trimmers)
