@@ -31,7 +31,7 @@ def units_for(layout):
     return units[units["layout"] == layout].itertuples()
 
 
-aligners=config["params"]["aligners"].split(",")
+aligners=[a.strip().lower() for a in config["params"]["aligners"].split(",")]
 trimmers=config["params"]["trimmers"].split(",")
 runmulti=config["params"]["runfctmulti"]
 runmultifrac=config["params"]["runfctmultifrac"]
@@ -119,7 +119,7 @@ rule all:
 
         # post-trim MultiQC
         expand("qc/multiqc_report_{aligner}_{trimmer}.html",
-               aligner=non_salmon, trimmer=trimmers),
+               aligner=aligners, trimmer=trimmers),
 
         #  merged PE+SE featureCounts for all non salmon aligners (STAR + HISAT2),
         #    over every fct_mode ("", "_multi", "_multifrac")

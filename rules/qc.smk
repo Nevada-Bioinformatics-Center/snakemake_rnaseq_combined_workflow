@@ -384,17 +384,25 @@ def get_multiqc_aligned_inputs(wc):
     for u in units.itertuples():
         tp = f"{wc.trimmer}_{u.layout}"
         name = f"{u.sample}.{u.unit}"
+        files.append(f"qc/fastqc_posttrim/{tp}/{name}_r1_fastqc.zip")
+        if u.layout == "pe":
+            files.append(f"qc/fastqc_posttrim/{tp}/{name}_r2_fastqc.zip")
+        if runsortmerna:
+            files.append(f"qc/sortmerna/{tp}/{name}.sortmerna.log")
+        if wc.trimmer == "fastp":
+            files.append(f"report/fastp_{u.layout}/{name}.fastp.json")
+        elif wc.trimmer == "trimgalore":
+            files.append(f"trimmed/trimgalore_{u.layout}/{name}.1_trimming_report.txt")
+            if u.layout == "pe":
+                files.append(f"trimmed/trimgalore_{u.layout}/{name}.2_trimming_report.txt")
+        if wc.aligner == "salmon":
+            files += [f"salmon/{tp}/{name}/quant.sf", f"salmon/{tp}/{name}/lib_format_counts.json"]
+            continue
         if wc.aligner == "star":
             bam = f"star/{tp}/{name}/{name}_Aligned.sortedByCoord.out.bam"
         else:
             bam = f"hisat2/{tp}/{name}.sorted.bam"
-        files += [
-            bam,
-            bam + ".flagstat",
-            f"qc/fastqc_posttrim/{tp}/{name}_r1_fastqc.zip",
-        ]
-        if runsortmerna:
-            files.append(f"qc/sortmerna/{tp}/{name}.sortmerna.log")
+        files += [bam, bam + ".flagstat"]
         if runmosdepth:
             files += [
                 f"qc/mosdepth/{wc.aligner}/{tp}/{name}.mosdepth.{k}.txt"
@@ -403,22 +411,14 @@ def get_multiqc_aligned_inputs(wc):
         if runrseqcgenebody:
             files.append(f"qc/rseqc/{wc.aligner}/{tp}/{name}.geneBodyCoverage.txt")
         if u.layout == "pe":
-            files += [
-                f"{wc.aligner}/{tp}/{name}.marked.metrics.txt",
-                f"qc/fastqc_posttrim/{tp}/{name}_r2_fastqc.zip",
-            ]
+            files.append(f"{wc.aligner}/{tp}/{name}.marked.metrics.txt")
         if runpicard:
             files.append(f"qc/picard/{wc.aligner}/{tp}/{name}.rnaseq_metrics.txt")
-        if wc.trimmer == "fastp":
-            files.append(f"report/fastp_{u.layout}/{name}.fastp.json")
-        elif wc.trimmer == "trimgalore":
-            files.append(f"trimmed/trimgalore_{u.layout}/{name}.1_trimming_report.txt")
-            if u.layout == "pe":
-                files.append(f"trimmed/trimgalore_{u.layout}/{name}.2_trimming_report.txt")
-    files += [
-        f"results/{wc.aligner}/all.{wc.aligner}.{wc.trimmer}_{l}.featureCounts.summary"
-        for l in layouts_present
-    ]
+    if wc.aligner != "salmon":
+        files += [
+            f"results/{wc.aligner}/all.{wc.aligner}.{wc.trimmer}_{l}.featureCounts.summary"
+            for l in layouts_present
+        ]
     return files
 
 rule multiqc_aligned:
@@ -427,7 +427,7 @@ rule multiqc_aligned:
     output:
         "qc/multiqc_report_{aligner}_{trimmer}.html"
     wildcard_constraints:
-        aligner=r"star|hisat2"
+        aligner=r"star|hisat2|salmon"
     log:
         "logs/multiqc_{aligner}_{trimmer}.log"
     resources: runtime=320, mem_mb=20000, cpus=1

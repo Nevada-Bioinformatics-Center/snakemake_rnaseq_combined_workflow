@@ -33,6 +33,8 @@ Paired-end and single-end samples can be mixed in one `units.tsv`: leave `fq2` e
 
 #### Coverage QC
 
+Salmon runs get their own MultiQC report (`qc/multiqc_report_salmon_{trimmer}.html`) with salmon, FastQC and trimming results.
+
 For STAR and HISAT2 alignments, `runmosdepth` (genome and merged-exon coverage) and `runrseqcgenebody` (gene body coverage) add per-sample coverage sections to the aligned MultiQC report. Both are on by default. RNA-seq only covers transcribed regions, so genome-wide fractions are low; use the exon-region results as the main measure.
 
 If the annotation has no exon lines (e.g. bacterial GTFs with only gene/CDS), `feature_type: "auto"` switches coverage regions and gene body coverage to `CDS`, and `runpicardrnaseqmetrics: "auto"` skips Picard RNA-seq metrics, which need exons. Also set `-t CDS -g gene_id` in the `featurecounts` string in `config.yaml`.
